@@ -10,5 +10,6 @@ target 'LoginTemplate' do
   pod 'Moya-ObjectMapper/RxSwift', '~> 2.3'
   pod 'R.swift', '~> 3.2'
   pod 'TPKeyboardAvoiding', '~> 1.3'
+  pod 'RxCocoa', '~> 3.1.0'
 
 end
