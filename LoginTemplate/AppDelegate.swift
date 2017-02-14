@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RxSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -14,19 +15,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
 
+    let temp = DisposeBag()
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
         let main = MainWireFrame()
         main.window = self.window
-        if let _ = UserSession.currentSession{
+        if let _ = UserSession.currentUser{
             main.goToPage(mainPage: .Dashboard)
         }else{
             main.goToPage(mainPage: .Login)
         }
         
         self.window?.makeKeyAndVisible()
+        
+//        LoginAPIClient.loginWith(email: "alessandro.ufms@gmail.com", password: "12345678").subscribe { (event) in
+//            switch event{
+//            case .next(let user):
+//                print("aee: \(user.name)")
+//            case .error(let error):
+//                print("buu: \(error.localizedDescription)")
+//            case .completed:
+//                print("cabou")
+//            }
+//        }.addDisposableTo(temp)
         
         return true
     }

@@ -24,7 +24,7 @@ let loginProvider = RxMoyaProvider<LoginAPITarget>( endpointClosure: { (target) 
             "Accept-Language": "pt-BR"
         ])
     
-    if let authCredentials = UserSession.currentSession?.authHeaders{
+    if let authCredentials = UserSession.authHeaders {
         endpoint = endpoint.adding(newHTTPHeaderFields: authCredentials)
     }
     
