@@ -11,9 +11,9 @@ import Moya_ObjectMapper
 import ObjectMapper
 import RxSwift
 
-let loginProvider = RxMoyaProvider<LoginAPITarget>( endpointClosure: { (target) -> Endpoint<LoginAPITarget> in
+let loginProvider = RxMoyaProvider<APITarget>( endpointClosure: { (target) -> Endpoint<APITarget> in
     
-    var endpoint: Endpoint<LoginAPITarget> = Endpoint<LoginAPITarget>(url: "\(target.baseURL)\(target.path)",
+    var endpoint: Endpoint<APITarget> = Endpoint<APITarget>(url: "\(target.baseURL)\(target.path)",
         sampleResponseClosure: {.networkResponse(200, target.sampleData)},
         method: target.method,
         parameters: target.parameters,
@@ -24,7 +24,7 @@ let loginProvider = RxMoyaProvider<LoginAPITarget>( endpointClosure: { (target) 
             "Accept-Language": "pt-BR"
         ])
     
-    if let authCredentials = UserSession.authHeaders {
+    if let authCredentials = UserSessionDataStore.retrieveUserSession()?.authHeaders {
         endpoint = endpoint.adding(newHTTPHeaderFields: authCredentials)
     }
     
@@ -38,7 +38,7 @@ let loginProvider = RxMoyaProvider<LoginAPITarget>( endpointClosure: { (target) 
     }
     }, NetworkLoggerPlugin(verbose: true)])
 
-enum LoginAPITarget {
+enum APITarget {
     case Login(email: String, password: String)
     case LoginWithFacebook(token: String)
     case LoginWithGoogle(token: String)
@@ -49,7 +49,7 @@ enum LoginAPITarget {
     case CurrentUser
 }
 
-extension LoginAPITarget: TargetType {
+extension APITarget: TargetType {
     var baseURL: URL {
         switch self {
         case .Login,
@@ -60,7 +60,7 @@ extension LoginAPITarget: TargetType {
              .CurrentUser,
              .LogoutUser,
              .EditAccount:
-            return LoginAPIClient.baseURL as URL
+            return APIClient.baseURL as URL
         }
     }
     
@@ -205,7 +205,7 @@ extension LoginAPITarget: TargetType {
     }
 }
 
-struct LoginAPIClient {
+struct APIClient {
     
     #if DEBUG
     static let domain = "staging.agropocket.jera.com.br"
@@ -224,7 +224,7 @@ struct LoginAPIClient {
     static func loginWith(email: String, password: String) -> Observable<UserAPI> {
         return loginProvider
             .request(.Login(email: email, password: password))
-            .createAuthSession()
+            .createOrUpdateAuthSession()
             .processResponse()
             .mapObject(UserAPI.self)
     }
@@ -232,7 +232,7 @@ struct LoginAPIClient {
     static func getCurrentUser() -> Observable<UserAPI>{
         return loginProvider
             .request(.CurrentUser)
-            .createAuthSession()
+            .createOrUpdateAuthSession()
             .processResponse()
             .mapObject(UserAPI.self)
     }

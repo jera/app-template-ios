@@ -8,13 +8,13 @@
 
 import Foundation
 
-class UserSessionStorage: NSObject, NSCoding{
+class UserSessionDB: NSObject, NSCoding{
     private(set) var uid: String
     private(set) var client: String
     private(set) var accessToken: String
-    private(set) var currentUser: UserAPI
+    private(set) var currentUser: UserDB
     
-    init(uid: String, client: String, accessToken: String, currentUser: UserAPI){
+    init(uid: String, client: String, accessToken: String, currentUser: UserDB){
         self.uid = uid
         self.client = client
         self.accessToken = accessToken
@@ -25,7 +25,7 @@ class UserSessionStorage: NSObject, NSCoding{
         if let uid = aDecoder.decodeObject(forKey: "uid") as? String,
             let client = aDecoder.decodeObject(forKey: "client") as? String,
             let accessToken = aDecoder.decodeObject(forKey: "accessToken") as? String,
-            let currentUser = aDecoder.decodeObject(forKey: "currentUser") as? UserAPI
+            let currentUser = aDecoder.decodeObject(forKey: "currentUser") as? UserDB
         {
             self.init(uid: uid, client: client, accessToken: accessToken, currentUser: currentUser)
         }else{
@@ -38,5 +38,13 @@ class UserSessionStorage: NSObject, NSCoding{
         aCoder.encode(client ,forKey: "client")
         aCoder.encode(accessToken, forKey: "accessToken")
         aCoder.encode(currentUser, forKey: "currentUser")
+    }
+    
+    var authHeaders: [String: String]?{
+        return [
+            "access-token": accessToken,
+            "uid": uid,
+            "client": client
+        ]
     }
 }

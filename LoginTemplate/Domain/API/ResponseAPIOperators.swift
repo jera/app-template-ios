@@ -24,7 +24,7 @@ extension Data{
     var asJSON: Result<[String: Any], NSError>{
         do {
             guard let JSONDict = try JSONSerialization.jsonObject(with: self, options: []) as? [String: Any] else{
-                return Result.failure(NSError(domain: LoginAPIClient.domain, code: 0, userInfo: [NSLocalizedDescriptionKey: "Resposta não é um JSON"]))
+                return Result.failure(NSError(domain: APIClient.domain, code: 0, userInfo: [NSLocalizedDescriptionKey: "Resposta não é um JSON"]))
             }
             return Result.success(JSONDict)
         } catch let error as NSError {
@@ -38,17 +38,21 @@ extension ObservableType where E == Moya.Response {
     func processResponse() -> Observable<Moya.Response> {
         return flatMapLatest({ response -> Observable<Moya.Response> in
             if response.statusCode >= 200 && response.statusCode <= 299 {
-                UserSession.sessionCredentialsUpdateWith(moyaResponse: response)
+                do{
+                    try UserSessionInteractor.userSessionUpdateWith(moyaResponse: response)
+                }catch(let error){
+                    return Observable.error(error)
+                }
                 return Observable.just(response)
             }else if response.statusCode == 401{
-                UserSession.authExpire()
+                UserSessionInteractor.authExpire()
                 
                 switch response.data.asJSON{
                 case .success(let JSONDict):
                     if let serverError = Mapper<ErrorAPI>().map(JSON: JSONDict){
-                        return Observable.error(NSError(domain: LoginAPIClient.domain, code: 0, userInfo: [NSLocalizedDescriptionKey: serverError.localizedDescription]))
+                        return Observable.error(NSError(domain: APIClient.domain, code: 0, userInfo: [NSLocalizedDescriptionKey: serverError.localizedDescription]))
                     }else{
-                        return Observable.error(NSError(domain: LoginAPIClient.domain, code: 0, userInfo: [NSLocalizedDescriptionKey: ["A autenticação falhou!"]]))
+                        return Observable.error(NSError(domain: APIClient.domain, code: 0, userInfo: [NSLocalizedDescriptionKey: ["A autenticação falhou!"]]))
                     }
                 case .failure(let error):
                     return Observable.error(error)
@@ -57,9 +61,9 @@ extension ObservableType where E == Moya.Response {
                 switch response.data.asJSON{
                 case .success(let JSONDict):
                     if let serverError = Mapper<ErrorAPI>().map(JSON: JSONDict){
-                        return Observable.error(NSError(domain: LoginAPIClient.domain, code: 0, userInfo: [NSLocalizedDescriptionKey: serverError.localizedDescription]))
+                        return Observable.error(NSError(domain: APIClient.domain, code: 0, userInfo: [NSLocalizedDescriptionKey: serverError.localizedDescription]))
                     }else{
-                        return Observable.error(NSError(domain: LoginAPIClient.domain, code: 0, userInfo: [NSLocalizedDescriptionKey: ["JSON (\(JSONDict)) não pôde ser mapeado"]]))
+                        return Observable.error(NSError(domain: APIClient.domain, code: 0, userInfo: [NSLocalizedDescriptionKey: ["JSON (\(JSONDict)) não pôde ser mapeado"]]))
                     }
                 case .failure(let error):
                     return Observable.error(error)
@@ -68,16 +72,20 @@ extension ObservableType where E == Moya.Response {
         })
     }
     
-    func createAuthSession() -> Observable<Moya.Response> {
+    func createOrUpdateAuthSession() -> Observable<Moya.Response> {
         return flatMapLatest { response -> Observable<Moya.Response> in
             do{
                 if response.statusCode >= 200 && response.statusCode <= 299 {
                     let jsonAPIObject = try JSONSerialization.jsonObject(with: response.data) as! [String: Any]
                     
-                    if let currentUser = UserAPI(JSON: jsonAPIObject){
-                        UserSession.sessionCredentialsUpdateWith(moyaResponse: response, currentUser: currentUser)
+                    if let userAPI = UserAPI(JSON: jsonAPIObject){
+                        do{
+                            try UserSessionInteractor.userSessionUpdateWith(moyaResponse: response, userAPI: userAPI)
+                        }catch(let error){
+                            return Observable.error(error)
+                        }
                     }else{
-                        return Observable.error(NSError(domain: LoginAPIClient.domain, code: 0, userInfo: [NSLocalizedDescriptionKey: ["JSON (\(jsonAPIObject)) não pôde ser mapeado"]]))
+                        return Observable.error(NSError(domain: APIClient.domain, code: 0, userInfo: [NSLocalizedDescriptionKey: ["JSON de usuário (\(jsonAPIObject)) não pôde ser mapeado"]]))
                     }
                 }
             }catch(let error){
@@ -96,10 +104,10 @@ extension ObservableType where E == Moya.Response {
                     if response.statusCode >= 200 && response.statusCode <= 299{
                         return Observable.just(serverMessage.localizedDescription)
                     }else{
-                        return Observable.error(NSError(domain: LoginAPIClient.domain, code: 0, userInfo: [NSLocalizedDescriptionKey: [serverMessage.localizedDescription]]))
+                        return Observable.error(NSError(domain: APIClient.domain, code: 0, userInfo: [NSLocalizedDescriptionKey: [serverMessage.localizedDescription]]))
                     }
                 }else{
-                    return Observable.error(NSError(domain: LoginAPIClient.domain, code: 0, userInfo: [NSLocalizedDescriptionKey: ["JSON (\(JSONDict)) não pôde ser mapeado"]]))
+                    return Observable.error(NSError(domain: APIClient.domain, code: 0, userInfo: [NSLocalizedDescriptionKey: ["JSON (\(JSONDict)) não pôde ser mapeado"]]))
                 }
             case .failure(let error):
                 return Observable.error(error)

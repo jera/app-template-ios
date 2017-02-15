@@ -15,6 +15,7 @@ class ErrorAPI: Mappable {
     var errors: [String]?
     var error: String?
     
+    //TODO: remover para camada do interactor ou do presenter
     var localizedDescription: String{
         if let message = message{
             return message
