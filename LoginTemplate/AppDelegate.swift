@@ -19,8 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-//        UserSessionInteractor.logout()
-        let auth = UserSessionDataStore.retrieveUserSession()?.authHeaders
+        UserSessionInteractor.logout()
+//        let auth = UserSessionDataStore.retrieveUserSession()?.authHeaders
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
         let main = MainWireFrame()
@@ -33,16 +33,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window?.makeKeyAndVisible()
         
-        APIClient.loginWith(email: "alessandro.ufms@gmail.com", password: "12345678").subscribe { (event) in
-            switch event{
-            case .next(let user):
-                print("aee: \(user.name)")
-            case .error(let error):
-                print("buu: \(error.localizedDescription)")
-            case .completed:
-                print("cabou")
-            }
-        }.addDisposableTo(temp)
+//        APIClient.loginWith(email: "alessandro.ufms@gmail.com", password: "12345678").subscribe { (event) in
+//            switch event{
+//            case .next(let user):
+//                print("aee: \(user.name)")
+//            case .error(let error):
+//                print("buu: \(error.localizedDescription)")
+//            case .completed:
+//                print("cabou")
+//            }
+//        }.addDisposableTo(temp)
         
         return true
     }

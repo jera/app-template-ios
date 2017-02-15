@@ -11,7 +11,7 @@ import Moya_ObjectMapper
 import ObjectMapper
 import RxSwift
 
-let loginProvider = RxMoyaProvider<APITarget>( endpointClosure: { (target) -> Endpoint<APITarget> in
+let provider = RxMoyaProvider<APITarget>( endpointClosure: { (target) -> Endpoint<APITarget> in
     
     var endpoint: Endpoint<APITarget> = Endpoint<APITarget>(url: "\(target.baseURL)\(target.path)",
         sampleResponseClosure: {.networkResponse(200, target.sampleData)},
@@ -222,18 +222,55 @@ struct APIClient {
     static let baseURL = NSURL(string: "\(baseURLString)\(api)\(apiVersion)")!
     
     static func loginWith(email: String, password: String) -> Observable<UserAPI> {
-        return loginProvider
+        return provider
             .request(.Login(email: email, password: password))
-            .createOrUpdateAuthSession()
+            .processResponse(updateCurrentUser: true)
+            .mapObject(UserAPI.self)
+    }
+    
+    static func loginWithFacebook(token: String) -> Observable<UserAPI> {
+        return provider
+            .request(.LoginWithFacebook(token: token))
+            .processResponse(updateCurrentUser: true)
+            .mapObject(UserAPI.self)
+    }
+    
+    static func forgotPasswordWith(email: String) -> Observable<String?> {
+        return provider
+            .request(.ForgotPassword(email: email))
             .processResponse()
+            .mapServerMessage()
+    }
+    
+    static func createNewAccount(name: String, email: String, password: String, image: UIImage? = nil) -> Observable<UserAPI>{
+        return provider
+            .request(.CreateNewAccount(name: name, email: email, password: password, image: image))
+            .processResponse(updateCurrentUser: true)
+            .mapObject(UserAPI.self)
+    }
+    
+    static func editCurrentUserWith(name: String? = nil, email: String? = nil, password: String? = nil, oldPassword: String? = nil, image: UIImage? = nil) -> Observable<UserAPI>{
+        return provider
+            .request(.EditAccount(name: name, email: email, password: password, oldPassword: oldPassword, image: image))
+            .processResponse(updateCurrentUser: true)
             .mapObject(UserAPI.self)
     }
     
     static func getCurrentUser() -> Observable<UserAPI>{
-        return loginProvider
+        return provider
             .request(.CurrentUser)
-            .createOrUpdateAuthSession()
-            .processResponse()
+            .processResponse(updateCurrentUser: true)
             .mapObject(UserAPI.self)
     }
+    
+    static func logoutUser() -> Observable<Void> {
+        return provider
+            .request(.LogoutUser)
+            .processResponse()
+            .map({ (_) -> Void in
+                return ()
+            })
+    }
+    
+
 }
