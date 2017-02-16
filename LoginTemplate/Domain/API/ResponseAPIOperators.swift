@@ -33,6 +33,21 @@ extension Data{
     }
 }
 
+extension Moya.Response{
+    var sessionCredentails: (uid: String, client: String, accessToken: String)?{
+        if let httpURLResponse = response as? HTTPURLResponse{
+            if let uid = httpURLResponse.allHeaderFields["uid"] as? String,
+                let client = httpURLResponse.allHeaderFields["client"] as? String,
+                let accessToken = httpURLResponse.allHeaderFields["access-token"] as? String{
+                
+                return (uid: uid, client: client, accessToken: accessToken)
+            }
+        }
+        
+        return nil
+    }
+}
+
 extension ObservableType where E == Moya.Response {
     
     func processResponse(updateCurrentUser: Bool = false) -> Observable<Moya.Response> {
@@ -43,30 +58,41 @@ extension ObservableType where E == Moya.Response {
                     
                     if let userAPI = UserAPI(JSON: jsonAPIObject){
                         do{
-                            try UserSessionInteractor.userSessionUpdateWith(moyaResponse: response, userAPI: userAPI)
+                            if let credentiails = response.sessionCredentails{
+                                try UserSessionInteractor.shared.userSessionUpdateWith(uid: credentiails.uid,
+                                                                                client: credentiails.client,
+                                                                                accessToken: credentiails.accessToken,
+                                                                                userAPI: userAPI)
+                            }
                         }catch(let error){
                             return Observable.error(error)
                         }
                     }else{
-                        return Observable.error(NSError(domain: APIClient.domain, code: 0, userInfo: [NSLocalizedDescriptionKey: ["JSON de usuário (\(jsonAPIObject)) não pôde ser mapeado"]]))
+                        
+                        return Observable.error(APIClient.error(description: "JSON de usuário (\(jsonAPIObject)) não pôde ser mapeado"))
                     }
                 }else{
                     do{
-                        try UserSessionInteractor.userSessionUpdateWith(moyaResponse: response)
+                        if let credentiails = response.sessionCredentails{
+                            try UserSessionInteractor.shared.userSessionUpdateWith(uid: credentiails.uid,
+                                                                            client: credentiails.client,
+                                                                            accessToken: credentiails.accessToken,
+                                                                            userAPI: nil)
+                        }
                     }catch(let error){
                         return Observable.error(error)
                     }
                 }
                 return Observable.just(response)
             }else if response.statusCode == 401{
-                UserSessionInteractor.authExpire()
+                UserSessionInteractor.shared.expire()
                 
                 switch response.data.asJSON{
                 case .success(let JSONDict):
-                    if let serverError = Mapper<ErrorAPI>().map(JSON: JSONDict){
-                        return Observable.error(NSError(domain: APIClient.domain, code: 0, userInfo: [NSLocalizedDescriptionKey: serverError.localizedDescription]))
+                    if let errorAPI = Mapper<ErrorAPI>().map(JSON: JSONDict){
+                        return Observable.error(APIClient.error(description: errorAPI.localizedDescription))
                     }else{
-                        return Observable.error(NSError(domain: APIClient.domain, code: 0, userInfo: [NSLocalizedDescriptionKey: ["A autenticação falhou!"]]))
+                        return Observable.error(APIClient.error(description: "A autenticação falhou!"))
                     }
                 case .failure(let error):
                     return Observable.error(error)
@@ -74,10 +100,10 @@ extension ObservableType where E == Moya.Response {
             }else {
                 switch response.data.asJSON{
                 case .success(let JSONDict):
-                    if let serverError = Mapper<ErrorAPI>().map(JSON: JSONDict){
-                        return Observable.error(NSError(domain: APIClient.domain, code: 0, userInfo: [NSLocalizedDescriptionKey: serverError.localizedDescription]))
+                    if let errorAPI = Mapper<ErrorAPI>().map(JSON: JSONDict){
+                        return Observable.error(APIClient.error(description: errorAPI.localizedDescription))
                     }else{
-                        return Observable.error(NSError(domain: APIClient.domain, code: 0, userInfo: [NSLocalizedDescriptionKey: ["JSON (\(JSONDict)) não pôde ser mapeado"]]))
+                        return Observable.error(APIClient.error(description: "JSON (\(JSONDict)) não pôde ser mapeado"))
                     }
                 case .failure(let error):
                     return Observable.error(error)
@@ -86,42 +112,19 @@ extension ObservableType where E == Moya.Response {
         })
     }
     
-//    func createOrUpdateAuthSession() -> Observable<Moya.Response> {
-//        return flatMapLatest { response -> Observable<Moya.Response> in
-//            do{
-//                if response.statusCode >= 200 && response.statusCode <= 299 {
-//                    let jsonAPIObject = try JSONSerialization.jsonObject(with: response.data) as! [String: Any]
-//                    
-//                    if let userAPI = UserAPI(JSON: jsonAPIObject){
-//                        do{
-//                            try UserSessionInteractor.userSessionUpdateWith(moyaResponse: response, userAPI: userAPI)
-//                        }catch(let error){
-//                            return Observable.error(error)
-//                        }
-//                    }else{
-//                        return Observable.error(NSError(domain: APIClient.domain, code: 0, userInfo: [NSLocalizedDescriptionKey: ["JSON de usuário (\(jsonAPIObject)) não pôde ser mapeado"]]))
-//                    }
-//                }
-//            }catch(let error){
-//                return Observable.error(error)
-//            }
-//            return Observable.just(response)
-//        }
-//    }
-    
     func mapServerMessage() -> Observable<String?> {
         return flatMap { response -> Observable<String?> in
             
             switch response.data.asJSON{
             case .success(let JSONDict):
-                if let serverMessage = Mapper<ErrorAPI>().map(JSON: JSONDict){
+                if let errorAPI = Mapper<ErrorAPI>().map(JSON: JSONDict){
                     if response.statusCode >= 200 && response.statusCode <= 299{
-                        return Observable.just(serverMessage.localizedDescription)
+                        return Observable.just(errorAPI.localizedDescription)
                     }else{
-                        return Observable.error(NSError(domain: APIClient.domain, code: 0, userInfo: [NSLocalizedDescriptionKey: [serverMessage.localizedDescription]]))
+                        return Observable.error(APIClient.error(description: errorAPI.localizedDescription))
                     }
                 }else{
-                    return Observable.error(NSError(domain: APIClient.domain, code: 0, userInfo: [NSLocalizedDescriptionKey: ["JSON (\(JSONDict)) não pôde ser mapeado"]]))
+                    return Observable.error(APIClient.error(description: "JSON (\(JSONDict)) não pôde ser mapeado"))
                 }
             case .failure(let error):
                 return Observable.error(error)

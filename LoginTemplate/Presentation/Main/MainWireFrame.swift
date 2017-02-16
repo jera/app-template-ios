@@ -7,70 +7,68 @@
 //
 
 import UIKit
-import RxSwift
-import RxCocoa
 
 enum MainPage {
-    case Login
-    case Dashboard
+    case login
+    case dashboard
 }
 
 class MainWireFrame: BaseWireFrame {
     
-    private let disposeBag = DisposeBag()
-    //var establishmentWireFrame: EstablishmentWireFrame?
-    var loginWireFrame: LoginWireFrame?
+    private var mainPresenter = MainPresenter()
+    private let mainViewController = MainViewController()
     
-    var window: UIWindow!
+    var loginWireFrame: LoginWireFrame? {
+        didSet {
+            if let _ = loginWireFrame, let _ = dashboardWireFrame {
+                self.dashboardWireFrame = nil
+            }
+        }
+    }
     
-   /* override init() {
-        super.init()
-        
-        NotificationCenter.default.rx
-            .notification(Notification.Name(rawValue: kNotificationAuthExpired))
-            .subscribe(onNext: { [weak self] (_) in
-                guard let strongSelf = self else { return }
-                
-                if OAuth2Session.currentSession == nil{
-                    Helper.showAlert(message: "Sessão expirou. Por favor, faça login novamente")
-                    
-                    strongSelf.goToPage(mainPage: .Login)
-                }
-                
-            }).addDisposableTo(disposeBag)
-    }*/
+    var dashboardWireFrame: DashboardWireFrame? {
+        didSet {
+            if let _ = dashboardWireFrame, let _ = loginWireFrame {
+                self.loginWireFrame = nil
+            }
+        }
+    }
     
-    private(set) var mainPage:MainPage?{
-        didSet{
-            if let mainPage = mainPage{
-                if oldValue != mainPage{
-                    switch mainPage{
-                    case .Login:
-                        
+    var page: MainPage? {
+        didSet {
+            if let page = page {
+                if oldValue != page {
+                    switch page {
+                    case .login:
                         loginWireFrame = LoginWireFrame()
-                        self.window.rootViewController = loginWireFrame!.presentLoginInterface(mainWireFrame: self)
+                        mainViewController.setCurrentViewController(viewController: loginWireFrame!.loginViewController)
+                        break
                         
-                    case .Dashboard:
-                        
-                        loginWireFrame = nil
-                        
+                    case .dashboard:
+                        dashboardWireFrame = DashboardWireFrame()
+                        mainViewController.setCurrentViewController(viewController: dashboardWireFrame!.viewController)
+                        break
                     }
                 }
             }
         }
     }
     
-    @discardableResult func goToPage(mainPage: MainPage, refresh: Bool = false) -> Bool {
-        if refresh{
-            self.mainPage = mainPage
-            return true
-        }
+    override init() {
+        super.init()
         
-        if self.mainPage != mainPage {
-            self.mainPage = mainPage
-            return true
-        }
-        return false
+        configureDependencies()
     }
     
+    func presentOn(window: UIWindow){
+        window.rootViewController = mainViewController
+        window.makeKeyAndVisible()
+    }
+    
+    func configureDependencies()  {
+        mainPresenter.router = self
+        mainPresenter.userSessionInteractorInterface = UserSessionInteractor.shared
+        mainViewController.presenterInterface = mainPresenter
+    }
+
 }

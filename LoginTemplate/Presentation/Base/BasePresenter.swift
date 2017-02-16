@@ -1,14 +1,12 @@
 //
-//  BaseWireFrame.swift
+//  BasePresenter.swift
 //  LoginTemplate
 //
-//  Created by Junio Moquiuti on 2/14/17.
+//  Created by Alessandro Nakamuta on 16/02/17.
 //  Copyright © 2017 Jera. All rights reserved.
 //
 
-import UIKit
-
-class BaseWireFrame {
+class BasePresenter {
     deinit {
         print("dealloc ---> \(String(describing: type(of: self)))")
     }

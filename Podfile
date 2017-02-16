@@ -12,4 +12,7 @@ target 'LoginTemplate' do
   pod 'TPKeyboardAvoiding', '~> 1.3'
   pod 'RxCocoa', '~> 3.1.0'
 
+  #ObjC
+  pod 'SVProgressHUD', '~> 2.1'
+
 end

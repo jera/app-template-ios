@@ -271,6 +271,11 @@ struct APIClient {
                 return ()
             })
     }
-    
+}
 
+extension APIClient{
+    static let errorDomain = "APIClientErrorDomain"
+    static func error(description: String, code: Int = 0) -> NSError{
+        return NSError(domain: errorDomain, code: code, userInfo: [NSLocalizedDescriptionKey: description])
+    }
 }

@@ -13,36 +13,21 @@ import RxSwift
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var mainWireFrame:MainWireFrame?
 
 
     let temp = DisposeBag()
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        UserSessionInteractor.logout()
-//        let auth = UserSessionDataStore.retrieveUserSession()?.authHeaders
+        BaseViewController.customizeProgressHUD()
         
-        self.window = UIWindow(frame: UIScreen.main.bounds)
-        let main = MainWireFrame()
-        main.window = self.window
-        if let user = UserSessionInteractor.currentUser{
-            main.goToPage(mainPage: .Dashboard)
-        }else{
-            main.goToPage(mainPage: .Login)
-        }
+        UserSessionInteractor.shared.logout()
         
-        self.window?.makeKeyAndVisible()
-        
-//        APIClient.loginWith(email: "alessandro.ufms@gmail.com", password: "12345678").subscribe { (event) in
-//            switch event{
-//            case .next(let user):
-//                print("aee: \(user.name)")
-//            case .error(let error):
-//                print("buu: \(error.localizedDescription)")
-//            case .completed:
-//                print("cabou")
-//            }
-//        }.addDisposableTo(temp)
+        let window = UIWindow(frame: UIScreen.main.bounds)
+        mainWireFrame = MainWireFrame()
+        mainWireFrame?.presentOn(window: window)
+        self.window = window
         
         return true
     }
