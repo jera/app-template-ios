@@ -108,7 +108,7 @@ class LoginViewController: BaseViewController {
                 case .new:
                     strongSelf.hideHud()
                 case .loading:
-//                    strongSelf.showHudWith(title:  "Entrando com Facebook...")
+                    strongSelf.showHudWith(title:  "Entrando com Facebook...")
                     break
                 case .failure(let error):
                     strongSelf.hideHud()
@@ -129,7 +129,7 @@ class LoginViewController: BaseViewController {
                 case .new:
                     strongSelf.hideHud()
                 case .loading:
-                    //                    strongSelf.showHudWith(title:  "Entrando com Facebook...")
+                    strongSelf.showHudWith(title:  "Entrando com Google...")
                     break
                 case .failure(let error):
                     strongSelf.hideHud()

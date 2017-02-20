@@ -24,7 +24,7 @@ extension Data{
     var asJSON: Result<[String: Any], NSError>{
         do {
             guard let JSONDict = try JSONSerialization.jsonObject(with: self, options: []) as? [String: Any] else{
-                return Result.failure(NSError(domain: APIClientHost.domain, code: 0, userInfo: [NSLocalizedDescriptionKey: "Resposta não é um JSON"]))
+                return Result.failure(APIClient.error(description: "Resposta não é um JSON"))
             }
             return Result.success(JSONDict)
         } catch let error as NSError {

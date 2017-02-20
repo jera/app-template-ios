@@ -26,6 +26,8 @@
 		2597E7FB1E5B7D2E002B499F /* LoginRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2597E7FA1E5B7D2E002B499F /* LoginRepository.swift */; };
 		2597E7FD1E5B86F5002B499F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2597E7FC1E5B86F5002B499F /* GoogleService-Info.plist */; };
 		2597E8001E5B8993002B499F /* GoogleAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2597E7FF1E5B8993002B499F /* GoogleAPI.swift */; };
+		2597E8031E5BA378002B499F /* LoadingHUDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2597E8021E5BA378002B499F /* LoadingHUDView.swift */; };
+		2597E8051E5BA383002B499F /* LoadingHUDView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2597E8041E5BA383002B499F /* LoadingHUDView.xib */; };
 		25B563D91E5256FC0051F559 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B563D81E5256FC0051F559 /* R.generated.swift */; };
 		25D4C8DE1E549C0600E3AF4A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D4C8DD1E549C0600E3AF4A /* User.swift */; };
 		25D4C8E01E54BBFE00E3AF4A /* UserDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D4C8DF1E54BBFE00E3AF4A /* UserDB.swift */; };
@@ -71,6 +73,8 @@
 		2597E7FA1E5B7D2E002B499F /* LoginRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginRepository.swift; sourceTree = "<group>"; };
 		2597E7FC1E5B86F5002B499F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2597E7FF1E5B8993002B499F /* GoogleAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleAPI.swift; sourceTree = "<group>"; };
+		2597E8021E5BA378002B499F /* LoadingHUDView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingHUDView.swift; sourceTree = "<group>"; };
+		2597E8041E5BA383002B499F /* LoadingHUDView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingHUDView.xib; sourceTree = "<group>"; };
 		25B563D81E5256FC0051F559 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = SOURCE_ROOT; };
 		25D4C8DD1E549C0600E3AF4A /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		25D4C8DF1E54BBFE00E3AF4A /* UserDB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDB.swift; sourceTree = "<group>"; };
@@ -169,6 +173,15 @@
 				2597E7FA1E5B7D2E002B499F /* LoginRepository.swift */,
 			);
 			path = Login;
+			sourceTree = "<group>";
+		};
+		2597E8011E5BA338002B499F /* LoadingHUD */ = {
+			isa = PBXGroup;
+			children = (
+				2597E8021E5BA378002B499F /* LoadingHUDView.swift */,
+				2597E8041E5BA383002B499F /* LoadingHUDView.xib */,
+			);
+			path = LoadingHUD;
 			sourceTree = "<group>";
 		};
 		25D4C8DC1E549BEC00E3AF4A /* Models */ = {
@@ -296,6 +309,7 @@
 		F021B1C71E534E020092DA41 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				2597E8011E5BA338002B499F /* LoadingHUD */,
 				F021B1C81E534EF30092DA41 /* BaseWireFrame.swift */,
 				257467351E564D0A0068DC65 /* BasePresenter.swift */,
 				F021B1CA1E534F560092DA41 /* BaseNavigationController.swift */,
@@ -411,6 +425,7 @@
 				257467381E5650F70068DC65 /* LoginViewController.xib in Resources */,
 				25E2F6FF1E52423800AA208E /* LaunchScreen.storyboard in Resources */,
 				2597E7FD1E5B86F5002B499F /* GoogleService-Info.plist in Resources */,
+				2597E8051E5BA383002B499F /* LoadingHUDView.xib in Resources */,
 				257467341E561E480068DC65 /* DashboardViewController.xib in Resources */,
 				25E2F6FC1E52423800AA208E /* Assets.xcassets in Resources */,
 			);
@@ -505,6 +520,7 @@
 				25D4C8DE1E549C0600E3AF4A /* User.swift in Sources */,
 				25B563D91E5256FC0051F559 /* R.generated.swift in Sources */,
 				F021B1E21E5380630092DA41 /* ForgotPasswordPresenter.swift in Sources */,
+				2597E8031E5BA378002B499F /* LoadingHUDView.swift in Sources */,
 				2597E7F81E5B35F1002B499F /* FacebookAPI.swift in Sources */,
 				F021B1D21E537ABE0092DA41 /* LoginPresenter.swift in Sources */,
 				2597E8001E5B8993002B499F /* GoogleAPI.swift in Sources */,

@@ -13,11 +13,8 @@ import RxSwift
 
 class APIClientHost{
     #if DEBUG
-    static let domain = "staging.agropocket.jera.com.br"
     static let baseURLString = "http://staging.agropocket.jera.com.br"
-    //    static let baseURLString = "http://localhost:3000"
     #else
-    static let domain = "agropocket.com.br"
     static let baseURLString = "http://staging.agropocket.jera.com.br"
     #endif
     
@@ -293,7 +290,7 @@ struct APIClient: APIClientInterface {
 }
 
 extension APIClient{
-    static let errorDomain = "APIClientErrorDomain"
+    static let errorDomain = "APIClient"
     static func error(description: String, code: Int = 0) -> NSError{
         return NSError(domain: errorDomain, code: code, userInfo: [NSLocalizedDescriptionKey: description])
     }

@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GoogleAPI.configure()
         
         
-        BaseViewController.customizeProgressHUD()
+//        BaseViewController.customizeProgressHUD()
         
         UserSessionInteractor.shared.logout()
         

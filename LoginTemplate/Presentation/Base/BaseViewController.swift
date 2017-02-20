@@ -9,6 +9,7 @@
 import UIKit
 import RxCocoa
 import SVProgressHUD
+import Cartography
 
 protocol BaseViewInterface: class {
     
@@ -29,17 +30,28 @@ class BaseViewController: UIViewController{
         present(alertController, animated: true, completion: nil)
     }
     
+    //HUD VIEW
+    private var loadingHUDView: LoadingHUDView?
+    
     func showHudWith(title: String){
-        SVProgressHUD.show(withStatus: title)
+        hideHud()
+        
+        let loadingHUDView = LoadingHUDView.loadFromNib(title: title)
+        view.addSubview(loadingHUDView)
+        constrain(view, loadingHUDView) { (view, loadingHUDView) in
+            loadingHUDView.edges == view.edges
+        }
+        
+        self.loadingHUDView = loadingHUDView
     }
     
     func hideHud(){
-        SVProgressHUD.dismiss()
+        loadingHUDView?.removeFromSuperview()
     }
     
-    static func customizeProgressHUD(){
-        SVProgressHUD.setDefaultMaskType(.black)
-    }
+//    static func customizeProgressHUD(){
+//        SVProgressHUD.setDefaultMaskType(.black)
+//    }
     
     deinit {
         print("dealloc ---> \(String(describing: type(of: self)))")
