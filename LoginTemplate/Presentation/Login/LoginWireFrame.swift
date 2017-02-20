@@ -8,12 +8,19 @@
 
 import UIKit
 
+protocol LoginWireFrameInterface: class{
+    func goToForgotPassword()
+    func goToCreateAccount()
+}
+
 class LoginWireFrame: BaseWireFrame {
     
-    var loginPresenter = LoginPresenter()
-    var loginInteractor =  LoginInteractor()
-    var loginViewController = LoginViewController(nibName: "LoginViewController", bundle: nil)
-    var apiClientInterface = APIClient()
+    let loginPresenter = LoginPresenter()
+    let loginInteractor =  LoginInteractor()
+    let loginViewController = LoginViewController(nibName: "LoginViewController", bundle: nil)
+    let apiClientInterface = APIClient()
+    let facebookAPI = FacebookAPI()
+    let googleAPI = GoogleAPI.shared
     
     override init() {
         super.init()
@@ -21,9 +28,19 @@ class LoginWireFrame: BaseWireFrame {
     }
     
     private func configureDependencies() {
+        loginInteractor.repositoryInterface = LoginRepository(apiClientInterface: apiClientInterface, facebookAPIInterface: facebookAPI, googleAPIInterface: googleAPI)
         loginPresenter.router = self
         loginPresenter.interactorInterface = loginInteractor
         loginViewController.presenterInterface = loginPresenter
-        loginInteractor.apiClientInterface = apiClientInterface
+    }
+}
+
+extension LoginWireFrame: LoginWireFrameInterface{
+    func goToForgotPassword(){
+        print("TODO goToForgotPassword")
+    }
+    
+    func goToCreateAccount(){
+        print("TODO goToCreateAccount")
     }
 }

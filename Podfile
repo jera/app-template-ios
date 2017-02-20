@@ -15,6 +15,7 @@ target 'LoginTemplate' do
 
   #ObjC
   pod 'FBSDKLoginKit', '~> 4.19'
+  pod 'Google/SignIn', '~> 3.0'
   pod 'SVProgressHUD', '~> 2.1'
 
 end

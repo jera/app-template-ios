@@ -8,6 +8,9 @@
 
 import UIKit
 import RxSwift
+import FBSDKCoreKit
+import GoogleSignIn
+import GGLSignIn
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,6 +22,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let temp = DisposeBag()
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        FacebookAPI.configureWith(appId: "214642118985510", displayName:  "AgroPocket")
+        GoogleAPI.configure()
+        
         
         BaseViewController.customizeProgressHUD()
         
@@ -52,6 +59,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+    
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        //Facebook login api callback
+        if let _ = url.absoluteString.range(of: "^fb\\d+:\\/\\/", options: .regularExpression){
+            return (FBSDKApplicationDelegate.sharedInstance().application(application,open: url as URL!,sourceApplication: sourceApplication,annotation: annotation))
+        }
+            
+        //Google login api callback
+        else if let _ = url.absoluteString.range(of: "^com.googleusercontent.apps.", options: .regularExpression){
+            return GIDSignIn.sharedInstance().handle(url, sourceApplication: sourceApplication, annotation: annotation)
+        }
+        return true
     }
 
 

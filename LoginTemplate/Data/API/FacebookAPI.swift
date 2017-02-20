@@ -9,11 +9,20 @@
 import RxSwift
 import FBSDKLoginKit
 
-class FacebookAPI {
-    private static let facebookPermissions = ["public_profile", "email", "user_friends", "user_photos"]
+protocol FacebookAPIInterface{
+    func signIn(fromViewController: UIViewController) -> Observable<String>
+    func signOut()
+}
+
+class FacebookAPI: FacebookAPIInterface {
+    private static let facebookPermissions = ["public_profile", "email"]
     
-    static let sharedInstance = FacebookAPI()
     private let loginManager = FBSDKLoginManager()
+    
+    static func configureWith(appId: String, displayName: String){
+        FBSDKSettings.setAppID(appId)
+        FBSDKSettings.setDisplayName(displayName)
+    }
     
     func signIn(fromViewController: UIViewController) -> Observable<String>{
         return Observable<String>.create({ [weak self] (observer) -> Disposable in
@@ -23,9 +32,6 @@ class FacebookAPI {
             }
             
             strongSelf.loginManager.logIn(withReadPermissions: FacebookAPI.facebookPermissions, from: fromViewController) { (result, error) -> Void in
-                
-                let errorUnknown = NSError(domain: "Facebook Login Failed", code: -1, userInfo: nil)
-                
                 if let error = error{
                     observer.onError(error)
                 }else if (result?.isCancelled)!{
@@ -34,7 +40,7 @@ class FacebookAPI {
                     if let result = result, let token = result.token, let tokenString = token.tokenString{
                         observer.onNext(tokenString)
                     }else{
-                        observer.onError(errorUnknown)
+                        observer.onError(NSError(domain: "FacebookAPI", code: -1, userInfo: [NSLocalizedDescriptionKey: "Facebook Login Failed"]))
                     }
                 }
                 observer.onCompleted()

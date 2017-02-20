@@ -12,8 +12,8 @@ protocol LoginPresenterInterface {
     func loginButtonPressed()
     func createAccountButtonPressed()
     func forgotPasswordButtonPressed()
-    func facebookLoginButtonPressed()
-    func googleLoginButtonPressed()
+    func facebookLoginButtonPressed(presenterViewController viewController: UIViewController)
+    func googleLoginButtonPressed(presenterViewController viewController: UIViewController)
     
     var email: Variable<String> {get}
     var emailErrorString: Observable<String?> {get}
@@ -23,11 +23,13 @@ protocol LoginPresenterInterface {
     
     var loginButtonEnabled: Observable<Bool> {get}
     
-    var loginRequestResponse: Observable<RequestResponse<Void>> { get }
+    var loginRequestResponse: Observable<RequestResponse<User>> { get }
+    var facebookRequestResponse: Observable<RequestResponse<User>> { get }
+    var googleRequestResponse: Observable<RequestResponse<User>> { get }
 }
 
 class LoginPresenter: BasePresenter {
-    weak var router: LoginWireFrame?
+    weak var router: LoginWireFrameInterface?
     var interactorInterface: LoginInteractorInterface!
     
     var email: Variable<String>{
@@ -67,22 +69,16 @@ class LoginPresenter: BasePresenter {
         })
     }
     
-    var loginRequestResponse: Observable<RequestResponse<Void>>{
+    var loginRequestResponse: Observable<RequestResponse<User>>{
         return interactorInterface.authenticateResponse
-            .map({ (requestResponse) -> RequestResponse<Void> in
-                switch requestResponse{
-                case .new:
-                    return .new
-                case .loading:
-                    return .loading
-                case .success:
-                    return .success(responseObject: ())
-                case .failure(let error):
-                    return .failure(error: error)
-                case .cancelled:
-                    return .cancelled
-                }
-            })
+    }
+    
+    var facebookRequestResponse: Observable<RequestResponse<User>>{
+        return interactorInterface.facebookLoginResponse
+    }
+    
+    var googleRequestResponse: Observable<RequestResponse<User>>{
+        return interactorInterface.googleLoginResponse
     }
     
     var loginButtonEnabled: Observable<Bool>{
@@ -98,19 +94,19 @@ extension LoginPresenter: LoginPresenterInterface {
     }
     
     func createAccountButtonPressed(){
-        
+        router?.goToCreateAccount()
     }
     
     func forgotPasswordButtonPressed(){
-        
+        router?.goToForgotPassword()
     }
     
-    func facebookLoginButtonPressed(){
-        
+    func facebookLoginButtonPressed(presenterViewController viewController: UIViewController){
+        interactorInterface.facebookLogin(presenterViewController: viewController)
     }
     
-    func googleLoginButtonPressed(){
-        
+    func googleLoginButtonPressed(presenterViewController viewController: UIViewController){
+        interactorInterface.googleLogin(presenterViewController: viewController)
     }
 }
 

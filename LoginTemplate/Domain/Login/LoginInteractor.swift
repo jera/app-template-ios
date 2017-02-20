@@ -10,8 +10,13 @@ import RxSwift
 
 protocol LoginInteractorInterface {
     func authenticate()
-    
     var authenticateResponse: Observable<RequestResponse<User>> { get }
+    
+    func facebookLogin(presenterViewController viewController: UIViewController)
+    var facebookLoginResponse: Observable<RequestResponse<User>> { get }
+    
+    func googleLogin(presenterViewController viewController: UIViewController)
+    var googleLoginResponse: Observable<RequestResponse<User>> { get }
     
     var email: Variable<String> {get}
     var emailErrors: Observable<[EmailFieldError]> {get}
@@ -21,14 +26,18 @@ protocol LoginInteractorInterface {
 }
 
 class LoginInteractor {
-    var apiClientInterface: APIClientInterface!
+    var repositoryInterface: LoginRepositoryInterface!
     
     let authenticateResponseVariable = Variable<RequestResponse<User>>(.new)
+    let facebookLoginResponseVariable = Variable<RequestResponse<User>>(.new)
+    let googleLoginResponseVariable = Variable<RequestResponse<User>>(.new)
     
     let email = Variable("")
     let password = Variable("")
     
     fileprivate var authenticateDisposeBag: DisposeBag!
+    fileprivate var facebookLoginDisposeBag: DisposeBag!
+    fileprivate var googleLoginDisposeBag: DisposeBag!
 }
 
 extension LoginInteractor: LoginInteractorInterface {
@@ -37,15 +46,22 @@ extension LoginInteractor: LoginInteractorInterface {
         return authenticateResponseVariable.asObservable()
     }
     
+    var facebookLoginResponse: Observable<RequestResponse<User>>{
+        return facebookLoginResponseVariable.asObservable()
+    }
+    
+    var googleLoginResponse: Observable<RequestResponse<User>>{
+        return googleLoginResponseVariable.asObservable()
+    }
+    
     func authenticate(){
         authenticateDisposeBag = DisposeBag()
         
         authenticateResponseVariable.value = .loading
         
-        //Isso deve ser chamado do interactor ou ele não deve saber se o dado está vindo da api ou de qualquer lugar?
         //Vou deixar isso no interactor até achar um bom motivo para mover uma camada para baixo e aumentar o overhead
-        apiClientInterface
-            .loginWith(email: email.value, password: password.value)
+        repositoryInterface
+            .authenticate(email: email.value, password: password.value)
             .subscribe { [weak self] (event) in
                 guard let strongSelf = self else { return }
                 
@@ -66,6 +82,64 @@ extension LoginInteractor: LoginInteractorInterface {
                 }
             }
             .addDisposableTo(authenticateDisposeBag)
+    }
+    
+    func facebookLogin(presenterViewController viewController: UIViewController) {
+        facebookLoginDisposeBag = DisposeBag()
+        
+        facebookLoginResponseVariable.value = .loading
+        
+        repositoryInterface
+            .facebookLogin(presenterViewController: viewController)
+            .subscribe { [weak self] (event) in
+                guard let strongSelf = self else { return }
+                
+                switch event{
+                case .next(let userAPI):
+                    
+                    guard let user = User(userAPI: userAPI) else{
+                        strongSelf.facebookLoginResponseVariable.value = .failure(error: APIClient.error(description: "API retornou um usuário inválido: \(userAPI)"))
+                        return
+                    }
+                    
+                    strongSelf.facebookLoginResponseVariable.value = .success(responseObject: user)
+                    
+                case .error(let error):
+                    strongSelf.facebookLoginResponseVariable.value = .failure(error: error)
+                case .completed:
+                    break
+                }
+            }
+            .addDisposableTo(facebookLoginDisposeBag)
+    }
+    
+    func googleLogin(presenterViewController viewController: UIViewController) {
+        googleLoginDisposeBag = DisposeBag()
+        
+        googleLoginResponseVariable.value = .loading
+        
+        repositoryInterface
+            .googleLogin(presenterViewController: viewController)
+            .subscribe { [weak self] (event) in
+                guard let strongSelf = self else { return }
+                
+                switch event{
+                case .next(let userAPI):
+                    
+                    guard let user = User(userAPI: userAPI) else{
+                        strongSelf.googleLoginResponseVariable.value = .failure(error: APIClient.error(description: "API retornou um usuário inválido: \(userAPI)"))
+                        return
+                    }
+                    
+                    strongSelf.googleLoginResponseVariable.value = .success(responseObject: user)
+                    
+                case .error(let error):
+                    strongSelf.googleLoginResponseVariable.value = .failure(error: error)
+                case .completed:
+                    break
+                }
+            }
+            .addDisposableTo(googleLoginDisposeBag)
     }
     
     var emailErrors: Observable<[EmailFieldError]>{

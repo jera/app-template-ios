@@ -224,6 +224,7 @@ extension APITarget: TargetType {
 protocol APIClientInterface{
     func loginWith(email: String, password: String) -> Observable<UserAPI>
     func loginWithFacebook(token: String) -> Observable<UserAPI>
+    func loginWithGoogle(token: String) -> Observable<UserAPI>
     func forgotPasswordWith(email: String) -> Observable<String?>
     func createNewAccount(name: String, email: String, password: String, image: UIImage?) -> Observable<UserAPI>
     func editCurrentUserWith(name: String?, email: String?, password: String?, oldPassword: String?, image: UIImage?) -> Observable<UserAPI>
@@ -242,6 +243,13 @@ struct APIClient: APIClientInterface {
     func loginWithFacebook(token: String) -> Observable<UserAPI> {
         return provider
             .request(.LoginWithFacebook(token: token))
+            .processResponse(updateCurrentUser: true)
+            .mapObject(UserAPI.self)
+    }
+    
+    func loginWithGoogle(token: String) -> Observable<UserAPI> {
+        return provider
+            .request(.LoginWithGoogle(token: token))
             .processResponse(updateCurrentUser: true)
             .mapObject(UserAPI.self)
     }
