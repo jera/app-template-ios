@@ -11,4 +11,5 @@ enum RequestResponse<T>{
     case loading
     case success(responseObject: T)
     case failure(error: Error)
+    case cancelled
 }

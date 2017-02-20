@@ -79,6 +79,8 @@ class LoginPresenter: BasePresenter {
                     return .success(responseObject: ())
                 case .failure(let error):
                     return .failure(error: error)
+                case .cancelled:
+                    return .cancelled
                 }
             })
     }

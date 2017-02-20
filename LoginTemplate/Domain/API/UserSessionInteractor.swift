@@ -19,11 +19,6 @@ protocol UserSessionInteractorInterface {
     func expire()
 }
 
-//protocol UserSessionInteractorOutput: class {
-//
-//}
-
-
 enum UserSessionState{
     case logged(user: User)
     case notLogged

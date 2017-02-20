@@ -14,6 +14,7 @@ target 'LoginTemplate' do
   pod 'RxCocoa', '~> 3.1.0'
 
   #ObjC
+  pod 'FBSDKLoginKit', '~> 4.19'
   pod 'SVProgressHUD', '~> 2.1'
 
 end

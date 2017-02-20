@@ -13,6 +13,7 @@ class LoginWireFrame: BaseWireFrame {
     var loginPresenter = LoginPresenter()
     var loginInteractor =  LoginInteractor()
     var loginViewController = LoginViewController(nibName: "LoginViewController", bundle: nil)
+    var apiClientInterface = APIClient()
     
     override init() {
         super.init()
@@ -23,6 +24,6 @@ class LoginWireFrame: BaseWireFrame {
         loginPresenter.router = self
         loginPresenter.interactorInterface = loginInteractor
         loginViewController.presenterInterface = loginPresenter
-//        loginInteractor.outputInterface = loginPresenter
+        loginInteractor.apiClientInterface = apiClientInterface
     }
 }

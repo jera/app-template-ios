@@ -22,6 +22,7 @@
 		259071941E532E0D008E1B52 /* ErrorAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259071931E532E0D008E1B52 /* ErrorAPI.swift */; };
 		259071991E53ABFE008E1B52 /* UserSessionDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259071981E53ABFE008E1B52 /* UserSessionDB.swift */; };
 		2590719B1E53AC33008E1B52 /* UserSessionInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2590719A1E53AC33008E1B52 /* UserSessionInteractor.swift */; };
+		2597E7F81E5B35F1002B499F /* FacebookAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2597E7F71E5B35F1002B499F /* FacebookAPI.swift */; };
 		25B563D91E5256FC0051F559 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B563D81E5256FC0051F559 /* R.generated.swift */; };
 		25D4C8DE1E549C0600E3AF4A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D4C8DD1E549C0600E3AF4A /* User.swift */; };
 		25D4C8E01E54BBFE00E3AF4A /* UserDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D4C8DF1E54BBFE00E3AF4A /* UserDB.swift */; };
@@ -63,6 +64,7 @@
 		259071931E532E0D008E1B52 /* ErrorAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorAPI.swift; sourceTree = "<group>"; };
 		259071981E53ABFE008E1B52 /* UserSessionDB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSessionDB.swift; sourceTree = "<group>"; };
 		2590719A1E53AC33008E1B52 /* UserSessionInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSessionInteractor.swift; sourceTree = "<group>"; };
+		2597E7F71E5B35F1002B499F /* FacebookAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacebookAPI.swift; sourceTree = "<group>"; };
 		25B563D81E5256FC0051F559 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = SOURCE_ROOT; };
 		25D4C8DD1E549C0600E3AF4A /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		25D4C8DF1E54BBFE00E3AF4A /* UserDB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDB.swift; sourceTree = "<group>"; };
@@ -139,6 +141,7 @@
 			children = (
 				2590718B1E525AF4008E1B52 /* APIClient.swift */,
 				2590718F1E525EA3008E1B52 /* UserSessionDataStore.swift */,
+				2597E7F71E5B35F1002B499F /* FacebookAPI.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -483,6 +486,7 @@
 				25D4C8DE1E549C0600E3AF4A /* User.swift in Sources */,
 				25B563D91E5256FC0051F559 /* R.generated.swift in Sources */,
 				F021B1E21E5380630092DA41 /* ForgotPasswordPresenter.swift in Sources */,
+				2597E7F81E5B35F1002B499F /* FacebookAPI.swift in Sources */,
 				F021B1D21E537ABE0092DA41 /* LoginPresenter.swift in Sources */,
 				F021B1E01E5380580092DA41 /* ForgotPasswordViewController.swift in Sources */,
 				2574672B1E560FF30068DC65 /* MainPresenter.swift in Sources */,

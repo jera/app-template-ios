@@ -10,10 +10,6 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-//protocol LoginViewInterface: BaseViewInterface {
-//    
-//}
-
 class LoginViewController: BaseViewController {
 
     @IBOutlet weak var emailTextField: UITextField!
@@ -104,6 +100,8 @@ class LoginViewController: BaseViewController {
                     strongSelf.showOKAlertWith(title: "Ops...", message: error.localizedDescription)
                 case .success:
                     strongSelf.hideHud()
+                case .cancelled:
+                    strongSelf.hideHud()
                 }
             })
             .addDisposableTo(presenterInterfaceBindDisposeBag)
@@ -111,7 +109,3 @@ class LoginViewController: BaseViewController {
     }
     
 }
-
-//extension LoginViewController: LoginViewInterface {
-//
-//}

@@ -21,6 +21,8 @@ protocol LoginInteractorInterface {
 }
 
 class LoginInteractor {
+    var apiClientInterface: APIClientInterface!
+    
     let authenticateResponseVariable = Variable<RequestResponse<User>>(.new)
     
     let email = Variable("")
@@ -42,7 +44,7 @@ extension LoginInteractor: LoginInteractorInterface {
         
         //Isso deve ser chamado do interactor ou ele não deve saber se o dado está vindo da api ou de qualquer lugar?
         //Vou deixar isso no interactor até achar um bom motivo para mover uma camada para baixo e aumentar o overhead
-        APIClient
+        apiClientInterface
             .loginWith(email: email.value, password: password.value)
             .subscribe { [weak self] (event) in
                 guard let strongSelf = self else { return }
