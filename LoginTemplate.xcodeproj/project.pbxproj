@@ -14,6 +14,7 @@
 		257467321E561D650068DC65 /* DashboardPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257467311E561D650068DC65 /* DashboardPresenter.swift */; };
 		257467341E561E480068DC65 /* DashboardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 257467331E561E480068DC65 /* DashboardViewController.xib */; };
 		257467361E564D0A0068DC65 /* BasePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257467351E564D0A0068DC65 /* BasePresenter.swift */; };
+		257467381E5650F70068DC65 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 257467371E5650F70068DC65 /* LoginViewController.xib */; };
 		2590718C1E525AF4008E1B52 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2590718B1E525AF4008E1B52 /* APIClient.swift */; };
 		2590718E1E525E17008E1B52 /* UserAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2590718D1E525E17008E1B52 /* UserAPI.swift */; };
 		259071901E525EA3008E1B52 /* UserSessionDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2590718F1E525EA3008E1B52 /* UserSessionDataStore.swift */; };
@@ -40,7 +41,6 @@
 		F021B1D81E537B6D0092DA41 /* LoginInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F021B1D71E537B6D0092DA41 /* LoginInteractor.swift */; };
 		F021B1DA1E537BAD0092DA41 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F021B1D91E537BAD0092DA41 /* LoginViewController.swift */; };
 		F021B1DC1E537BE70092DA41 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F021B1DB1E537BE70092DA41 /* BaseViewController.swift */; };
-		F021B1DE1E537EF90092DA41 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F021B1DD1E537EF90092DA41 /* Login.storyboard */; };
 		F021B1E01E5380580092DA41 /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F021B1DF1E5380580092DA41 /* ForgotPasswordViewController.swift */; };
 		F021B1E21E5380630092DA41 /* ForgotPasswordPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F021B1E11E5380630092DA41 /* ForgotPasswordPresenter.swift */; };
 		F021B1E41E53829B0092DA41 /* ForgotPasswordInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F021B1E31E53829B0092DA41 /* ForgotPasswordInteractor.swift */; };
@@ -55,6 +55,7 @@
 		257467311E561D650068DC65 /* DashboardPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardPresenter.swift; sourceTree = "<group>"; };
 		257467331E561E480068DC65 /* DashboardViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DashboardViewController.xib; sourceTree = "<group>"; };
 		257467351E564D0A0068DC65 /* BasePresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasePresenter.swift; sourceTree = "<group>"; };
+		257467371E5650F70068DC65 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		2590718B1E525AF4008E1B52 /* APIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		2590718D1E525E17008E1B52 /* UserAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAPI.swift; sourceTree = "<group>"; };
 		2590718F1E525EA3008E1B52 /* UserSessionDataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSessionDataStore.swift; sourceTree = "<group>"; };
@@ -84,7 +85,6 @@
 		F021B1D71E537B6D0092DA41 /* LoginInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginInteractor.swift; sourceTree = "<group>"; };
 		F021B1D91E537BAD0092DA41 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		F021B1DB1E537BE70092DA41 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
-		F021B1DD1E537EF90092DA41 /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		F021B1DF1E5380580092DA41 /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
 		F021B1E11E5380630092DA41 /* ForgotPasswordPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordPresenter.swift; sourceTree = "<group>"; };
 		F021B1E31E53829B0092DA41 /* ForgotPasswordInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordInteractor.swift; sourceTree = "<group>"; };
@@ -287,10 +287,10 @@
 		F021B1CE1E5378C00092DA41 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				F021B1DD1E537EF90092DA41 /* Login.storyboard */,
 				F021B1CF1E5378F40092DA41 /* LoginWireFrame.swift */,
 				F021B1D91E537BAD0092DA41 /* LoginViewController.swift */,
 				F021B1D11E537ABE0092DA41 /* LoginPresenter.swift */,
+				257467371E5650F70068DC65 /* LoginViewController.xib */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -388,10 +388,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				257467381E5650F70068DC65 /* LoginViewController.xib in Resources */,
 				25E2F6FF1E52423800AA208E /* LaunchScreen.storyboard in Resources */,
 				257467341E561E480068DC65 /* DashboardViewController.xib in Resources */,
 				25E2F6FC1E52423800AA208E /* Assets.xcassets in Resources */,
-				F021B1DE1E537EF90092DA41 /* Login.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,6 +7,7 @@ target 'LoginTemplate' do
 
   # Pods for LoginTemplate
   pod 'Cartography', '~> 1.0'
+  pod 'Crashlytics', '~> 3.8'
   pod 'Moya-ObjectMapper/RxSwift', '~> 2.3'
   pod 'R.swift', '~> 3.2'
   pod 'TPKeyboardAvoiding', '~> 1.3'

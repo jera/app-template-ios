@@ -57,7 +57,7 @@ class LoginViewController: BaseViewController {
             .bindTo(presenterInterface.email)
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
-        presenterInterface.emailError
+        presenterInterface.emailErrorString
             .bindTo(emailErrorLabel.rx.text)
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
@@ -74,7 +74,7 @@ class LoginViewController: BaseViewController {
             .bindTo(presenterInterface.password)
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
-        presenterInterface.passwordError
+        presenterInterface.passwordErrorString
             .bindTo(passwordErrorLabel.rx.text)
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         

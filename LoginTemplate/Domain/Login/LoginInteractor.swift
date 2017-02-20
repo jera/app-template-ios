@@ -8,28 +8,42 @@
 
 import RxSwift
 
-protocol LoginInteractorInput {
-    func authenticate(byEmail: String, password:String)
-}
-
-protocol LoginInteractorOutput: class {
-    func authenticateState(response: RequestResponse<User>)
+protocol LoginInteractorInterface {
+    func authenticate()
+    
+    var authenticateResponse: Observable<RequestResponse<User>> { get }
+    
+    var email: Variable<String> {get}
+    var emailErrors: Observable<[EmailFieldError]> {get}
+    
+    var password: Variable<String> {get}
+    var passwordErrors: Observable<[PasswordFieldError]> {get}
 }
 
 class LoginInteractor {
-    weak var outputInterface: LoginInteractorOutput?
+    let authenticateResponseVariable = Variable<RequestResponse<User>>(.new)
+    
+    let email = Variable("")
+    let password = Variable("")
     
     fileprivate var authenticateDisposeBag: DisposeBag!
 }
 
-extension LoginInteractor: LoginInteractorInput {
-    func authenticate(byEmail email: String, password:String){
+extension LoginInteractor: LoginInteractorInterface {
+    
+    var authenticateResponse: Observable<RequestResponse<User>>{
+        return authenticateResponseVariable.asObservable()
+    }
+    
+    func authenticate(){
         authenticateDisposeBag = DisposeBag()
         
-        outputInterface?.authenticateState(response: .loading)
+        authenticateResponseVariable.value = .loading
         
+        //Isso deve ser chamado do interactor ou ele não deve saber se o dado está vindo da api ou de qualquer lugar?
+        //Vou deixar isso no interactor até achar um bom motivo para mover uma camada para baixo e aumentar o overhead
         APIClient
-            .loginWith(email: email, password: password)
+            .loginWith(email: email.value, password: password.value)
             .subscribe { [weak self] (event) in
                 guard let strongSelf = self else { return }
                 
@@ -37,18 +51,54 @@ extension LoginInteractor: LoginInteractorInput {
                 case .next(let userAPI):
                     
                     guard let user = User(userAPI: userAPI) else{
-                        strongSelf.outputInterface?.authenticateState(response: .failure(error: APIClient.error(description: "API retornou um usuário inválido: \(userAPI)")))
+                        strongSelf.authenticateResponseVariable.value = .failure(error: APIClient.error(description: "API retornou um usuário inválido: \(userAPI)"))
                         return
                     }
                     
-                    strongSelf.outputInterface?.authenticateState(response: .success(responseObject: user))
+                    strongSelf.authenticateResponseVariable.value = .success(responseObject: user)
 
                 case .error(let error):
-                    strongSelf.outputInterface?.authenticateState(response: .failure(error: error))
+                    strongSelf.authenticateResponseVariable.value = .failure(error: error)
                 case .completed:
                     break
                 }
             }
             .addDisposableTo(authenticateDisposeBag)
+    }
+    
+    var emailErrors: Observable<[EmailFieldError]>{
+        return self.email
+            .asObservable()
+            .map { (email) -> [EmailFieldError] in
+                var fieldErrors = [EmailFieldError]()
+                
+                if email.characters.count == 0 {
+                    fieldErrors.append(.empty)
+                }
+                
+                if !DomainHelper.isEmailValid(email: email){
+                    fieldErrors.append(.notValid)
+                }
+                
+                return fieldErrors
+        }
+    }
+    
+    var passwordErrors: Observable<[PasswordFieldError]>{
+        return self.password
+            .asObservable()
+            .map { (password) -> [PasswordFieldError] in
+                var fieldErrors = [PasswordFieldError]()
+                
+                if password.characters.count == 0 {
+                    fieldErrors.append(.empty)
+                }
+                
+                if password.characters.count < 6{
+                    fieldErrors.append(.minCharaters(count: 6))
+                }
+                
+                return fieldErrors
+        }
     }
 }

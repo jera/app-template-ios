@@ -12,7 +12,7 @@ class LoginWireFrame: BaseWireFrame {
     
     var loginPresenter = LoginPresenter()
     var loginInteractor =  LoginInteractor()
-    var loginViewController = PresentationHelper.controllerFromStoryboard(withName: "Login")! as! LoginViewController
+    var loginViewController = LoginViewController(nibName: "LoginViewController", bundle: nil)
     
     override init() {
         super.init()
@@ -23,6 +23,6 @@ class LoginWireFrame: BaseWireFrame {
         loginPresenter.router = self
         loginPresenter.interactorInterface = loginInteractor
         loginViewController.presenterInterface = loginPresenter
-        loginInteractor.outputInterface = loginPresenter
+//        loginInteractor.outputInterface = loginPresenter
     }
 }

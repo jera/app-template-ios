@@ -16,10 +16,10 @@ protocol LoginPresenterInterface {
     func googleLoginButtonPressed()
     
     var email: Variable<String> {get}
-    var emailError: Observable<String?> {get}
+    var emailErrorString: Observable<String?> {get}
     
     var password: Variable<String> {get}
-    var passwordError: Observable<String?> {get}
+    var passwordErrorString: Observable<String?> {get}
     
     var loginButtonEnabled: Observable<Bool> {get}
     
@@ -27,83 +27,72 @@ protocol LoginPresenterInterface {
 }
 
 class LoginPresenter: BasePresenter {
-//    weak var viewInterface: LoginViewInterface!
     weak var router: LoginWireFrame?
-    var interactorInterface: LoginInteractorInput?
+    var interactorInterface: LoginInteractorInterface!
     
-    let email = Variable("")
-    var emailError: Observable<String?>{
-        return self.email
-            .asObservable()
-            .map { (email) -> String? in
-                guard email.characters.count > 0 else { return nil }
-                
-                if !DomainHelper.isEmailValid(email: email){
-                    return "Email inválido"
+    var email: Variable<String>{
+        return interactorInterface.email
+    }
+    var emailErrorString: Observable<String?>{
+        return interactorInterface.emailErrors.map({ (fieldErrors) -> String? in
+            if let firstError = fieldErrors.first{
+                switch firstError {
+                case .notValid:
+                    return "Email não válido"
+                case .empty:
+                    return nil //Doesn't show if it is empty
                 }
-                
-                return nil
-        }
-    }
-    private var isEmailEmpty: Observable<Bool>{
-        return self.email
-            .asObservable()
-            .map { (email) -> Bool in
-                return email.characters.count == 0
-        }
-    }
-    
-    let password = Variable("")
-    var passwordError: Observable<String?>{
-        return self.password
-            .asObservable()
-            .map { (password) -> String? in
-                guard password.characters.count > 0 else { return nil }
-                
-                if password.characters.count < 6{
-                    return "Senha deve ter no mínimo 6 caracteres"
-                }
-                
-                return nil
-        }
-    }
-    
-    private var isPasswordEmpty: Observable<Bool>{
-        return self.password
-            .asObservable()
-            .map { (password) -> Bool in
-                return password.characters.count == 0
-        }
-    }
-    
-    
-    
-    fileprivate let loginRequestResponseVariable = Variable<RequestResponse<User>>(.new)
-    var loginRequestResponse: Observable<RequestResponse<Void>>{
-        return loginRequestResponseVariable.asObservable().map({ (requestResponse) -> RequestResponse<Void> in
-            switch requestResponse{
-            case .new:
-                return .new
-            case .loading:
-                return .loading
-            case .success:
-                return .success(responseObject: ())
-            case .failure(let error):
-                return .failure(error: error)
             }
+            
+            return nil
         })
     }
     
+    var password: Variable<String>{
+        return interactorInterface.password
+    }
+    
+    var passwordErrorString: Observable<String?>{
+        return interactorInterface.passwordErrors.map({ (fieldErrors) -> String? in
+            if let firstError = fieldErrors.first{
+                switch firstError{
+                case .minCharaters(let count):
+                    return "Senha deve ter no mínimo \(count) caracteres"
+                case .empty:
+                    return nil //Doesn't show if it is empty
+                }
+            }
+            
+            return nil
+        })
+    }
+    
+    var loginRequestResponse: Observable<RequestResponse<Void>>{
+        return interactorInterface.authenticateResponse
+            .map({ (requestResponse) -> RequestResponse<Void> in
+                switch requestResponse{
+                case .new:
+                    return .new
+                case .loading:
+                    return .loading
+                case .success:
+                    return .success(responseObject: ())
+                case .failure(let error):
+                    return .failure(error: error)
+                }
+            })
+    }
+    
     var loginButtonEnabled: Observable<Bool>{
-        return Observable.combineLatest(isEmailEmpty, emailError, isPasswordEmpty, passwordError, resultSelector: { (isEmailEmpty, emailError, isPasswordEmpty, passwordError) -> Bool in
-            return !(isEmailEmpty || emailError != nil || isPasswordEmpty || passwordError != nil)
+        return Observable.combineLatest(interactorInterface.emailErrors, interactorInterface.passwordErrors, resultSelector: { (emailErrors, passwordErrors) -> Bool in
+            return !(emailErrors.count > 0 || passwordErrors.count > 0)
         })
     }
 }
 
 extension LoginPresenter: LoginPresenterInterface {
     func loginButtonPressed() {
-        interactorInterface?.authenticate(byEmail: email.value, password: password.value)
+        interactorInterface.authenticate()
     }
     
     func createAccountButtonPressed(){
@@ -123,8 +112,8 @@ extension LoginPresenter: LoginPresenterInterface {
     }
 }
 
-extension LoginPresenter: LoginInteractorOutput {
-    func authenticateState(response: RequestResponse<User>){
-        loginRequestResponseVariable.value = response
-    }
-}
+//extension LoginPresenter: LoginInteractorOutput {
+//    func authenticateState(response: RequestResponse<User>){
+//        loginRequestResponseVariable.value = response
+//    }
+//}
