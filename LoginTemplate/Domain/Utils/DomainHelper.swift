@@ -51,7 +51,7 @@ extension UIColor {
     }
     
     static func defaultTitleLabel() -> UIColor {
-        return UIColor(red:255, green:255, blue:255, alpha:1.0)
+        return gray
     }
     
     static func defaultBarTint() -> UIColor {
@@ -64,5 +64,13 @@ extension UIColor {
     
     static func defaultTitleButton() -> UIColor{
         return white
+    }
+    
+    class func primary() -> UIColor{
+        return UIColor(red: 189/255, green: 39/255, blue: 89/255, alpha: 1)
+    }
+    
+    class func textFielTint() -> UIColor{
+        return UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1)
     }
 }

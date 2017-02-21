@@ -14,7 +14,7 @@ class ForgotPasswordViewModel {
     fileprivate var textLabel: String = "Informe o seu email para recuperar sua senha"
     fileprivate var placeholderTextField: String = "Email"
     fileprivate var titleButton: String = "ENVIAR"
-    fileprivate var emailErrorTextField: String = ""
+    fileprivate var emailErrorTextField: String?
 }
 
 class ForgotPasswordView: UIView {
@@ -39,16 +39,16 @@ class ForgotPasswordView: UIView {
     
     private func applyLayout() {
         titleLabel.textColor = UIColor.defaultTitleLabel()
-        titleLabel.font = UIFont.systemFont(ofSize: 14)
+        titleLabel.font = UIFont.systemFont(ofSize: 12)
         
-        emailTextField.applyAppearence(textFieldAppearence: .Black)
+        emailTextField.applyAppearence(textFieldAppearence: .Default)
         
         emailErrorLabel.textColor = UIColor.red
         emailErrorLabel.font = UIFont.systemFont(ofSize: 10)
         
         confirmButton.backgroundColor = UIColor.defaultBackgroundButton()
         confirmButton.setTitleColor(UIColor.defaultTitleButton(), for: .normal)
-        confirmButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+        confirmButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 12)
         confirmButton.layer.cornerRadius = 5
     }
     
