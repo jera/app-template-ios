@@ -10,6 +10,7 @@ import UIKit
 import RxCocoa
 import SVProgressHUD
 import Cartography
+import TPKeyboardAvoiding
 
 protocol BaseViewInterface: class {
     
@@ -49,9 +50,63 @@ class BaseViewController: UIViewController{
         loadingHUDView?.removeFromSuperview()
     }
     
-//    static func customizeProgressHUD(){
-//        SVProgressHUD.setDefaultMaskType(.black)
-//    }
+    
+    //SCROLL VIEW
+    private(set) var scrollView: TPKeyboardAvoidingScrollView?
+    @discardableResult func addScrollView(layoutBlock: ((LayoutProxy, LayoutProxy) -> Void)? = nil) -> UIScrollView{
+        self.scrollView?.removeFromSuperview()
+        
+        let scrollView = TPKeyboardAvoidingScrollView()
+        
+        view.addSubview(scrollView)
+        
+        scrollView.keyboardDismissMode = .interactive
+        scrollView.alwaysBounceVertical = true
+        
+        if let layoutBlock = layoutBlock{
+            constrain(view, scrollView, block: layoutBlock)
+        }else{
+            constrain(view, scrollView) { (view, scrollView) in
+                scrollView.top == view.top
+                scrollView.left == view.left
+                scrollView.bottom == view.bottom
+                scrollView.right == view.right
+            }
+        }
+        
+        self.scrollView = scrollView
+        
+        return scrollView
+    }
+    
+    func addScrollView(withSubView subView: UIView, scrollViewLayoutBlock: ((LayoutProxy, LayoutProxy) -> Void)? = nil, subViewLayoutBlock: ((LayoutProxy, LayoutProxy) -> Void)? = nil){
+        let scrollView = addScrollView(layoutBlock: scrollViewLayoutBlock)
+        
+        scrollView.addSubview(subView)
+        
+        if let subViewLayoutBlock = subViewLayoutBlock{
+            constrain(view, scrollView, block: subViewLayoutBlock)
+        }else{
+            constrain(subView, scrollView) { (subView, scrollView) in
+                subView.edges == scrollView.edges
+                subView.width == scrollView.width
+            }
+        }
+    }
+    
+    //BACKGROUND VIEW
+    private(set) var backgroundImageView: UIImageView?
+    func addBackgroundImageView(withImage image: UIImage){
+        self.backgroundImageView?.removeFromSuperview()
+        
+        let backgroundImageView = UIImageView(image: image)
+        
+        view.addSubview(backgroundImageView)
+        
+        constrain(view, backgroundImageView) { (view, backgroundImageView) in
+            backgroundImageView.edges == view.edges
+        }
+    }
     
     deinit {
         print("dealloc ---> \(String(describing: type(of: self)))")

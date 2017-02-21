@@ -29,7 +29,7 @@ protocol LoginPresenterInterface {
 }
 
 class LoginPresenter: BasePresenter {
-    weak var router: LoginWireFrameInterface?
+    weak var routerInterface: LoginWireFrameInterface?
     let interactorInterface: LoginInteractorInterface
     
     var email: Variable<String>{
@@ -98,11 +98,11 @@ extension LoginPresenter: LoginPresenterInterface {
     }
     
     func createAccountButtonPressed(){
-        router?.goToCreateAccount()
+        routerInterface?.goToCreateAccount()
     }
     
     func forgotPasswordButtonPressed(){
-        router?.goToForgotPassword()
+        routerInterface?.goToForgotPassword()
     }
     
     func facebookLoginButtonPressed(presenterViewController viewController: UIViewController){

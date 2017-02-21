@@ -17,7 +17,7 @@ class LoginWireFrame: BaseWireFrame {
     
     let loginPresenter: LoginPresenter
     let loginInteractor: LoginInteractor
-    let loginViewController = LoginViewController(nibName: "LoginViewController", bundle: nil)
+    let loginViewController = LoginViewController()
     let apiClientInterface = APIClient()
     let facebookAPI = FacebookAPI()
     let googleAPI = GoogleAPI.shared
@@ -28,7 +28,7 @@ class LoginWireFrame: BaseWireFrame {
         
         super.init()
         
-        loginPresenter.router = self
+        loginPresenter.routerInterface = self
         loginViewController.presenterInterface = loginPresenter
     }
     

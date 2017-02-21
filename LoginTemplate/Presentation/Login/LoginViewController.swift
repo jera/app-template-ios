@@ -9,18 +9,19 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import Cartography
 
 class LoginViewController: BaseViewController {
 
-    @IBOutlet weak var emailTextField: UITextField!
-    @IBOutlet weak var emailErrorLabel: UILabel!
+    @IBOutlet private weak var emailTextField: UITextField!
+    @IBOutlet private weak var emailErrorLabel: UILabel!
     
-    @IBOutlet weak var passwordTextField: UITextField!
-    @IBOutlet weak var passwordErrorLabel: UILabel!
+    @IBOutlet private weak var passwordTextField: UITextField!
+    @IBOutlet private weak var passwordErrorLabel: UILabel!
     
-    @IBOutlet weak var loginButton: UIButton!
-    @IBOutlet weak var facebookButton: UIButton!
-    @IBOutlet weak var googleButton: UIButton!
+    @IBOutlet private weak var loginButton: UIButton!
+    @IBOutlet private weak var facebookButton: UIButton!
+    @IBOutlet private weak var googleButton: UIButton!
     
     private var presenterInterfaceBindDisposeBag: DisposeBag!
     var presenterInterface: LoginPresenterInterface?{
@@ -33,6 +34,19 @@ class LoginViewController: BaseViewController {
         super.viewDidLoad()
         
         bind()
+    }
+    
+    override func loadView() {
+        super.loadView()
+        
+        addBackgroundImageView(withImage: #imageLiteral(resourceName: "img_bg"))
+        
+        guard let loginView = Bundle.main.loadNibNamed("LoginView", owner: self, options: nil)?.first as? UIView else {
+            print("No LoginView")
+            return
+        }
+        addScrollView(withSubView: loginView)
+
     }
     
     private func bind(){

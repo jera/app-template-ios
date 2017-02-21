@@ -37,6 +37,7 @@ let provider = RxMoyaProvider<APITarget>( endpointClosure: { (target) -> Endpoin
             "Accept-Language": "pt-BR"
         ])
     
+    //Hmm... um service chamando um interactor...
     if let authCredentials = UserSessionInteractor.shared.userSession?.authHeaders {
         endpoint = endpoint.adding(newHTTPHeaderFields: authCredentials)
     }
