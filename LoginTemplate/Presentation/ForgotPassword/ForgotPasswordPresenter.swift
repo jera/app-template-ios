@@ -68,9 +68,11 @@ extension ForgotPasswordPresenter: ForgotPasswordInteractorOutput {
     func showLoading(){
         viewInterface.showLoading()
     }
+    
     func showMessageForgotMyPasswordWith(sucess: String){
         viewInterface.showMessageForgotMyPasswordWith(sucess: sucess)
     }
+    
     func showMessageForgotMyPasswordWith(error: Error){
         viewInterface.showMessageForgotMyPasswordWith(error: error)
     }

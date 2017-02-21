@@ -8,6 +8,7 @@
 
 import UIKit
 import RxSwift
+import Cartography
 
 protocol ForgotPasswordInterface: BaseViewInterface {
     func showLoading()
@@ -24,6 +25,12 @@ class ForgotPasswordViewController: BaseViewController {
         }
     }
     
+    override func loadView() {
+        super.loadView()
+        
+        addForgotPasswordView()
+    }
+    
     override func viewDidLoad(){
         super.viewDidLoad()
         
@@ -31,9 +38,19 @@ class ForgotPasswordViewController: BaseViewController {
             self?.presenterInterface?.didTapCloseForgotPasswordView()
         }
         
+        view.backgroundColor = UIColor.defaultViewBackground()
+        
         title = "Recuperar senha"
         
         bind()
+    }
+    
+    func addForgotPasswordView(){
+        addScrollView(withSubview: forgotPasswordView)
+        
+        constrain(scrollView, forgotPasswordView) { (scrollView, forgotPasswordView) in
+            forgotPasswordView.height == scrollView.height
+        }
     }
     
     private func bind(){
@@ -69,7 +86,6 @@ class ForgotPasswordViewController: BaseViewController {
                 strongSelf.presenterInterface?.forgotPasswordPressed()
             }
             .addDisposableTo(presenterInterfaceBindDisposeBag)
-        
     }
     
     private lazy var forgotPasswordView: ForgotPasswordView = {

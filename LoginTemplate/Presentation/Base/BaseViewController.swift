@@ -9,12 +9,16 @@
 import UIKit
 import RxCocoa
 import SVProgressHUD
+import Cartography
+import TPKeyboardAvoiding
 
 protocol BaseViewInterface: class {
     
 }
 
 class BaseViewController: UIViewController{
+    
+    lazy var scrollView: TPKeyboardAvoidingScrollView = self.initializeScrollView()
     private(set) var isLoaded = false
     
     override func viewDidLoad() {
@@ -49,6 +53,32 @@ class BaseViewController: UIViewController{
                 block()
             })
         navigationItem.leftBarButtonItem = closeBarButton
+    }
+    
+    //MARK: ScrollView
+    
+    func initializeScrollView() -> TPKeyboardAvoidingScrollView{
+        let scrollView = TPKeyboardAvoidingScrollView()
+        
+        scrollView.backgroundColor = UIColor.clear
+        scrollView.keyboardDismissMode = .interactive
+        scrollView.alwaysBounceVertical = true
+        
+        view.addSubview(scrollView)
+        constrain(scrollView, view, block: { (scrollView, containerView) in
+            scrollView.edges == containerView.edges
+        })
+        return scrollView
+    }
+    
+    func addScrollView(withSubview subview: UIView){
+        automaticallyAdjustsScrollViewInsets = false
+        scrollView.addSubview(subview)
+        
+        constrain(scrollView, subview) { (scrollView, subview) in
+            subview.edges == scrollView.edges
+            subview.width == scrollView.width
+        }
     }
     
     deinit {

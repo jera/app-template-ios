@@ -13,6 +13,7 @@ class LoginWireFrame: BaseWireFrame {
     var loginPresenter = LoginPresenter()
     var loginInteractor =  LoginInteractor()
     var loginViewController = PresentationHelper.controllerFromStoryboard(withName: "Login")! as! LoginViewController
+    var forgotPasswordWireFrame = ForgotPasswordWireFrame()
     
     override init() {
         super.init()
@@ -24,5 +25,9 @@ class LoginWireFrame: BaseWireFrame {
         loginPresenter.interactorInterface = loginInteractor
         loginViewController.presenterInterface = loginPresenter
         loginInteractor.outputInterface = loginPresenter
+    }
+
+    func presentForgotPassword()  {
+        forgotPasswordWireFrame.presentForgotPassword(rootViewController: loginViewController)
     }
 }

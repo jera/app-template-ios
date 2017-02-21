@@ -43,3 +43,26 @@ extension UIButton {
         }
     }
 }
+
+extension UIColor {
+    
+    static func defaultViewBackground() -> UIColor {
+        return white
+    }
+    
+    static func defaultTitleLabel() -> UIColor {
+        return UIColor(red:255, green:255, blue:255, alpha:1.0)
+    }
+    
+    static func defaultBarTint() -> UIColor {
+        return UIColor(red:85/255, green:124/255, blue:211/255, alpha:1)
+    }
+    
+    static func defaultBackgroundButton() -> UIColor{
+        return UIColor(red: 189/255, green: 39/255, blue: 89/255, alpha: 1)
+    }
+    
+    static func defaultTitleButton() -> UIColor{
+        return white
+    }
+}
