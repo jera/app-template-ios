@@ -9,20 +9,19 @@
 import UIKit
 import RxSwift
 import RxCocoa
-
-//protocol LoginViewInterface: BaseViewInterface {
-//    
-//}
+import Cartography
 
 class LoginViewController: BaseViewController {
 
-    @IBOutlet weak var emailTextField: UITextField!
-    @IBOutlet weak var emailErrorLabel: UILabel!
+    @IBOutlet private weak var emailTextField: UITextField!
+    @IBOutlet private weak var emailErrorLabel: UILabel!
     
-    @IBOutlet weak var passwordTextField: UITextField!
-    @IBOutlet weak var passwordErrorLabel: UILabel!
+    @IBOutlet private weak var passwordTextField: UITextField!
+    @IBOutlet private weak var passwordErrorLabel: UILabel!
     
-    @IBOutlet weak var loginButton: UIButton!
+    @IBOutlet private weak var loginButton: UIButton!
+    @IBOutlet private weak var facebookButton: UIButton!
+    @IBOutlet private weak var googleButton: UIButton!
     
     private var presenterInterfaceBindDisposeBag: DisposeBag!
     var presenterInterface: LoginPresenterInterface?{
@@ -35,6 +34,19 @@ class LoginViewController: BaseViewController {
         super.viewDidLoad()
         
         bind()
+    }
+    
+    override func loadView() {
+        super.loadView()
+        
+        addBackgroundImageView(withImage: #imageLiteral(resourceName: "img_bg"))
+        
+        guard let loginView = Bundle.main.loadNibNamed("LoginView", owner: self, options: nil)?.first as? UIView else {
+            print("No LoginView")
+            return
+        }
+        addScrollView(withSubView: loginView)
+
     }
     
     private func bind(){
@@ -57,7 +69,7 @@ class LoginViewController: BaseViewController {
             .bindTo(presenterInterface.email)
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
-        presenterInterface.emailError
+        presenterInterface.emailErrorString
             .bindTo(emailErrorLabel.rx.text)
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
@@ -74,20 +86,12 @@ class LoginViewController: BaseViewController {
             .bindTo(presenterInterface.password)
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
-        presenterInterface.passwordError
+        presenterInterface.passwordErrorString
             .bindTo(passwordErrorLabel.rx.text)
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         presenterInterface.loginButtonEnabled
             .bindTo(loginButton.rx.isEnabled)
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
-        
-        loginButton.rx.tap
-            .subscribe { [weak self] (_) in
-                guard let strongSelf = self else { return }
-                
-                strongSelf.presenterInterface?.loginButtonPressed()
-            }
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         presenterInterface.loginRequestResponse
@@ -98,20 +102,85 @@ class LoginViewController: BaseViewController {
                 case .new:
                     strongSelf.hideHud()
                 case .loading:
-                    strongSelf.showHudWith(title:  "Carregando...")
+                    strongSelf.showHudWith(title:  "Entrando...")
                 case .failure(let error):
                     strongSelf.hideHud()
                     strongSelf.showOKAlertWith(title: "Ops...", message: error.localizedDescription)
                 case .success:
                     strongSelf.hideHud()
+                case .cancelled:
+                    strongSelf.hideHud()
                 }
             })
+            .addDisposableTo(presenterInterfaceBindDisposeBag)
+        
+        presenterInterface.facebookRequestResponse
+            .subscribe(onNext: { [weak self] (requestResponse) in
+                guard let strongSelf = self else { return }
+                
+                switch requestResponse{
+                case .new:
+                    strongSelf.hideHud()
+                case .loading:
+                    strongSelf.showHudWith(title:  "Entrando com Facebook...")
+                    break
+                case .failure(let error):
+                    strongSelf.hideHud()
+                    strongSelf.showOKAlertWith(title: "Ops...", message: error.localizedDescription)
+                case .success:
+                    strongSelf.hideHud()
+                case .cancelled:
+                    strongSelf.hideHud()
+                }
+            })
+            .addDisposableTo(presenterInterfaceBindDisposeBag)
+        
+        presenterInterface.googleRequestResponse
+            .subscribe(onNext: { [weak self] (requestResponse) in
+                guard let strongSelf = self else { return }
+                
+                switch requestResponse{
+                case .new:
+                    strongSelf.hideHud()
+                case .loading:
+                    strongSelf.showHudWith(title:  "Entrando com Google...")
+                    break
+                case .failure(let error):
+                    strongSelf.hideHud()
+                    strongSelf.showOKAlertWith(title: "Ops...", message: error.localizedDescription)
+                case .success:
+                    strongSelf.hideHud()
+                case .cancelled:
+                    strongSelf.hideHud()
+                }
+            })
+            .addDisposableTo(presenterInterfaceBindDisposeBag)
+        
+        //Buttons Action
+        loginButton.rx.tap
+            .subscribe { [weak self] (_) in
+                guard let strongSelf = self else { return }
+                
+                strongSelf.presenterInterface?.loginButtonPressed()
+            }
+            .addDisposableTo(presenterInterfaceBindDisposeBag)
+        
+        facebookButton.rx.tap
+            .subscribe { [weak self] (_) in
+                guard let strongSelf = self else { return }
+                
+                strongSelf.presenterInterface?.facebookLoginButtonPressed(presenterViewController: strongSelf)
+            }
+            .addDisposableTo(presenterInterfaceBindDisposeBag)
+        
+        googleButton.rx.tap
+            .subscribe { [weak self] (_) in
+                guard let strongSelf = self else { return }
+                
+                strongSelf.presenterInterface?.googleLoginButtonPressed(presenterViewController: strongSelf)
+            }
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
     }
     
 }
-
-//extension LoginViewController: LoginViewInterface {
-//
-//}

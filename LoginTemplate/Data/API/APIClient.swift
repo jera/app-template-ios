@@ -11,6 +11,19 @@ import Moya_ObjectMapper
 import ObjectMapper
 import RxSwift
 
+class APIClientHost{
+    #if DEBUG
+    static let baseURLString = "http://staging.agropocket.jera.com.br"
+    #else
+    static let baseURLString = "http://staging.agropocket.jera.com.br"
+    #endif
+    
+    static let api = "/api"
+    static let apiVersion = "/v1"
+    
+    static var baseURL = NSURL(string: "\(baseURLString)\(api)\(apiVersion)")!
+}
+
 let provider = RxMoyaProvider<APITarget>( endpointClosure: { (target) -> Endpoint<APITarget> in
     
     var endpoint: Endpoint<APITarget> = Endpoint<APITarget>(url: "\(target.baseURL)\(target.path)",
@@ -24,7 +37,8 @@ let provider = RxMoyaProvider<APITarget>( endpointClosure: { (target) -> Endpoin
             "Accept-Language": "pt-BR"
         ])
     
-    if let authCredentials = UserSessionDataStore.retrieveUserSession()?.authHeaders {
+    //Hmm... um service chamando um interactor...
+    if let authCredentials = UserSessionInteractor.shared.userSession?.authHeaders {
         endpoint = endpoint.adding(newHTTPHeaderFields: authCredentials)
     }
     
@@ -50,6 +64,7 @@ enum APITarget {
 }
 
 extension APITarget: TargetType {
+    
     var baseURL: URL {
         switch self {
         case .Login,
@@ -60,7 +75,7 @@ extension APITarget: TargetType {
              .CurrentUser,
              .LogoutUser,
              .EditAccount:
-            return APIClient.baseURL as URL
+            return APIClientHost.baseURL as URL
         }
     }
     
@@ -205,65 +220,68 @@ extension APITarget: TargetType {
     }
 }
 
-struct APIClient {
-    
-    #if DEBUG
-    static let domain = "staging.agropocket.jera.com.br"
-    static let baseURLString = "http://staging.agropocket.jera.com.br"
-    //    static let baseURLString = "http://localhost:3000"
-    #else
-    static let domain = "agropocket.com.br"
-    static let baseURLString = "http://staging.agropocket.jera.com.br"
-    #endif
-    
-    static let api = "/api"
-    static let apiVersion = "/v1"
-    
-    static let baseURL = NSURL(string: "\(baseURLString)\(api)\(apiVersion)")!
-    
-    static func loginWith(email: String, password: String) -> Observable<UserAPI> {
+protocol APIClientInterface{
+    func loginWith(email: String, password: String) -> Observable<UserAPI>
+    func loginWithFacebook(token: String) -> Observable<UserAPI>
+    func loginWithGoogle(token: String) -> Observable<UserAPI>
+    func forgotPasswordWith(email: String) -> Observable<String?>
+    func createNewAccount(name: String, email: String, password: String, image: UIImage?) -> Observable<UserAPI>
+    func editCurrentUserWith(name: String?, email: String?, password: String?, oldPassword: String?, image: UIImage?) -> Observable<UserAPI>
+    func getCurrentUser() -> Observable<UserAPI>
+    func logoutUser() -> Observable<Void>
+}
+
+struct APIClient: APIClientInterface {
+    func loginWith(email: String, password: String) -> Observable<UserAPI> {
         return provider
             .request(.Login(email: email, password: password))
             .processResponse(updateCurrentUser: true)
             .mapObject(UserAPI.self)
     }
     
-    static func loginWithFacebook(token: String) -> Observable<UserAPI> {
+    func loginWithFacebook(token: String) -> Observable<UserAPI> {
         return provider
             .request(.LoginWithFacebook(token: token))
             .processResponse(updateCurrentUser: true)
             .mapObject(UserAPI.self)
     }
     
-    static func forgotPasswordWith(email: String) -> Observable<String?> {
+    func loginWithGoogle(token: String) -> Observable<UserAPI> {
+        return provider
+            .request(.LoginWithGoogle(token: token))
+            .processResponse(updateCurrentUser: true)
+            .mapObject(UserAPI.self)
+    }
+    
+    func forgotPasswordWith(email: String) -> Observable<String?> {
         return provider
             .request(.ForgotPassword(email: email))
             .processResponse()
             .mapServerMessage()
     }
     
-    static func createNewAccount(name: String, email: String, password: String, image: UIImage? = nil) -> Observable<UserAPI>{
+    func createNewAccount(name: String, email: String, password: String, image: UIImage? = nil) -> Observable<UserAPI>{
         return provider
             .request(.CreateNewAccount(name: name, email: email, password: password, image: image))
             .processResponse(updateCurrentUser: true)
             .mapObject(UserAPI.self)
     }
     
-    static func editCurrentUserWith(name: String? = nil, email: String? = nil, password: String? = nil, oldPassword: String? = nil, image: UIImage? = nil) -> Observable<UserAPI>{
+    func editCurrentUserWith(name: String? = nil, email: String? = nil, password: String? = nil, oldPassword: String? = nil, image: UIImage? = nil) -> Observable<UserAPI>{
         return provider
             .request(.EditAccount(name: name, email: email, password: password, oldPassword: oldPassword, image: image))
             .processResponse(updateCurrentUser: true)
             .mapObject(UserAPI.self)
     }
     
-    static func getCurrentUser() -> Observable<UserAPI>{
+    func getCurrentUser() -> Observable<UserAPI>{
         return provider
             .request(.CurrentUser)
             .processResponse(updateCurrentUser: true)
             .mapObject(UserAPI.self)
     }
     
-    static func logoutUser() -> Observable<Void> {
+    func logoutUser() -> Observable<Void> {
         return provider
             .request(.LogoutUser)
             .processResponse()
@@ -274,7 +292,7 @@ struct APIClient {
 }
 
 extension APIClient{
-    static let errorDomain = "APIClientErrorDomain"
+    static let errorDomain = "APIClient"
     static func error(description: String, code: Int = 0) -> NSError{
         return NSError(domain: errorDomain, code: code, userInfo: [NSLocalizedDescriptionKey: description])
     }

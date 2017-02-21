@@ -18,7 +18,6 @@ protocol BaseViewInterface: class {
 
 class BaseViewController: UIViewController{
     
-    lazy var scrollView: TPKeyboardAvoidingScrollView = self.initializeScrollView()
     private(set) var isLoaded = false
     
     override func viewDidLoad() {
@@ -33,16 +32,81 @@ class BaseViewController: UIViewController{
         present(alertController, animated: true, completion: nil)
     }
     
+    //HUD VIEW
+    private var loadingHUDView: LoadingHUDView?
+    
     func showHudWith(title: String){
-        SVProgressHUD.show(withStatus: title)
+        hideHud()
+        
+        let loadingHUDView = LoadingHUDView.loadFromNib(title: title)
+        view.addSubview(loadingHUDView)
+        constrain(view, loadingHUDView) { (view, loadingHUDView) in
+            loadingHUDView.edges == view.edges
+        }
+        
+        self.loadingHUDView = loadingHUDView
     }
     
     func hideHud(){
-        SVProgressHUD.dismiss()
+        loadingHUDView?.removeFromSuperview()
     }
     
-    static func customizeProgressHUD(){
-        SVProgressHUD.setDefaultMaskType(.black)
+    
+    //SCROLL VIEW
+    private(set) var scrollView: TPKeyboardAvoidingScrollView?
+    @discardableResult func addScrollView(layoutBlock: ((LayoutProxy, LayoutProxy) -> Void)? = nil) -> UIScrollView{
+        self.scrollView?.removeFromSuperview()
+        
+        let scrollView = TPKeyboardAvoidingScrollView()
+        
+        view.addSubview(scrollView)
+        
+        scrollView.keyboardDismissMode = .interactive
+        scrollView.alwaysBounceVertical = true
+        
+        if let layoutBlock = layoutBlock{
+            constrain(view, scrollView, block: layoutBlock)
+        }else{
+            constrain(view, scrollView) { (view, scrollView) in
+                scrollView.top == view.top
+                scrollView.left == view.left
+                scrollView.bottom == view.bottom
+                scrollView.right == view.right
+            }
+        }
+        
+        self.scrollView = scrollView
+        
+        return scrollView
+    }
+    
+    func addScrollView(withSubView subView: UIView, scrollViewLayoutBlock: ((LayoutProxy, LayoutProxy) -> Void)? = nil, subViewLayoutBlock: ((LayoutProxy, LayoutProxy) -> Void)? = nil){
+        let scrollView = addScrollView(layoutBlock: scrollViewLayoutBlock)
+        
+        scrollView.addSubview(subView)
+        
+        if let subViewLayoutBlock = subViewLayoutBlock{
+            constrain(view, scrollView, block: subViewLayoutBlock)
+        }else{
+            constrain(subView, scrollView) { (subView, scrollView) in
+                subView.edges == scrollView.edges
+                subView.width == scrollView.width
+            }
+        }
+    }
+    
+    //BACKGROUND VIEW
+    private(set) var backgroundImageView: UIImageView?
+    func addBackgroundImageView(withImage image: UIImage){
+        self.backgroundImageView?.removeFromSuperview()
+        
+        let backgroundImageView = UIImageView(image: image)
+        
+        view.addSubview(backgroundImageView)
+        
+        constrain(view, backgroundImageView) { (view, backgroundImageView) in
+            backgroundImageView.edges == view.edges
+        }
     }
     
     public func addCloseButton(image: UIImage, block: @escaping () -> Void ) {
@@ -53,32 +117,6 @@ class BaseViewController: UIViewController{
                 block()
             })
         navigationItem.leftBarButtonItem = closeBarButton
-    }
-    
-    //MARK: ScrollView
-    
-    func initializeScrollView() -> TPKeyboardAvoidingScrollView{
-        let scrollView = TPKeyboardAvoidingScrollView()
-        
-        scrollView.backgroundColor = UIColor.clear
-        scrollView.keyboardDismissMode = .interactive
-        scrollView.alwaysBounceVertical = true
-        
-        view.addSubview(scrollView)
-        constrain(scrollView, view, block: { (scrollView, containerView) in
-            scrollView.edges == containerView.edges
-        })
-        return scrollView
-    }
-    
-    func addScrollView(withSubview subview: UIView){
-        automaticallyAdjustsScrollViewInsets = false
-        scrollView.addSubview(subview)
-        
-        constrain(scrollView, subview) { (scrollView, subview) in
-            subview.edges == scrollView.edges
-            subview.width == scrollView.width
-        }
     }
     
     deinit {

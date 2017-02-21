@@ -39,12 +39,4 @@ class UserSessionDB: NSObject, NSCoding{
         aCoder.encode(accessToken, forKey: "accessToken")
         aCoder.encode(currentUser, forKey: "currentUser")
     }
-    
-    var authHeaders: [String: String]?{
-        return [
-            "access-token": accessToken,
-            "uid": uid,
-            "client": client
-        ]
-    }
 }

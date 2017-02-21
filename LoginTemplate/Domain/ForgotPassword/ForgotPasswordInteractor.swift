@@ -7,44 +7,72 @@
 //
 import RxSwift
 
-protocol ForgotPasswordInteractorInput {
-    func sendNewPasswordTo(email: String)
-}
-
-protocol ForgotPasswordInteractorOutput: class {
-    func showLoading()
-    func showMessageForgotMyPasswordWith(sucess: String)
-    func showMessageForgotMyPasswordWith(error: Error)
+protocol ForgotPasswordInteractorInterface {
+    func sendNewPasswordToEmail()
+    
+    var forgotPasswordResponse: Observable<RequestResponse<String?>> { get }
+    
+    var email: Variable<String> {get}
+    var emailErrors: Observable<[EmailFieldError]> {get}
 }
 
 class ForgotPasswordInteractor {
-    weak var outputInterface: ForgotPasswordInteractorOutput!
+    let repositoryInterface: ForgotPasswordRepositoryInterface
     
-    fileprivate var disposeBag: DisposeBag!
+    let forgotPasswordResponseVariable = Variable<RequestResponse<String?>>(.new)
+    
+    let email = Variable("")
+    
+    fileprivate var forgotPasswordDisposeBag: DisposeBag!
+    
+    init(repositoryInterface: ForgotPasswordRepositoryInterface) {
+        self.repositoryInterface = repositoryInterface
+    }
 }
 
-extension ForgotPasswordInteractor: ForgotPasswordInteractorInput {
-    func sendNewPasswordTo(email: String) {
-        disposeBag = DisposeBag()
+extension ForgotPasswordInteractor: ForgotPasswordInteractorInterface {
+    var forgotPasswordResponse: Observable<RequestResponse<String?>>{
+        return forgotPasswordResponseVariable.asObservable()
+    }
+    
+    func sendNewPasswordToEmail() {
+        forgotPasswordDisposeBag = DisposeBag()
         
-        outputInterface.showLoading()
-        
-        APIClient
-            .forgotPasswordWith(email: email)
+        repositoryInterface
+            .sendNewPasswordTo(email: email.value)
             .subscribe { [weak self] (event) in
                 guard let strongSelf = self else { return }
                 
                 switch event{
                 case .next(let message):
-                    strongSelf.outputInterface.showMessageForgotMyPasswordWith(sucess: message ?? "Você receberá um e-mail com instruções sobre como redefinir sua senha.")
+                    strongSelf.forgotPasswordResponseVariable.value = .success(responseObject: message)
+                    
                 case .error(let error):
-                    strongSelf.outputInterface.showMessageForgotMyPasswordWith(error: error)
+                    strongSelf.forgotPasswordResponseVariable.value = .failure(error: error)
                 case .completed:
                     break
                 }
-                
             }
-            .addDisposableTo(disposeBag)
+            .addDisposableTo(forgotPasswordDisposeBag)
+        
+    }
+    
+    var emailErrors: Observable<[EmailFieldError]>{
+        return self.email
+            .asObservable()
+            .map { (email) -> [EmailFieldError] in
+                var fieldErrors = [EmailFieldError]()
+                
+                if email.characters.count == 0 {
+                    fieldErrors.append(.empty)
+                }
+                
+                if !DomainHelper.isEmailValid(email: email){
+                    fieldErrors.append(.notValid)
+                }
+                
+                return fieldErrors
         }
+    }
 }
 

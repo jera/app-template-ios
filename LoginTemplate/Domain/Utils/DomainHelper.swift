@@ -8,6 +8,27 @@
 
 import UIKit
 
+enum EmailFieldError: Equatable{
+    case empty
+    case notValid
+}
+
+enum PasswordFieldError: Equatable{
+    case empty
+    case minCharaters(count: Int)
+    
+    static func ==(lhs: PasswordFieldError, rhs: PasswordFieldError) -> Bool{
+        switch (lhs, rhs) {
+        case (.empty, .empty):
+            return true
+        case (.minCharaters, .minCharaters):
+            return true
+        default:
+            return false
+        }
+    }
+}
+
 class DomainHelper {
     
     static func isEmailValid(email: String) -> Bool {

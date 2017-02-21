@@ -8,26 +8,40 @@
 
 import UIKit
 
+protocol LoginWireFrameInterface: class{
+    func goToForgotPassword()
+    func goToCreateAccount()
+}
+
 class LoginWireFrame: BaseWireFrame {
     
-    var loginPresenter = LoginPresenter()
-    var loginInteractor =  LoginInteractor()
-    var loginViewController = PresentationHelper.controllerFromStoryboard(withName: "Login")! as! LoginViewController
-    var forgotPasswordWireFrame = ForgotPasswordWireFrame()
+    let loginPresenter: LoginPresenter
+    let loginInteractor: LoginInteractor
+    let loginViewController = LoginViewController()
+    let apiClientInterface = APIClient()
+    let facebookAPI = FacebookAPI()
+    let googleAPI = GoogleAPI.shared
+
     
     override init() {
+        loginInteractor = LoginInteractor(repositoryInterface: LoginRepository(apiClientInterface: apiClientInterface, facebookAPIInterface: facebookAPI, googleAPIInterface: googleAPI))
+        loginPresenter = LoginPresenter(interactorInterface: loginInteractor)
+        
         super.init()
-        configureDependencies()
+        
+        loginPresenter.routerInterface = self
+        loginViewController.presenterInterface = loginPresenter
     }
     
-    private func configureDependencies() {
-        loginPresenter.router = self
-        loginPresenter.interactorInterface = loginInteractor
-        loginViewController.presenterInterface = loginPresenter
-        loginInteractor.outputInterface = loginPresenter
-    }
+}
 
-    func presentForgotPassword()  {
-        forgotPasswordWireFrame.presentForgotPassword(rootViewController: loginViewController)
+extension LoginWireFrame: LoginWireFrameInterface{
+    func goToForgotPassword(){
+        _ = ForgotPasswordWireFrame(rootViewController: loginViewController)
+        //forgotPasswordWireFrame.presentForgotPassword(rootViewController: loginViewController)
+    }
+    
+    func goToCreateAccount(){
+        print("TODO goToCreateAccount")
     }
 }

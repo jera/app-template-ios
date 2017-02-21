@@ -13,29 +13,31 @@ protocol ForgotPasswordPresenterInterface {
     func didTapCloseForgotPasswordView()
     
     var email: Variable<String> {get}
-    var emailError: Observable<String?> {get}
-    
+    var emailErrorString: Observable<String?> {get}
     var forgotPasswordButtonEnabled: Observable<Bool> {get}
+    var forgotPasswordRequestResponse: Observable<RequestResponse<String?>> { get }
 }
 
-class ForgotPasswordPresenter {
-    weak var viewInterface: ForgotPasswordInterface!
+class ForgotPasswordPresenter: BasePresenter {
     weak var router: ForgotPasswordWireFrame!
-    var interactorInterface: ForgotPasswordInteractorInput!
+    var interactorInterface: ForgotPasswordInteractorInterface!
     
-    let email = Variable("")
-    var emailError: Observable<String?>{
-        return self.email
-            .asObservable()
-            .map { (email) -> String? in
-                guard email.characters.count > 0 else { return nil }
-                
-                if !DomainHelper.isEmailValid(email: email){
-                    return "Email inválido"
+    var email: Variable<String>{
+        return interactorInterface.email
+    }
+    var emailErrorString: Observable<String?>{
+        return interactorInterface.emailErrors.map({ (fieldErrors) -> String? in
+            if let firstError = fieldErrors.first{
+                switch firstError {
+                case .notValid:
+                    return "Email não válido"
+                case .empty:
+                    return nil //Doesn't show if it is empty
                 }
-                
-                return nil
-        }
+            }
+            
+            return nil
+        })
     }
     
     private var isEmailEmpty: Observable<Bool>{
@@ -46,17 +48,24 @@ class ForgotPasswordPresenter {
         }
     }
     
-    var forgotPasswordButtonEnabled: Observable<Bool>{
-        return Observable.combineLatest(isEmailEmpty, emailError, resultSelector: { (isEmailEmpty, emailError) -> Bool in
-            return !(isEmailEmpty || emailError != nil)
-        })
+    var forgotPasswordRequestResponse: Observable<RequestResponse<String?>>{
+        return interactorInterface.forgotPasswordResponse
     }
     
+    var forgotPasswordButtonEnabled: Observable<Bool>{
+        return Observable.combineLatest(isEmailEmpty, emailErrorString, resultSelector: { (isEmailEmpty, emailErrorString) -> Bool in
+            return !(isEmailEmpty || emailErrorString != nil)
+        })
+    }
+
+    init(interactorInterface: ForgotPasswordInteractorInterface){
+        self.interactorInterface = interactorInterface
+    }
 }
 
 extension ForgotPasswordPresenter: ForgotPasswordPresenterInterface {
     func forgotPasswordPressed() {
-        interactorInterface?.sendNewPasswordTo(email: email.value)
+        interactorInterface?.sendNewPasswordToEmail()
     }
     
     func didTapCloseForgotPasswordView() {
@@ -64,7 +73,7 @@ extension ForgotPasswordPresenter: ForgotPasswordPresenterInterface {
     }
 }
 
-extension ForgotPasswordPresenter: ForgotPasswordInteractorOutput {
+/*extension ForgotPasswordPresenter: ForgotPasswordInteractorOutput {
     func showLoading(){
         viewInterface.showLoading()
     }
@@ -76,4 +85,4 @@ extension ForgotPasswordPresenter: ForgotPasswordInteractorOutput {
     func showMessageForgotMyPasswordWith(error: Error){
         viewInterface.showMessageForgotMyPasswordWith(error: error)
     }
-}
+}*/
