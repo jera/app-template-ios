@@ -28,6 +28,8 @@
 		2597E8001E5B8993002B499F /* GoogleAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2597E7FF1E5B8993002B499F /* GoogleAPI.swift */; };
 		2597E8031E5BA378002B499F /* LoadingHUDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2597E8021E5BA378002B499F /* LoadingHUDView.swift */; };
 		2597E8051E5BA383002B499F /* LoadingHUDView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2597E8041E5BA383002B499F /* LoadingHUDView.xib */; };
+		2597E8071E5C775C002B499F /* UserSessionRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2597E8061E5C775C002B499F /* UserSessionRepository.swift */; };
+		2597E80B1E5C82C3002B499F /* UserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2597E80A1E5C82C3002B499F /* UserSession.swift */; };
 		25B563D91E5256FC0051F559 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B563D81E5256FC0051F559 /* R.generated.swift */; };
 		25D4C8DE1E549C0600E3AF4A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D4C8DD1E549C0600E3AF4A /* User.swift */; };
 		25D4C8E01E54BBFE00E3AF4A /* UserDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D4C8DF1E54BBFE00E3AF4A /* UserDB.swift */; };
@@ -75,6 +77,8 @@
 		2597E7FF1E5B8993002B499F /* GoogleAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleAPI.swift; sourceTree = "<group>"; };
 		2597E8021E5BA378002B499F /* LoadingHUDView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingHUDView.swift; sourceTree = "<group>"; };
 		2597E8041E5BA383002B499F /* LoadingHUDView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingHUDView.xib; sourceTree = "<group>"; };
+		2597E8061E5C775C002B499F /* UserSessionRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSessionRepository.swift; sourceTree = "<group>"; };
+		2597E80A1E5C82C3002B499F /* UserSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSession.swift; sourceTree = "<group>"; };
 		25B563D81E5256FC0051F559 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = SOURCE_ROOT; };
 		25D4C8DD1E549C0600E3AF4A /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		25D4C8DF1E54BBFE00E3AF4A /* UserDB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDB.swift; sourceTree = "<group>"; };
@@ -171,6 +175,7 @@
 			isa = PBXGroup;
 			children = (
 				2597E7FA1E5B7D2E002B499F /* LoginRepository.swift */,
+				2597E8061E5C775C002B499F /* UserSessionRepository.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -188,6 +193,7 @@
 			isa = PBXGroup;
 			children = (
 				25D4C8DD1E549C0600E3AF4A /* User.swift */,
+				2597E80A1E5C82C3002B499F /* UserSession.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -527,6 +533,8 @@
 				F021B1E01E5380580092DA41 /* ForgotPasswordViewController.swift in Sources */,
 				2574672B1E560FF30068DC65 /* MainPresenter.swift in Sources */,
 				F021B1C61E5348DD0092DA41 /* ForgotPasswordWireFrame.swift in Sources */,
+				2597E8071E5C775C002B499F /* UserSessionRepository.swift in Sources */,
+				2597E80B1E5C82C3002B499F /* UserSession.swift in Sources */,
 				2574672E1E561CF90068DC65 /* DashboardWireFrame.swift in Sources */,
 				F021B1CB1E534F560092DA41 /* BaseNavigationController.swift in Sources */,
 				F021B1E41E53829B0092DA41 /* ForgotPasswordInteractor.swift in Sources */,

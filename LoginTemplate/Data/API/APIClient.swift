@@ -37,7 +37,7 @@ let provider = RxMoyaProvider<APITarget>( endpointClosure: { (target) -> Endpoin
             "Accept-Language": "pt-BR"
         ])
     
-    if let authCredentials = UserSessionDataStore.retrieveUserSession()?.authHeaders {
+    if let authCredentials = UserSessionInteractor.shared.userSession?.authHeaders {
         endpoint = endpoint.adding(newHTTPHeaderFields: authCredentials)
     }
     
@@ -63,6 +63,7 @@ enum APITarget {
 }
 
 extension APITarget: TargetType {
+    
     var baseURL: URL {
         switch self {
         case .Login,

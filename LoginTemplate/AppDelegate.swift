@@ -61,15 +61,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
+    @available(iOS 9.0, *)
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        return application(app,
+                           open: url,
+                           sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String,
+                           annotation: options[UIApplicationOpenURLOptionsKey.annotation] as Any)
+
+    }
+    
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
         //Facebook login api callback
         if let _ = url.absoluteString.range(of: "^fb\\d+:\\/\\/", options: .regularExpression){
-            return (FBSDKApplicationDelegate.sharedInstance().application(application,open: url as URL!,sourceApplication: sourceApplication,annotation: annotation))
+            return (FBSDKApplicationDelegate.sharedInstance().application(application,
+                                                                          open: url as URL!,
+                                                                          sourceApplication: sourceApplication,
+                                                                          annotation: annotation))
         }
             
         //Google login api callback
         else if let _ = url.absoluteString.range(of: "^com.googleusercontent.apps.", options: .regularExpression){
-            return GIDSignIn.sharedInstance().handle(url, sourceApplication: sourceApplication, annotation: annotation)
+            return GIDSignIn.sharedInstance().handle(url,
+                                                     sourceApplication: sourceApplication,
+                                                     annotation: annotation)
         }
         return true
     }

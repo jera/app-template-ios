@@ -30,7 +30,7 @@ protocol LoginPresenterInterface {
 
 class LoginPresenter: BasePresenter {
     weak var router: LoginWireFrameInterface?
-    var interactorInterface: LoginInteractorInterface!
+    let interactorInterface: LoginInteractorInterface
     
     var email: Variable<String>{
         return interactorInterface.email
@@ -85,6 +85,10 @@ class LoginPresenter: BasePresenter {
         return Observable.combineLatest(interactorInterface.emailErrors, interactorInterface.passwordErrors, resultSelector: { (emailErrors, passwordErrors) -> Bool in
             return !(emailErrors.count > 0 || passwordErrors.count > 0)
         })
+    }
+    
+    init(interactorInterface: LoginInteractorInterface){
+        self.interactorInterface = interactorInterface
     }
 }
 

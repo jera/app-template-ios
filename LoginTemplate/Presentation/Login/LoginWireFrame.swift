@@ -15,24 +15,23 @@ protocol LoginWireFrameInterface: class{
 
 class LoginWireFrame: BaseWireFrame {
     
-    let loginPresenter = LoginPresenter()
-    let loginInteractor =  LoginInteractor()
+    let loginPresenter: LoginPresenter
+    let loginInteractor: LoginInteractor
     let loginViewController = LoginViewController(nibName: "LoginViewController", bundle: nil)
     let apiClientInterface = APIClient()
     let facebookAPI = FacebookAPI()
     let googleAPI = GoogleAPI.shared
     
     override init() {
+        loginInteractor = LoginInteractor(repositoryInterface: LoginRepository(apiClientInterface: apiClientInterface, facebookAPIInterface: facebookAPI, googleAPIInterface: googleAPI))
+        loginPresenter = LoginPresenter(interactorInterface: loginInteractor)
+        
         super.init()
-        configureDependencies()
-    }
-    
-    private func configureDependencies() {
-        loginInteractor.repositoryInterface = LoginRepository(apiClientInterface: apiClientInterface, facebookAPIInterface: facebookAPI, googleAPIInterface: googleAPI)
+        
         loginPresenter.router = self
-        loginPresenter.interactorInterface = loginInteractor
         loginViewController.presenterInterface = loginPresenter
     }
+    
 }
 
 extension LoginWireFrame: LoginWireFrameInterface{

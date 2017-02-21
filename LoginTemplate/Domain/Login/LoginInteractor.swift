@@ -26,7 +26,7 @@ protocol LoginInteractorInterface {
 }
 
 class LoginInteractor {
-    var repositoryInterface: LoginRepositoryInterface!
+    let repositoryInterface: LoginRepositoryInterface
     
     let authenticateResponseVariable = Variable<RequestResponse<User>>(.new)
     let facebookLoginResponseVariable = Variable<RequestResponse<User>>(.new)
@@ -38,6 +38,10 @@ class LoginInteractor {
     fileprivate var authenticateDisposeBag: DisposeBag!
     fileprivate var facebookLoginDisposeBag: DisposeBag!
     fileprivate var googleLoginDisposeBag: DisposeBag!
+    
+    init(repositoryInterface: LoginRepositoryInterface) {
+        self.repositoryInterface = repositoryInterface
+    }
 }
 
 extension LoginInteractor: LoginInteractorInterface {

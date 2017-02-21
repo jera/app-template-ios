@@ -11,8 +11,10 @@ import Moya
 import RxSwift
 
 protocol UserSessionInteractorInterface {
+    var state: UserSessionState {get}
     var stateObservable: Observable<UserSessionState> {get}
     var currentUser: User? { get }
+    var userSession: UserSession? { get }
     
     func userSessionUpdateWith(uid: String, client: String, accessToken: String, userAPI: UserAPI?) throws
     func logout()
@@ -26,18 +28,24 @@ enum UserSessionState{
 }
 
 class UserSessionInteractor: UserSessionInteractorInterface{
-    static var shared: UserSessionInteractorInterface = UserSessionInteractor()
+    static var shared: UserSessionInteractorInterface = UserSessionInteractor(repositoryInterface: UserSessionRepository(dataStore: UserSessionDataStore()))
     
-    private let state = Variable<UserSessionState>({
-        if let userDB = UserSessionDataStore.retrieveUserSession()?.currentUser{
-            return .logged(user: User(name: userDB.name, email: userDB.email))
+    var repositoryInterface: UserSessionRepositoryInterface
+    
+    init(repositoryInterface: UserSessionRepositoryInterface){
+        self.repositoryInterface = repositoryInterface
+    }
+    
+    private lazy var stateVariable: Variable<UserSessionState> = {
+        if let userDB = self.repositoryInterface.retrieveUserSession()?.currentUser{
+            return Variable<UserSessionState>(.logged(user: User(name: userDB.name, email: userDB.email)))
         }else{
-            return .notLogged
+            return Variable<UserSessionState>(.notLogged)
         }
-    }())
+    }()
     
     var currentUser: User?{
-        switch state.value{
+        switch state{
         case .logged(let user):
             return user
         case .authExpired, .notLogged:
@@ -46,7 +54,18 @@ class UserSessionInteractor: UserSessionInteractorInterface{
     }
     
     var stateObservable: Observable<UserSessionState>{
-        return state.asObservable()
+        return stateVariable.asObservable()
+    }
+    
+    var state: UserSessionState{
+        return stateVariable.value
+    }
+    
+    var userSession: UserSession?{
+        guard let userSessionDB = repositoryInterface.retrieveUserSession() else {
+            return nil
+        }
+        return UserSession(userSessionDB: userSessionDB)
     }
     
     func userSessionUpdateWith(uid: String, client: String, accessToken: String, userAPI: UserAPI?) throws{
@@ -61,10 +80,10 @@ class UserSessionInteractor: UserSessionInteractorInterface{
             user = nil
         }
         
-        if UserSessionDataStore.retrieveUserSession() == nil{
+        if repositoryInterface.retrieveUserSession() == nil{
             if let user = user{
-                UserSessionDataStore.createUserSession(uid: uid, client: client, accessToken: accessToken, currentUser: UserDB(name: user.name, email: user.email))
-                state.value = .logged(user: user)
+                repositoryInterface.createUserSession(uid: uid, client: client, accessToken: accessToken, currentUser: UserDB(name: user.name, email: user.email))
+                stateVariable.value = .logged(user: user)
             }else{
                 throw UserSessionInteractor.error(description: "Falha na tentativa de atualizar as credenciais: Não existe sessão de usuário")
             }
@@ -76,25 +95,25 @@ class UserSessionInteractor: UserSessionInteractorInterface{
                 userDB = nil
             }
             
-            UserSessionDataStore.updateSession(uid: uid, client: client, accessToken: accessToken, currentUser: userDB)
+            repositoryInterface.updateSession(uid: uid, client: client, accessToken: accessToken, currentUser: userDB)
             
             if let user = user{
-                state.value = .logged(user: user)
+                stateVariable.value = .logged(user: user)
             }
         }
     }
     
     func logout(){
-        UserSessionDataStore.deleteUserSession()
-        state.value = .notLogged
+        repositoryInterface.deleteUserSession()
+        stateVariable.value = .notLogged
     }
     
     func expire(){
-        UserSessionDataStore.deleteUserSession()
+        repositoryInterface.deleteUserSession()
         
-        switch state.value{
+        switch stateVariable.value{
         case .logged:
-            state.value = .authExpired
+            stateVariable.value = .authExpired
         default:
             break
         }
