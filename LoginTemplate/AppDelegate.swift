@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
 //        BaseViewController.customizeProgressHUD()
         
-        UserSessionInteractor.shared.logout()
+//        UserSessionInteractor.shared.logout()
         
         let window = UIWindow(frame: UIScreen.main.bounds)
         mainWireFrame = MainWireFrame()

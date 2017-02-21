@@ -48,6 +48,9 @@ PODS:
   - GTMSessionFetcher/Core (1.1.8)
   - GTMSessionFetcher/Full (1.1.8):
     - GTMSessionFetcher/Core (= 1.1.8)
+  - Material (2.4.16):
+    - Material/Core (= 2.4.16)
+  - Material/Core (2.4.16)
   - Moya (8.0.2):
     - Moya/Core (= 8.0.2)
   - Moya-ObjectMapper/Core (2.3.1):
@@ -79,6 +82,7 @@ DEPENDENCIES:
   - Crashlytics (~> 3.8)
   - FBSDKLoginKit (~> 4.19)
   - Google/SignIn (~> 3.0)
+  - Material (~> 2.4)
   - Moya-ObjectMapper/RxSwift (~> 2.3)
   - R.swift (~> 3.2)
   - RxCocoa (~> 3.1.0)
@@ -101,6 +105,7 @@ SPEC CHECKSUMS:
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
   GTMOAuth2: 7fc9c10f5c745f4d9850419ea88889fe3baa6b7d
   GTMSessionFetcher: 6f8d8b28b7e345549ac471071608170b31cb4977
+  Material: 84645fb4c9409c3db76bd7c8e1fd00dc4a76c144
   Moya: 47f61da5b634aa71f676431b64ee0f81e976296d
   Moya-ObjectMapper: 952be2b261d38cf8d973b7e429708eb03d256e23
   ObjectMapper: 9e385c2295bcc4e16eabbcfc85db801442bba545
@@ -112,6 +117,6 @@ SPEC CHECKSUMS:
   SVProgressHUD: c404a55d78acbeb7ebb78b76d3faf986475a6994
   TPKeyboardAvoiding: 0d6af20e95e2850f4c621841225b59ec7d8dd852
 
-PODFILE CHECKSUM: 5215ab2c38815d9df59793e2a200e217539b22ba
+PODFILE CHECKSUM: 1eeb30fd4c22e5aebd7152441383df39143e04b4
 
 COCOAPODS: 1.2.0

@@ -10,18 +10,19 @@ import UIKit
 import RxSwift
 import RxCocoa
 import Cartography
+import Material
 
 class LoginViewController: BaseViewController {
 
-    @IBOutlet private weak var emailTextField: UITextField!
-    @IBOutlet private weak var emailErrorLabel: UILabel!
+    @IBOutlet private weak var logoImageView: UIImageView!
     
-    @IBOutlet private weak var passwordTextField: UITextField!
-    @IBOutlet private weak var passwordErrorLabel: UILabel!
+    @IBOutlet private weak var emailTextField: TextField!
     
-    @IBOutlet private weak var loginButton: UIButton!
-    @IBOutlet private weak var facebookButton: UIButton!
-    @IBOutlet private weak var googleButton: UIButton!
+    @IBOutlet private weak var passwordTextField: TextField!
+    
+    @IBOutlet private weak var loginButton: RaisedButton!
+    @IBOutlet private weak var facebookButton: RaisedButton!
+    @IBOutlet private weak var googleButton: RaisedButton!
     
     private var presenterInterfaceBindDisposeBag: DisposeBag!
     var presenterInterface: LoginPresenterInterface?{
@@ -32,6 +33,8 @@ class LoginViewController: BaseViewController {
     
     override func viewDidLoad(){
         super.viewDidLoad()
+        
+        applyAppearance()
         
         bind()
     }
@@ -47,6 +50,14 @@ class LoginViewController: BaseViewController {
         }
         addScrollView(withSubView: loginView)
 
+    }
+    
+    private func applyAppearance(){
+        logoImageView.image = #imageLiteral(resourceName: "ic_logo")
+        
+        loginButton.applyAppearance(appearance: .normal)
+        facebookButton.applyAppearance(appearance: .facebook)
+        googleButton.applyAppearance(appearance: .google)
     }
     
     private func bind(){
@@ -69,9 +80,9 @@ class LoginViewController: BaseViewController {
             .bindTo(presenterInterface.email)
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
-        presenterInterface.emailErrorString
-            .bindTo(emailErrorLabel.rx.text)
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+//        presenterInterface.emailErrorString
+//            .bindTo(emailErrorLabel.rx.text)
+//            .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         presenterInterface.password
             .asObservable()
@@ -86,9 +97,9 @@ class LoginViewController: BaseViewController {
             .bindTo(presenterInterface.password)
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
-        presenterInterface.passwordErrorString
-            .bindTo(passwordErrorLabel.rx.text)
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+//        presenterInterface.passwordErrorString
+//            .bindTo(passwordErrorLabel.rx.text)
+//            .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         presenterInterface.loginButtonEnabled
             .bindTo(loginButton.rx.isEnabled)
