@@ -1,6 +1,9 @@
 PODS:
   - Alamofire (4.3.0)
   - Cartography (1.0.1)
+  - Material (2.4.16):
+    - Material/Core (= 2.4.16)
+  - Material/Core (2.4.16)
   - Moya (8.0.2):
     - Moya/Core (= 8.0.2)
   - Moya-ObjectMapper/Core (2.3.1):
@@ -29,6 +32,7 @@ PODS:
 
 DEPENDENCIES:
   - Cartography (~> 1.0)
+  - Material
   - Moya-ObjectMapper/RxSwift (~> 2.3)
   - R.swift (~> 3.2)
   - RxCocoa (~> 3.1.0)
@@ -38,6 +42,7 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   Alamofire: 856a113053a7bc9cbe5d6367a555d773fc5cfef7
   Cartography: c1460e99395b824d9d75360b0382faeb0b33dcd7
+  Material: 84645fb4c9409c3db76bd7c8e1fd00dc4a76c144
   Moya: 47f61da5b634aa71f676431b64ee0f81e976296d
   Moya-ObjectMapper: 952be2b261d38cf8d973b7e429708eb03d256e23
   ObjectMapper: 9e385c2295bcc4e16eabbcfc85db801442bba545
@@ -49,6 +54,6 @@ SPEC CHECKSUMS:
   SVProgressHUD: c404a55d78acbeb7ebb78b76d3faf986475a6994
   TPKeyboardAvoiding: 0d6af20e95e2850f4c621841225b59ec7d8dd852
 
-PODFILE CHECKSUM: ed0d1f35e703d55abeb11476c639020e8c28ab0a
+PODFILE CHECKSUM: a45a9cc7c4908f696e91cbc7f9789941611f44cd
 
 COCOAPODS: 1.2.0

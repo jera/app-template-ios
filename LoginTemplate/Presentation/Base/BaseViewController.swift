@@ -41,6 +41,16 @@ class BaseViewController: UIViewController{
         SVProgressHUD.setDefaultMaskType(.black)
     }
     
+    public func addCloseButton(image: UIImage, block: @escaping () -> Void ) {
+        let closeBarButton = UIBarButtonItem(image: image, style: .done, target: nil, action: nil)
+        _ = closeBarButton.rx.tap
+            .takeUntil(self.rx.deallocated)
+            .subscribe(onNext: { (_) in
+                block()
+            })
+        navigationItem.leftBarButtonItem = closeBarButton
+    }
+    
     deinit {
         print("dealloc ---> \(String(describing: type(of: self)))")
     }

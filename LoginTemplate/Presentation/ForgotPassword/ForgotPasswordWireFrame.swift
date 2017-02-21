@@ -28,7 +28,7 @@ class ForgotPasswordWireFrame: BaseWireFrame {
     
     func popForgotPassword() {
         if let navigationController = navigationController {
-//            deallocDependences()
+            deallocDependences()
             navigationController.dismiss(animated: true, completion: nil)
         }
     }
@@ -39,19 +39,19 @@ class ForgotPasswordWireFrame: BaseWireFrame {
         
         viewController.presenterInterface = forgotPasswordPresenter
         forgotPasswordPresenter?.router = self
-        forgotPasswordPresenter?.forgotPasswordInteractor = forgotPasswordInteractor
+        forgotPasswordPresenter?.interactorInterface = forgotPasswordInteractor
         forgotPasswordPresenter?.viewInterface = viewController
-        forgotPasswordInteractor?.output = forgotPasswordPresenter
+        forgotPasswordInteractor?.outputInterface = forgotPasswordPresenter
     }
     
-//    override func deallocDependences() {
-//        if let viewController = viewController {
-//            viewController.presenterInterface = nil
-//            self.viewController = nil
-//            self.forgotPasswordPresenter = nil
-//            self.forgotPasswordInteractor = nil
-//            self.navigationController = nil
-//        }
-//    }
+    func deallocDependences() {
+        if let viewController = viewController {
+            viewController.presenterInterface = nil
+            self.viewController = nil
+            self.forgotPasswordPresenter = nil
+            self.forgotPasswordInteractor = nil
+            self.navigationController = nil
+        }
+    }
     
 }
