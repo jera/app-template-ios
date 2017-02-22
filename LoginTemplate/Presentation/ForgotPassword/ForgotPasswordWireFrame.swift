@@ -15,11 +15,13 @@ class ForgotPasswordWireFrame: BaseWireFrame {
     let forgotPasswordInteractor: ForgotPasswordInteractor
     let viewController = ForgotPasswordViewController()
     let apiClientInterface = APIClient()
+    let rootViewController: UIViewController
     
     
     init(rootViewController: UIViewController) {
         forgotPasswordInteractor = ForgotPasswordInteractor(repositoryInterface: ForgotPasswordRepository(apiClientInterface: apiClientInterface))
         forgotPasswordPresenter = ForgotPasswordPresenter(interactorInterface: forgotPasswordInteractor)
+        self.rootViewController = rootViewController
         
         super.init()
         
@@ -29,14 +31,23 @@ class ForgotPasswordWireFrame: BaseWireFrame {
         rootViewController.present(navigationController, animated: true, completion: nil)
     }
     
+    deinit {
+        print("Ué ?")
+    }
     
+    func popForgotPassword() {
+        navigationController.dismiss(animated: true, completion: { [weak self] in
+            if let strongSelf = self {
+                strongSelf.deallocDependences()
+            }
+        })
+    }
     
-    /*fileprivate var navigationController: UINavigationController?
-    fileprivate var viewController: ForgotPasswordViewController?
-    fileprivate var forgotPasswordPresenter: ForgotPasswordPresenter?
-    fileprivate var forgotPasswordInteractor: ForgotPasswordInteractor?
+    func deallocDependences() {
+        
+    }
     
-    func presentForgotPassword(rootViewController: UIViewController) {
+    /*func presentForgotPassword(rootViewController: UIViewController) {
         viewController = ForgotPasswordViewController()
         if let viewController = viewController{
             self.navigationController = BaseNavigationController(rootViewController: viewController)
@@ -45,16 +56,9 @@ class ForgotPasswordWireFrame: BaseWireFrame {
                 rootViewController.present(navigationController, animated: true, completion: nil)
             }
         }
-    }*/
-    
-    func popForgotPassword() {
-        //if let navigationController = navigationController {
-            //deallocDependences()
-            navigationController.dismiss(animated: true, completion: nil)
-        //}
     }
     
-    /*func configureDependecies(viewController: ForgotPasswordViewController) {
+    func configureDependecies(viewController: ForgotPasswordViewController) {
         forgotPasswordInteractor = ForgotPasswordInteractor()
         forgotPasswordPresenter = ForgotPasswordPresenter()
         

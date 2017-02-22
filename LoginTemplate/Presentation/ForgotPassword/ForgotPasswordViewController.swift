@@ -8,13 +8,6 @@
 
 import UIKit
 import RxSwift
-import Cartography
-
-/*protocol ForgotPasswordInterface: BaseViewInterface {
-    func showLoading()
-    func showMessageForgotMyPasswordWith(sucess: String)
-    func showMessageForgotMyPasswordWith(error: Error)
-}*/
 
 class ForgotPasswordViewController: BaseViewController {
     

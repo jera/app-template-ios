@@ -94,7 +94,8 @@ class LoginPresenter: BasePresenter {
 
 extension LoginPresenter: LoginPresenterInterface {
     func loginButtonPressed() {
-        interactorInterface.authenticate()
+        //interactorInterface.authenticate()
+        routerInterface?.goToForgotPassword()
     }
     
     func createAccountButtonPressed(){

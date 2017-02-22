@@ -21,6 +21,7 @@ class LoginWireFrame: BaseWireFrame {
     let apiClientInterface = APIClient()
     let facebookAPI = FacebookAPI()
     let googleAPI = GoogleAPI.shared
+    var forgotPasswordWireFrame: ForgotPasswordWireFrame?
 
     
     override init() {
@@ -37,8 +38,7 @@ class LoginWireFrame: BaseWireFrame {
 
 extension LoginWireFrame: LoginWireFrameInterface{
     func goToForgotPassword(){
-        _ = ForgotPasswordWireFrame(rootViewController: loginViewController)
-        //forgotPasswordWireFrame.presentForgotPassword(rootViewController: loginViewController)
+        forgotPasswordWireFrame = ForgotPasswordWireFrame(rootViewController: loginViewController)
     }
     
     func goToCreateAccount(){

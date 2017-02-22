@@ -27,6 +27,10 @@ class ForgotPasswordView: UIView {
     private(set) var viewModel: ForgotPasswordViewModel?
     let disposeBag = DisposeBag()
     
+    var enterButtonTapped: ControlEvent<Void>{
+        return confirmButton.rx.tap
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
