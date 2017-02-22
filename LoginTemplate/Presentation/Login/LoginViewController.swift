@@ -56,7 +56,21 @@ class LoginViewController: BaseViewController {
             print("No LoginView")
             return
         }
-        addScrollView(withSubView: loginView)
+        addScrollView(withSubView: loginView) { [weak self] (loginViewLayoutProxy, scrollViewLayoutProxy) in
+            guard let strongSelf = self else { return }
+            
+            loginViewLayoutProxy.top == scrollViewLayoutProxy.top ~ 1
+            loginViewLayoutProxy.bottom == scrollViewLayoutProxy.bottom ~ 1
+            
+            if strongSelf.view.frame.height > loginView.frame.height{
+                loginViewLayoutProxy.centerY == scrollViewLayoutProxy.centerY
+            }
+            
+            loginViewLayoutProxy.left == scrollViewLayoutProxy.left
+            loginViewLayoutProxy.right == scrollViewLayoutProxy.right
+            
+            loginViewLayoutProxy.width == scrollViewLayoutProxy.width
+        }
 
     }
     

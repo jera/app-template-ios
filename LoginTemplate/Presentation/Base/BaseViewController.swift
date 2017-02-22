@@ -85,22 +85,12 @@ class BaseViewController: UIViewController{
         scrollView.addSubview(subView)
         
         if let subViewLayoutBlock = subViewLayoutBlock{
-            constrain(view, scrollView, block: subViewLayoutBlock)
+            constrain(subView, scrollView, block: subViewLayoutBlock)
         }else{
-            constrain(subView, scrollView) { [weak self] (subViewLayoutProxy, scrollViewLayoutProxy) in
-                guard let strongSelf = self else { return }
+            constrain(subView, scrollView) { (subView, scrollView) in
+                subView.edges == scrollView.edges
                 
-                subViewLayoutProxy.top == scrollViewLayoutProxy.top ~ 1
-                subViewLayoutProxy.bottom == scrollViewLayoutProxy.bottom ~ 1
-                
-                if strongSelf.view.frame.height > subView.frame.height{
-                    subViewLayoutProxy.centerY == scrollViewLayoutProxy.centerY
-                }
-                
-                subViewLayoutProxy.left == scrollViewLayoutProxy.left
-                subViewLayoutProxy.right == scrollViewLayoutProxy.right
-                
-                subViewLayoutProxy.width == scrollViewLayoutProxy.width
+                subView.width == scrollView.width
             }
         }
     }
