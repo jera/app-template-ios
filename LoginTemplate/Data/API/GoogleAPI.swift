@@ -16,18 +16,19 @@ protocol GoogleAPIInterface{
 }
 
 class GoogleAPI: NSObject {
-    static var shared: GoogleAPIInterface = GoogleAPI()
+    static var shared: GoogleAPIInterface = {
+        let googleAPI = GoogleAPI()
+        
+        GIDSignIn.sharedInstance().delegate = googleAPI
+        GIDSignIn.sharedInstance().uiDelegate = googleAPI
+        
+        return googleAPI
+    }()
     
     fileprivate var signInObserver: AnyObserver<String>?
     fileprivate var signOutObserver: AnyObserver<Void>?
     
     fileprivate weak var presentViewController: UIViewController!
-    
-    override init() {
-        super.init()
-        GIDSignIn.sharedInstance().delegate = self
-        GIDSignIn.sharedInstance().uiDelegate = self
-    }
     
     static func configure(){
         // Initialize sign-in

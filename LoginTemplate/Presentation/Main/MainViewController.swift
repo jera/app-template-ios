@@ -81,6 +81,14 @@ class MainViewController: BaseViewController {
     func setCurrentViewController(viewController: UIViewController) {
         currentViewController = viewController
     }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle{
+        guard let currentViewController = currentViewController else{
+            return .default
+        }
+        
+        return currentViewController.preferredStatusBarStyle
+    }
 }
 extension UIViewController {
     

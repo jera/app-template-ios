@@ -86,10 +86,11 @@ class BaseViewController: UIViewController{
         scrollView.addSubview(subView)
         
         if let subViewLayoutBlock = subViewLayoutBlock{
-            constrain(view, scrollView, block: subViewLayoutBlock)
+            constrain(subView, scrollView, block: subViewLayoutBlock)
         }else{
             constrain(subView, scrollView) { (subView, scrollView) in
                 subView.edges == scrollView.edges
+                
                 subView.width == scrollView.width
             }
         }

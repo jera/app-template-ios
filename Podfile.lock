@@ -92,6 +92,7 @@ DEPENDENCIES:
   - FBSDKLoginKit (~> 4.19)
   - Google/SignIn (~> 3.0)
   - Material
+  - Material (~> 2.4)
   - Moya-ObjectMapper/RxSwift (~> 2.3)
   - R.swift (~> 3.2)
   - RxCocoa (~> 3.1.0)
@@ -129,6 +130,6 @@ SPEC CHECKSUMS:
   SVProgressHUD: c404a55d78acbeb7ebb78b76d3faf986475a6994
   TPKeyboardAvoiding: 0d6af20e95e2850f4c621841225b59ec7d8dd852
 
-PODFILE CHECKSUM: 776bbdc42f0bad7ba0b32047578656e8a2c883de
+PODFILE CHECKSUM: 104b04367d7de40cb9c142e3e78b7d78871cb02c
 
 COCOAPODS: 1.2.0

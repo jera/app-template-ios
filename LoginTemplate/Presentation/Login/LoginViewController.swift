@@ -10,18 +10,26 @@ import UIKit
 import RxSwift
 import RxCocoa
 import Cartography
+import Material
 
 class LoginViewController: BaseViewController {
 
-    @IBOutlet private weak var emailTextField: UITextField!
-    @IBOutlet private weak var emailErrorLabel: UILabel!
+    @IBOutlet private weak var logoImageView: UIImageView!
     
-    @IBOutlet private weak var passwordTextField: UITextField!
-    @IBOutlet private weak var passwordErrorLabel: UILabel!
+    @IBOutlet private weak var doSignWithLabel: UILabel!
     
-    @IBOutlet private weak var loginButton: UIButton!
-    @IBOutlet private weak var facebookButton: UIButton!
-    @IBOutlet private weak var googleButton: UIButton!
+    @IBOutlet private weak var emailTextField: TextField!
+    
+    @IBOutlet private weak var passwordTextField: TextField!
+    
+    @IBOutlet private weak var orLabel: UILabel!
+    
+    @IBOutlet private weak var loginButton: RaisedButton!
+    @IBOutlet private weak var facebookButton: RaisedButton!
+    @IBOutlet private weak var googleButton: RaisedButton!
+    
+    @IBOutlet private weak var createAccountButton: FlatButton!
+    @IBOutlet private weak var forgotPasswordButton: FlatButton!
     
     private var presenterInterfaceBindDisposeBag: DisposeBag!
     var presenterInterface: LoginPresenterInterface?{
@@ -32,6 +40,9 @@ class LoginViewController: BaseViewController {
     
     override func viewDidLoad(){
         super.viewDidLoad()
+        
+        applyAppearance()
+        applyTexts()
         
         bind()
     }
@@ -45,8 +56,59 @@ class LoginViewController: BaseViewController {
             print("No LoginView")
             return
         }
-        addScrollView(withSubView: loginView)
+        addScrollView(withSubView: loginView) { [weak self] (loginViewLayoutProxy, scrollViewLayoutProxy) in
+            guard let strongSelf = self else { return }
+            
+            loginViewLayoutProxy.top == scrollViewLayoutProxy.top ~ 1
+            loginViewLayoutProxy.bottom == scrollViewLayoutProxy.bottom ~ 1
+            
+            if strongSelf.view.frame.height > loginView.frame.height{
+                loginViewLayoutProxy.centerY == scrollViewLayoutProxy.centerY
+            }
+            
+            loginViewLayoutProxy.left == scrollViewLayoutProxy.left
+            loginViewLayoutProxy.right == scrollViewLayoutProxy.right
+            
+            loginViewLayoutProxy.width == scrollViewLayoutProxy.width
+        }
 
+    }
+    
+    private func applyAppearance(){
+        logoImageView.image = #imageLiteral(resourceName: "ic_logo")
+        
+        doSignWithLabel.textColor = .white
+        doSignWithLabel.font = UIFont.systemFont(ofSize: 14)
+        
+        orLabel.textColor = UIColor(white: 1, alpha: 0.3)
+        orLabel.font = UIFont.systemFont(ofSize: 14)
+        
+        loginButton.applyAppearance(appearance: .main)
+        facebookButton.applyAppearance(appearance: .facebook)
+        googleButton.applyAppearance(appearance: .google)
+        
+        emailTextField.applyAppearance(appearance: .main)
+        passwordTextField.applyAppearance(appearance: .main)
+        
+        createAccountButton.applyAppearance(appearance: .main)
+        
+        forgotPasswordButton.applyAppearance(appearance: .main)
+        
+        emailTextField.keyboardType = .emailAddress
+        emailTextField.autocorrectionType = .no
+        passwordTextField.isSecureTextEntry = true
+    }
+    
+    private func applyTexts(){
+        doSignWithLabel.text = R.string.localizable.loginSignInWith()
+        orLabel.text = R.string.localizable.loginOr()
+        
+        emailTextField.placeholder = R.string.localizable.loginEmail()
+        passwordTextField.placeholder = R.string.localizable.loginPass()
+        loginButton.setTitleWithoutAnimation(R.string.localizable.loginEnter().uppercased(), for: .normal)
+        
+        createAccountButton.setTitleWithoutAnimation(R.string.localizable.loginCreateAccount(), for: .normal)
+        forgotPasswordButton.setTitleWithoutAnimation(R.string.localizable.loginForgotPass(), for: .normal)
     }
     
     private func bind(){
@@ -70,7 +132,9 @@ class LoginViewController: BaseViewController {
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         presenterInterface.emailErrorString
-            .bindTo(emailErrorLabel.rx.text)
+            .subscribe(onNext: { [weak self] (errorString) in
+                self?.emailTextField.detail = errorString
+            })
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         presenterInterface.password
@@ -87,7 +151,9 @@ class LoginViewController: BaseViewController {
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         presenterInterface.passwordErrorString
-            .bindTo(passwordErrorLabel.rx.text)
+            .subscribe(onNext: { [weak self] (errorString) in
+                self?.passwordTextField.detail = errorString
+            })
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         presenterInterface.loginButtonEnabled
@@ -181,6 +247,10 @@ class LoginViewController: BaseViewController {
             }
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle{
+        return .lightContent
     }
     
 }

@@ -16,6 +16,8 @@ protocol UserSessionRepositoryInterface{
 }
 
 class UserSessionRepository: UserSessionRepositoryInterface {
+//    static var shared = UserSessionRepository(dataStore: UserSessionDataStore())
+    
     private var cachedUserSession: UserSessionDB?
     let dataStore: UserSessionDataStoreInterface
     
