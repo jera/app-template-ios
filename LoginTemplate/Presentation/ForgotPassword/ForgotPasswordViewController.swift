@@ -8,6 +8,7 @@
 
 import UIKit
 import RxSwift
+import Cartography
 
 class ForgotPasswordViewController: BaseViewController {
     
@@ -21,7 +22,11 @@ class ForgotPasswordViewController: BaseViewController {
     override func loadView() {
         super.loadView()
         
-        addScrollView(withSubView: forgotPasswordView)
+        addScrollView(withSubView: forgotPasswordView) { (forgotPasswordViewLayoutProxy, scrollViewLayoutProxy) in
+            forgotPasswordViewLayoutProxy.edges == scrollViewLayoutProxy.edges
+            forgotPasswordViewLayoutProxy.height == scrollViewLayoutProxy.height
+            forgotPasswordViewLayoutProxy.width == scrollViewLayoutProxy.width
+        }
     }
     
     override func viewDidLoad(){
@@ -57,7 +62,9 @@ class ForgotPasswordViewController: BaseViewController {
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         presenterInterface.emailErrorString
-            .bindTo(forgotPasswordView.emailErrorLabel.rx.text)
+            .subscribe(onNext: { [weak self] (errorString) in
+                self?.forgotPasswordView.emailTextField.detail = errorString
+            })
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         presenterInterface.forgotPasswordButtonEnabled

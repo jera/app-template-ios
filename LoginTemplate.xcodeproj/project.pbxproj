@@ -58,7 +58,6 @@
 		F021B1E41E53829B0092DA41 /* ForgotPasswordInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F021B1E31E53829B0092DA41 /* ForgotPasswordInteractor.swift */; };
 		F0B4A2AB1E5B3BA400ADD56A /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0B4A2A91E5B3BA400ADD56A /* ForgotPasswordView.swift */; };
 		F0B4A2AC1E5B3BA400ADD56A /* ForgotPasswordView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F0B4A2AA1E5B3BA400ADD56A /* ForgotPasswordView.xib */; };
-		F0B4A2AE1E5B3BC500ADD56A /* BaseTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0B4A2AD1E5B3BC500ADD56A /* BaseTextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -118,7 +117,6 @@
 		F021B1E31E53829B0092DA41 /* ForgotPasswordInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordInteractor.swift; sourceTree = "<group>"; };
 		F0B4A2A91E5B3BA400ADD56A /* ForgotPasswordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
 		F0B4A2AA1E5B3BA400ADD56A /* ForgotPasswordView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ForgotPasswordView.xib; sourceTree = "<group>"; };
-		F0B4A2AD1E5B3BC500ADD56A /* BaseTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -357,7 +355,6 @@
 				257467351E564D0A0068DC65 /* BasePresenter.swift */,
 				F021B1CA1E534F560092DA41 /* BaseNavigationController.swift */,
 				F021B1DB1E537BE70092DA41 /* BaseViewController.swift */,
-				F0B4A2AD1E5B3BC500ADD56A /* BaseTextField.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -583,7 +580,6 @@
 				2574672E1E561CF90068DC65 /* DashboardWireFrame.swift in Sources */,
 				F021B1CB1E534F560092DA41 /* BaseNavigationController.swift in Sources */,
 				F021B1E41E53829B0092DA41 /* ForgotPasswordInteractor.swift in Sources */,
-				F0B4A2AE1E5B3BC500ADD56A /* BaseTextField.swift in Sources */,
 				F021B1DC1E537BE70092DA41 /* BaseViewController.swift in Sources */,
 				F021B1D01E5378F40092DA41 /* LoginWireFrame.swift in Sources */,
 				257467291E560CA80068DC65 /* MainViewController.swift in Sources */,

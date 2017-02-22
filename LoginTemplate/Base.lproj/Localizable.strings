@@ -13,3 +13,8 @@
 "login.enter" = "Entrar";
 "login.createAccount" = "Criar uma conta";
 "login.forgotPass" = "Esqueci minha senha";
+
+
+"forgotPassword.title" = "Informe o seu email para recuperar sua senha";
+"forgotPassword.email" = "Email";
+"forgotPassword.send" = "ENVIAR";

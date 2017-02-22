@@ -9,62 +9,42 @@
 import UIKit
 import RxCocoa
 import RxSwift
-
-class ForgotPasswordViewModel {
-    fileprivate var textLabel: String = "Informe o seu email para recuperar sua senha"
-    fileprivate var placeholderTextField: String = "Email"
-    fileprivate var titleButton: String = "ENVIAR"
-    fileprivate var emailErrorTextField: String?
-}
+import Material
 
 class ForgotPasswordView: UIView {
 
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var emailTextField: BaseTextField!
-    @IBOutlet weak var confirmButton: UIButton!
-    @IBOutlet weak var emailErrorLabel: UILabel!
+    @IBOutlet weak var emailTextField: TextField!
+    @IBOutlet weak var confirmButton: RaisedButton!
     
-    private(set) var viewModel: ForgotPasswordViewModel?
     let disposeBag = DisposeBag()
-    
-    var enterButtonTapped: ControlEvent<Void>{
-        return confirmButton.rx.tap
-    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
         applyLayout()
-        
-        viewModel = ForgotPasswordViewModel()
-        
-        bindViewModel()
+        applyTexts()
     }
     
     private func applyLayout() {
         titleLabel.textColor = UIColor.defaultTitleLabel()
         titleLabel.font = UIFont.systemFont(ofSize: 12)
         
-        emailTextField.applyAppearence(textFieldAppearence: .Default)
+        emailTextField.applyAppearance(appearance: .white)
+        emailTextField.keyboardType = .emailAddress
+        emailTextField.autocorrectionType = .no
         
-        emailErrorLabel.textColor = UIColor.red
-        emailErrorLabel.font = UIFont.systemFont(ofSize: 10)
-        
+        confirmButton.applyAppearance(appearance: .main)
         confirmButton.backgroundColor = UIColor.defaultBackgroundButton()
         confirmButton.setTitleColor(UIColor.defaultTitleButton(), for: .normal)
         confirmButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 12)
         confirmButton.layer.cornerRadius = 5
     }
     
-    func bindViewModel(){
-        guard let viewModel = viewModel else { return }
-        
-        self.viewModel = viewModel
-        self.titleLabel.text = viewModel.textLabel
-        self.emailTextField.placeholder = viewModel.placeholderTextField
-        self.emailErrorLabel.text = viewModel.emailErrorTextField
-        
-        confirmButton.setTitle(viewModel.titleButton, for: .normal, animated: false)
+    private func applyTexts(){
+        titleLabel.text = R.string.localizable.forgotPasswordTitle()
+        emailTextField.placeholder = R.string.localizable.forgotPasswordEmail()
+        confirmButton.setTitleWithoutAnimation(R.string.localizable.forgotPasswordSend().uppercased(), for: .normal)
     }
     
     static func loadNibName() -> ForgotPasswordView {
