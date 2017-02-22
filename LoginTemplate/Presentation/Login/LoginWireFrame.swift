@@ -15,21 +15,25 @@ protocol LoginWireFrameInterface: class{
 
 class LoginWireFrame: BaseWireFrame {
     
-    let loginPresenter: LoginPresenter
-    let loginInteractor: LoginInteractor
+    let loginPresenter: LoginPresenterInterface
+    let loginInteractor: LoginInteractorInterface
     let loginViewController = LoginViewController()
-    let apiClientInterface = APIClient()
-    let facebookAPI = FacebookAPI()
-    let googleAPI = GoogleAPI.shared
+    let apiClientInterface: APIClientInterface = APIClient()
+    let facebookAPI: FacebookAPIInterface = FacebookAPI()
+    let googleAPI: GoogleAPIInterface = GoogleAPI.shared
+    
+    fileprivate var createAccountWireFrameInterface: CreateAccountWireFrameInterface?
     
     override init() {
         loginInteractor = LoginInteractor(repositoryInterface: LoginRepository(apiClientInterface: apiClientInterface, facebookAPIInterface: facebookAPI, googleAPIInterface: googleAPI))
-        loginPresenter = LoginPresenter(interactorInterface: loginInteractor)
+        let loginPresenter = LoginPresenter(interactorInterface: loginInteractor)
+        self.loginPresenter = loginPresenter
+        
+        loginViewController.presenterInterface = loginPresenter
         
         super.init()
         
         loginPresenter.routerInterface = self
-        loginViewController.presenterInterface = loginPresenter
     }
     
 }
@@ -40,6 +44,18 @@ extension LoginWireFrame: LoginWireFrameInterface{
     }
     
     func goToCreateAccount(){
-        print("TODO goToCreateAccount")
+        let createAccountWireFrame = CreateAccountWireFrame()
+        
+        createAccountWireFrame.presentOn(viewController: loginViewController, presenterWireFrame: self)
+        
+        createAccountWireFrameInterface = createAccountWireFrame
+    }
+}
+
+extension LoginWireFrame: CreateAccountPresenterWireFrameInterface{
+    func dismiss(){
+        loginViewController.dismiss(animated: true) { [weak self] in
+            self?.createAccountWireFrameInterface = nil
+        }
     }
 }
