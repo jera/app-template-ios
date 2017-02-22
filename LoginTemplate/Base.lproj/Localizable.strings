@@ -1,0 +1,15 @@
+/* 
+  Localizable.strings
+  LoginTemplate
+
+  Created by Alessandro Nakamuta on 22/02/17.
+  Copyright © 2017 Jera. All rights reserved.
+*/
+
+"login.signInWith" = "Faça login com";
+"login.or" = "Ou";
+"login.email" = "Email";
+"login.pass" = "Senha";
+"login.enter" = "Entrar";
+"login.createAccount" = "Criar uma conta";
+"login.forgotPass" = "Esqueci minha senha";

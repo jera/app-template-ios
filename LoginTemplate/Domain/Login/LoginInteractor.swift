@@ -63,7 +63,7 @@ extension LoginInteractor: LoginInteractorInterface {
         
         authenticateResponseVariable.value = .loading
         
-        //Vou deixar isso no interactor até achar um bom motivo para mover uma camada para baixo e aumentar o overhead
+        //TODO: fazer o subscribe no repository
         repositoryInterface
             .authenticate(email: email.value, password: password.value)
             .subscribe { [weak self] (event) in

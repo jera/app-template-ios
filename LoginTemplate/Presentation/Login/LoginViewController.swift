@@ -16,13 +16,20 @@ class LoginViewController: BaseViewController {
 
     @IBOutlet private weak var logoImageView: UIImageView!
     
+    @IBOutlet private weak var doSignWithLabel: UILabel!
+    
     @IBOutlet private weak var emailTextField: TextField!
     
     @IBOutlet private weak var passwordTextField: TextField!
     
+    @IBOutlet private weak var orLabel: UILabel!
+    
     @IBOutlet private weak var loginButton: RaisedButton!
     @IBOutlet private weak var facebookButton: RaisedButton!
     @IBOutlet private weak var googleButton: RaisedButton!
+    
+    @IBOutlet private weak var createAccountButton: FlatButton!
+    @IBOutlet private weak var forgotPasswordButton: FlatButton!
     
     private var presenterInterfaceBindDisposeBag: DisposeBag!
     var presenterInterface: LoginPresenterInterface?{
@@ -35,6 +42,7 @@ class LoginViewController: BaseViewController {
         super.viewDidLoad()
         
         applyAppearance()
+        applyTexts()
         
         bind()
     }
@@ -55,9 +63,38 @@ class LoginViewController: BaseViewController {
     private func applyAppearance(){
         logoImageView.image = #imageLiteral(resourceName: "ic_logo")
         
-        loginButton.applyAppearance(appearance: .normal)
+        doSignWithLabel.textColor = .white
+        doSignWithLabel.font = UIFont.systemFont(ofSize: 14)
+        
+        orLabel.textColor = UIColor(white: 1, alpha: 0.3)
+        orLabel.font = UIFont.systemFont(ofSize: 14)
+        
+        loginButton.applyAppearance(appearance: .main)
         facebookButton.applyAppearance(appearance: .facebook)
         googleButton.applyAppearance(appearance: .google)
+        
+        emailTextField.applyAppearance(appearance: .main)
+        passwordTextField.applyAppearance(appearance: .main)
+        
+        createAccountButton.applyAppearance(appearance: .main)
+        
+        forgotPasswordButton.applyAppearance(appearance: .main)
+        
+        emailTextField.keyboardType = .emailAddress
+        emailTextField.autocorrectionType = .no
+        passwordTextField.isSecureTextEntry = true
+    }
+    
+    private func applyTexts(){
+        doSignWithLabel.text = R.string.localizable.loginSignInWith()
+        orLabel.text = R.string.localizable.loginOr()
+        
+        emailTextField.placeholder = R.string.localizable.loginEmail()
+        passwordTextField.placeholder = R.string.localizable.loginPass()
+        loginButton.setTitleWithoutAnimation(R.string.localizable.loginEnter().uppercased(), for: .normal)
+        
+        createAccountButton.setTitleWithoutAnimation(R.string.localizable.loginCreateAccount(), for: .normal)
+        forgotPasswordButton.setTitleWithoutAnimation(R.string.localizable.loginForgotPass(), for: .normal)
     }
     
     private func bind(){
@@ -80,9 +117,11 @@ class LoginViewController: BaseViewController {
             .bindTo(presenterInterface.email)
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
-//        presenterInterface.emailErrorString
-//            .bindTo(emailErrorLabel.rx.text)
-//            .addDisposableTo(presenterInterfaceBindDisposeBag)
+        presenterInterface.emailErrorString
+            .subscribe(onNext: { [weak self] (errorString) in
+                self?.emailTextField.detail = errorString
+            })
+            .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         presenterInterface.password
             .asObservable()
@@ -97,9 +136,11 @@ class LoginViewController: BaseViewController {
             .bindTo(presenterInterface.password)
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
-//        presenterInterface.passwordErrorString
-//            .bindTo(passwordErrorLabel.rx.text)
-//            .addDisposableTo(presenterInterfaceBindDisposeBag)
+        presenterInterface.passwordErrorString
+            .subscribe(onNext: { [weak self] (errorString) in
+                self?.passwordTextField.detail = errorString
+            })
+            .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         presenterInterface.loginButtonEnabled
             .bindTo(loginButton.rx.isEnabled)
@@ -192,6 +233,10 @@ class LoginViewController: BaseViewController {
             }
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle{
+        return .lightContent
     }
     
 }
