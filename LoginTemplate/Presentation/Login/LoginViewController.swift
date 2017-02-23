@@ -246,6 +246,14 @@ class LoginViewController: BaseViewController {
             }
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
+        forgotPasswordButton.rx.tap
+            .subscribe { [weak self] (_) in
+                guard let strongSelf = self else { return }
+                
+                strongSelf.presenterInterface?.forgotPasswordButtonPressed()
+            }
+            .addDisposableTo(presenterInterfaceBindDisposeBag)
+                
         createAccountButton.rx.tap
             .subscribe { [weak self] (_) in
                 guard let strongSelf = self else { return }
@@ -253,7 +261,6 @@ class LoginViewController: BaseViewController {
                 strongSelf.presenterInterface?.createAccountButtonPressed()
             }
             .addDisposableTo(presenterInterfaceBindDisposeBag)
-        
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle{

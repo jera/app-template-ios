@@ -15,7 +15,7 @@ protocol CreateAccountWireFrameInterface: class{
 }
 
 protocol CreateAccountPresenterWireFrameInterface: class{
-    func dismiss()
+    func dismissCreateAccount()
 }
 
 class CreateAccountWireFrame: BaseWireFrame {
@@ -51,6 +51,6 @@ extension CreateAccountWireFrame: CreateAccountWireFrameInterface{
     }
     
     func dismiss(){
-        presenterWireFrame?.dismiss()
+        presenterWireFrame?.dismissCreateAccount()
     }
 }
