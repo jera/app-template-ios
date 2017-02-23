@@ -8,9 +8,45 @@
 
 import UIKit
 
+enum NameFieldError: Equatable{
+    case empty
+}
+
 enum EmailFieldError: Equatable{
     case empty
     case notValid
+}
+
+enum PhoneFieldError: Equatable{
+    case empty
+    case minCharaters(count: Int)
+    
+    static func ==(lhs: PhoneFieldError, rhs: PhoneFieldError) -> Bool{
+        switch (lhs, rhs) {
+        case (.empty, .empty):
+            return true
+        case (.minCharaters, .minCharaters):
+            return true
+        default:
+            return false
+        }
+    }
+}
+
+enum CpfFieldError: Equatable{
+    case empty
+    case minCharaters(count: Int)
+    
+    static func ==(lhs: CpfFieldError, rhs: CpfFieldError) -> Bool{
+        switch (lhs, rhs) {
+        case (.empty, .empty):
+            return true
+        case (.minCharaters, .minCharaters):
+            return true
+        default:
+            return false
+        }
+    }
 }
 
 enum PasswordFieldError: Equatable{
@@ -35,33 +71,6 @@ class DomainHelper {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
         let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
         return emailTest.evaluate(with: email)
-    }
-}
-
-extension UIButton {
-    func setTitle(_ title: String?, for state: UIControlState, animated: Bool){
-        guard !animated else {
-            setTitle(title, for: state)
-            return
-        }
-        
-        UIView.performWithoutAnimation {
-            setTitle(title, for: state)
-            
-            layoutIfNeeded()
-        }
-    }
-    func setAttributedTitle(_ title: NSAttributedString?, for state: UIControlState, animated: Bool){
-        guard !animated else {
-            setAttributedTitle(title, for: state)
-            return
-        }
-        
-        UIView.performWithoutAnimation {
-            setAttributedTitle(title, for: state)
-            
-            layoutIfNeeded()
-        }
     }
 }
 

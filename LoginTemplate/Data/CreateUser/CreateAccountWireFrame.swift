@@ -41,7 +41,6 @@ class CreateAccountWireFrame: BaseWireFrame {
         
         createAccountPresenter.routerInterface = self
     }
-    
 }
 
 extension CreateAccountWireFrame: CreateAccountWireFrameInterface{

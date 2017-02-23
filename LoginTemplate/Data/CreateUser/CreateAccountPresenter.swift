@@ -13,11 +13,23 @@ protocol CreateAccountPresenterInterface{
     func chooseUserImageButtonPressed()
     func closeButtonPressed()
     
+    var name: Variable<String> {get}
+    var nameErrorsString: Observable<String?> {get}
+    
     var email: Variable<String> {get}
-    var emailErrorString: Observable<String?> {get}
+    var emailErrorsString: Observable<String?> {get}
+    
+    var phone: Variable<String> {get}
+    var phoneErrorsString: Observable<String?> {get}
+    
+    var cpf: Variable<String> {get}
+    var cpfErrorsString: Observable<String?> {get}
     
     var password: Variable<String> {get}
-    var passwordErrorString: Observable<String?> {get}
+    var passwordErrorsString: Observable<String?> {get}
+    
+    var passwordConfirm: Variable<String> {get}
+    var passwordConfirmErrorsString: Observable<String?> {get}
     
     var createAccountButtonEnabled: Observable<Bool> {get}
     
@@ -46,11 +58,28 @@ extension CreateAccountPresenter: CreateAccountPresenterInterface{
         routerInterface?.dismiss()
     }
     
+    var name: Variable<String>{
+        return interactorInterface.name
+    }
+    
+    var nameErrorsString: Observable<String?>{
+        return interactorInterface.nameErrors.map({ (fieldErrors) -> String? in
+            if let firstError = fieldErrors.first{
+                switch firstError{
+                case .empty:
+                    return nil //Doesn't show if it is empty
+                }
+            }
+            
+            return nil
+        })
+    }
+    
     var email: Variable<String>{
         return interactorInterface.email
     }
     
-    var emailErrorString: Observable<String?>{
+    var emailErrorsString: Observable<String?>{
         return interactorInterface.emailErrors.map({ (fieldErrors) -> String? in
             if let firstError = fieldErrors.first{
                 switch firstError {
@@ -65,12 +94,69 @@ extension CreateAccountPresenter: CreateAccountPresenterInterface{
         })
     }
     
+    var phone: Variable<String>{
+        return interactorInterface.phone
+    }
+    
+    var phoneErrorsString: Observable<String?>{
+        return interactorInterface.phoneErrors.map({ (fieldErrors) -> String? in
+            if let firstError = fieldErrors.first{
+                switch firstError{
+                case .minCharaters(let count):
+                    return "Telefone deve ter no mínimo \(count) caracteres"
+                case .empty:
+                    return nil //Doesn't show if it is empty
+                }
+            }
+            
+            return nil
+        })
+    }
+    
+    var cpf: Variable<String>{
+        return interactorInterface.cpf
+    }
+    
+    var cpfErrorsString: Observable<String?>{
+        return interactorInterface.cpfErrors.map({ (fieldErrors) -> String? in
+            if let firstError = fieldErrors.first{
+                switch firstError{
+                case .minCharaters(let count):
+                    return "CPF deve ter no mínimo \(count) caracteres"
+                case .empty:
+                    return nil //Doesn't show if it is empty
+                }
+            }
+            
+            return nil
+        })
+    }
+    
     var password: Variable<String>{
         return interactorInterface.password
     }
     
-    var passwordErrorString: Observable<String?>{
+    var passwordErrorsString: Observable<String?>{
         return interactorInterface.passwordErrors.map({ (fieldErrors) -> String? in
+            if let firstError = fieldErrors.first{
+                switch firstError{
+                case .minCharaters(let count):
+                    return "Senha deve ter no mínimo \(count) caracteres"
+                case .empty:
+                    return nil //Doesn't show if it is empty
+                }
+            }
+            
+            return nil
+        })
+    }
+    
+    var passwordConfirm: Variable<String>{
+        return interactorInterface.passwordConfirm
+    }
+    
+    var passwordConfirmErrorsString: Observable<String?>{
+        return interactorInterface.passwordConfirmErrors.map({ (fieldErrors) -> String? in
             if let firstError = fieldErrors.first{
                 switch firstError{
                 case .minCharaters(let count):

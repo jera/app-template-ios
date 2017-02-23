@@ -33,7 +33,7 @@ class ForgotPasswordViewController: BaseViewController {
         
         view.backgroundColor = UIColor.defaultViewBackground()
         
-        title = "Recuperar senha"
+        title = R.string.localizable.forgotPasswordTitleNavBar()
         
         addCloseButton(image: UIImage(named: "ic_nav_back")!) { [weak self] () in
             self?.presenterInterface?.didTapCloseForgotPasswordView()
