@@ -8,8 +8,29 @@
 
 import UIKit
 
+protocol PresentedWireFrameInterface{
+    
+}
+
+protocol PresenterWireFrameInterface: class{
+    func  wireframeDidDismiss()
+}
+
 class BaseWireFrame {
+    var presentedWireFrame: PresentedWireFrameInterface?
+    weak var presenterWireFrame: PresenterWireFrameInterface?
+    
     deinit {
         print("dealloc ---> \(String(describing: type(of: self)))")
     }
+}
+
+extension BaseWireFrame: PresenterWireFrameInterface{
+    func wireframeDidDismiss() {
+        presentedWireFrame = nil
+    }
+}
+
+extension BaseWireFrame: PresentedWireFrameInterface{
+    
 }

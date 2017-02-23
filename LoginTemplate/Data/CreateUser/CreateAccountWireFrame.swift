@@ -14,8 +14,8 @@ protocol CreateAccountWireFrameInterface: class{
     func dismiss()
 }
 
-protocol CreateAccountPresenterWireFrameInterface: class{
-    func dismissCreateAccount()
+protocol CreateAccountPresenterWireFrameInterface: PresenterWireFrameInterface{
+    
 }
 
 class CreateAccountWireFrame: BaseWireFrame {
@@ -26,7 +26,7 @@ class CreateAccountWireFrame: BaseWireFrame {
     let createAccountViewController = CreateAccountViewController()
     let apiClientInterface: APIClientInterface = APIClient()
     
-    weak var presenterWireFrame: CreateAccountPresenterWireFrameInterface?
+//    weak var presenterWireFrame: CreateAccountPresenterWireFrameInterface?
     
     override init() {
         createAccountInteractor = CreateAccountInteractor(repositoryInterface: CreateAccountRepository(apiClientInterface: apiClientInterface))
@@ -50,7 +50,9 @@ extension CreateAccountWireFrame: CreateAccountWireFrameInterface{
         viewController.present(navigationController, animated: true, completion: nil)
     }
     
-    func dismiss(){
-        presenterWireFrame?.dismissCreateAccount()
+    func dismiss() {
+        createAccountViewController.dismiss(animated: true) { [weak self] in
+            self?.presenterWireFrame?.wireframeDidDismiss()
+        }
     }
 }

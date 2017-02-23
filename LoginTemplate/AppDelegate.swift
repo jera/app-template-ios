@@ -8,9 +8,14 @@
 
 import UIKit
 import RxSwift
+
 import FBSDKCoreKit
+
 import GoogleSignIn
 import GGLSignIn
+
+import Fabric
+import Crashlytics
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,16 +26,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     let temp = DisposeBag()
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        Fabric.with([Crashlytics.self])
         
-        applyAppearance()
-
         FacebookAPI.configureWith(appId: "214642118985510", displayName:  "AgroPocket")
         GoogleAPI.configure()
         
-//        BaseViewController.customizeProgressHUD()
-        
-//        UserSessionInteractor.shared.logout()
+        Appearance.applyUIAppearence()
         
         let window = UIWindow(frame: UIScreen.main.bounds)
         mainWireFrame = MainWireFrame()
@@ -87,13 +88,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                                      annotation: annotation)
         }
         return true
-    }
-
-    func applyAppearance()  {
-        UINavigationBar.appearance().tintColor = UIColor.white
-        UINavigationBar.appearance().barTintColor = UIColor.defaultBarTint()
-        UINavigationBar.appearance().isTranslucent = false
-        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
     }
 }
 

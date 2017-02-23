@@ -13,8 +13,8 @@ protocol ForgotPasswordWireFrameInterface: class{
     func dismiss()
 }
 
-protocol ForgotPasswordPresenterWireFrameInterface: class{
-    func dismissForgotPassword()
+protocol ForgotPasswordPresenterWireFrameInterface: PresenterWireFrameInterface{
+
 }
 
 class ForgotPasswordWireFrame: BaseWireFrame {
@@ -26,7 +26,7 @@ class ForgotPasswordWireFrame: BaseWireFrame {
     let forgotPasswordViewController = ForgotPasswordViewController()
     let apiClientInterface: APIClientInterface = APIClient()
     
-    weak var presenterWireFrame: ForgotPasswordPresenterWireFrameInterface?
+//    weak var presenterWireFrame: ForgotPasswordPresenterWireFrameInterface?
     
     override init() {
         forgotPasswordInteractor = ForgotPasswordInteractor(repositoryInterface: ForgotPasswordRepository(apiClientInterface: apiClientInterface))
@@ -50,6 +50,8 @@ extension ForgotPasswordWireFrame: ForgotPasswordWireFrameInterface{
     }
     
     func dismiss() {
-        presenterWireFrame?.dismissForgotPassword()
+        forgotPasswordViewController.dismiss(animated: true) { [weak self] in
+            self?.presenterWireFrame?.wireframeDidDismiss()
+        }
     }
 }
