@@ -23,9 +23,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        applyAppearance()
+
         FacebookAPI.configureWith(appId: "214642118985510", displayName:  "AgroPocket")
         GoogleAPI.configure()
-        
         
 //        BaseViewController.customizeProgressHUD()
         
@@ -88,6 +89,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
-
+    func applyAppearance()  {
+        UINavigationBar.appearance().tintColor = UIColor.white
+        UINavigationBar.appearance().barTintColor = UIColor.defaultBarTint()
+        UINavigationBar.appearance().isTranslucent = false
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+    }
 }
 

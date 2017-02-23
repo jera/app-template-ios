@@ -22,3 +22,9 @@
 
 //CreateAccount
 "createAccount.title" = "Cadastro";
+
+//ForgotPassword
+"forgotPassword.title" = "Informe o seu email para recuperar sua senha";
+"forgotPassword.email" = "Email";
+"forgotPassword.send" = "ENVIAR";
+

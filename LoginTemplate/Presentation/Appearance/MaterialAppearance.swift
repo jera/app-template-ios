@@ -93,6 +93,7 @@ extension FlatButton{
 
 enum TextFieldAppearence {
     case main
+    case white
 //    case AppearenceToScreenWrite
 }
 
@@ -114,6 +115,25 @@ extension TextField{
             dividerColor = UIColor.white.withAlphaComponent(0.7)
             dividerNormalColor = UIColor.white.withAlphaComponent(0.3)
             dividerActiveColor = UIColor.white
+            dividerContentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 6, right: 0)
+            
+            detailLabel.font = UIFont.systemFont(ofSize: 10)
+            detailColor = Color.red.base
+            detailVerticalOffset = -2
+        case .white:
+            tintColor = UIColor.gray
+            font = UIFont.systemFont(ofSize: 14)
+            textColor = UIColor.gray
+            backgroundColor = UIColor.white
+            
+            placeholderLabel.font = UIFont.systemFont(ofSize: 14)
+            placeholderNormalColor = UIColor.gray.withAlphaComponent(0.7)
+            placeholderActiveColor = UIColor.gray
+            placeholderVerticalOffset = 20
+            
+            dividerColor = UIColor.gray.withAlphaComponent(0.7)
+            dividerNormalColor = UIColor.gray.withAlphaComponent(0.3)
+            dividerActiveColor = UIColor.primary()
             dividerContentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 6, right: 0)
             
             detailLabel.font = UIFont.systemFont(ofSize: 10)

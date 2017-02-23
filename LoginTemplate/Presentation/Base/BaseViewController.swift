@@ -17,6 +17,7 @@ protocol BaseViewInterface: class {
 }
 
 class BaseViewController: UIViewController{
+    
     private(set) var isLoaded = false
     
     override func viewDidLoad() {
@@ -107,6 +108,16 @@ class BaseViewController: UIViewController{
         constrain(view, backgroundImageView) { (view, backgroundImageView) in
             backgroundImageView.edges == view.edges
         }
+    }
+    
+    public func addCloseButton(image: UIImage, block: @escaping () -> Void ) {
+        let closeBarButton = UIBarButtonItem(image: image, style: .done, target: nil, action: nil)
+        _ = closeBarButton.rx.tap
+            .takeUntil(self.rx.deallocated)
+            .subscribe(onNext: { (_) in
+                block()
+            })
+        navigationItem.leftBarButtonItem = closeBarButton
     }
     
     deinit {
