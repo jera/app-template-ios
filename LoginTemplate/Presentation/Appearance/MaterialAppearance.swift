@@ -141,7 +141,7 @@ extension TextField{
             
             dividerColor = UIColor.gray.withAlphaComponent(0.7)
             dividerNormalColor = UIColor.gray.withAlphaComponent(0.3)
-            dividerActiveColor = UIColor.primary()
+            dividerActiveColor = Appearance.mainColor
             dividerContentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 6, right: 0)
             
             detailLabel.font = UIFont.systemFont(ofSize: 10)

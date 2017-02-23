@@ -27,7 +27,7 @@ class ForgotPasswordView: UIView {
     }
     
     private func applyLayout() {
-        titleLabel.textColor = UIColor.defaultTitleLabel()
+//        titleLabel.textColor = UIColor.defaultTitleLabel()
         titleLabel.font = UIFont.systemFont(ofSize: 12)
         
         emailTextField.applyAppearance(appearance: .white)
@@ -35,7 +35,7 @@ class ForgotPasswordView: UIView {
         emailTextField.autocorrectionType = .no
         
         confirmButton.applyAppearance(appearance: .main)
-        confirmButton.backgroundColor = UIColor.defaultBackgroundButton()
+//        confirmButton.backgroundColor = UIColor.defaultBackgroundButton()
         confirmButton.layer.cornerRadius = 5
     }
     

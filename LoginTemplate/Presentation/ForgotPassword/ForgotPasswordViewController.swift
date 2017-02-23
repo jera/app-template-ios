@@ -22,6 +22,8 @@ class ForgotPasswordViewController: BaseViewController {
     override func loadView() {
         super.loadView()
         
+        view.backgroundColor = .white
+        
         addScrollView(withSubView: forgotPasswordView) { (forgotPasswordViewLayoutProxy, scrollViewLayoutProxy) in
             forgotPasswordViewLayoutProxy.edges == scrollViewLayoutProxy.edges
             forgotPasswordViewLayoutProxy.width == scrollViewLayoutProxy.width
@@ -30,7 +32,7 @@ class ForgotPasswordViewController: BaseViewController {
     
     override func viewDidLoad(){
         super.viewDidLoad()
-        
+    
         view.backgroundColor = UIColor.defaultViewBackground()
         
         title = R.string.localizable.forgotPasswordTitleNavBar()
