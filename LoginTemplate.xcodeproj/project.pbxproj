@@ -381,11 +381,11 @@
 		F021B1C41E53483C0092DA41 /* ForgotPassword */ = {
 			isa = PBXGroup;
 			children = (
-				F0B4A2A91E5B3BA400ADD56A /* ForgotPasswordView.swift */,
-				F0B4A2AA1E5B3BA400ADD56A /* ForgotPasswordView.xib */,
 				F021B1C51E5348DD0092DA41 /* ForgotPasswordWireFrame.swift */,
 				F021B1DF1E5380580092DA41 /* ForgotPasswordViewController.swift */,
 				F021B1E11E5380630092DA41 /* ForgotPasswordPresenter.swift */,
+				F0B4A2A91E5B3BA400ADD56A /* ForgotPasswordView.swift */,
+				F0B4A2AA1E5B3BA400ADD56A /* ForgotPasswordView.xib */,
 			);
 			path = ForgotPassword;
 			sourceTree = "<group>";

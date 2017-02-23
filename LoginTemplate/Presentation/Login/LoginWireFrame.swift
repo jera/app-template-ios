@@ -22,7 +22,7 @@ class LoginWireFrame: BaseWireFrame {
     let facebookAPI: FacebookAPIInterface = FacebookAPI()
     let googleAPI: GoogleAPIInterface = GoogleAPI.shared
     
-    fileprivate var forgotPasswordWireFrame: ForgotPasswordWireFrame?
+    fileprivate var forgotPasswordWireFrameInterface: ForgotPasswordWireFrame?
     
     fileprivate var createAccountWireFrameInterface: CreateAccountWireFrameInterface?
     
@@ -38,19 +38,15 @@ class LoginWireFrame: BaseWireFrame {
         loginPresenter.routerInterface = self
     }
     
-    func deallocForgotPasswordWireFrame(){
-        forgotPasswordWireFrame = nil
-    }
-    
 }
 
 extension LoginWireFrame: LoginWireFrameInterface{
     func goToForgotPassword(){
-        if forgotPasswordWireFrame == nil {
-            forgotPasswordWireFrame = ForgotPasswordWireFrame()
-        }
+        let forgotPasswordWireFrame = ForgotPasswordWireFrame()
         
-        forgotPasswordWireFrame?.presentForgotPassword(rootViewController: loginViewController, loginWireFrame: self)
+        forgotPasswordWireFrame.presentOn(viewController: loginViewController, presenterWireFrame: self)
+        
+        forgotPasswordWireFrameInterface = forgotPasswordWireFrame
     }
     
     func goToCreateAccount(){
@@ -62,8 +58,16 @@ extension LoginWireFrame: LoginWireFrameInterface{
     }
 }
 
+extension LoginWireFrame: ForgotPasswordPresenterWireFrameInterface{
+    func dismissForgotPassword(){
+        loginViewController.dismiss(animated: true) { [weak self] in
+            self?.forgotPasswordWireFrameInterface = nil
+        }
+    }
+}
+
 extension LoginWireFrame: CreateAccountPresenterWireFrameInterface{
-    func dismiss(){
+    func dismissCreateAccount(){
         loginViewController.dismiss(animated: true) { [weak self] in
             self?.createAccountWireFrameInterface = nil
         }

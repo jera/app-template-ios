@@ -16,7 +16,7 @@ protocol ForgotPasswordInteractorInterface {
     var emailErrors: Observable<[EmailFieldError]> {get}
 }
 
-class ForgotPasswordInteractor {
+class ForgotPasswordInteractor: BaseInteractor {
     let repositoryInterface: ForgotPasswordRepositoryInterface
     
     let forgotPasswordResponseVariable = Variable<RequestResponse<String?>>(.new)

@@ -19,8 +19,8 @@ protocol ForgotPasswordPresenterInterface {
 }
 
 class ForgotPasswordPresenter: BasePresenter {
-    weak var router: ForgotPasswordWireFrame!
-    var interactorInterface: ForgotPasswordInteractorInterface!
+    weak var router: ForgotPasswordWireFrame?
+    var interactorInterface: ForgotPasswordInteractorInterface
     
     var email: Variable<String>{
         return interactorInterface.email
@@ -65,24 +65,10 @@ class ForgotPasswordPresenter: BasePresenter {
 
 extension ForgotPasswordPresenter: ForgotPasswordPresenterInterface {
     func forgotPasswordPressed() {
-        interactorInterface?.sendNewPasswordToEmail()
+        interactorInterface.sendNewPasswordToEmail()
     }
     
     func didTapCloseForgotPasswordView() {
-        router.popForgotPassword()
+        router?.dismiss()
     }
 }
-
-/*extension ForgotPasswordPresenter: ForgotPasswordInteractorOutput {
-    func showLoading(){
-        viewInterface.showLoading()
-    }
-    
-    func showMessageForgotMyPasswordWith(sucess: String){
-        viewInterface.showMessageForgotMyPasswordWith(sucess: sucess)
-    }
-    
-    func showMessageForgotMyPasswordWith(error: Error){
-        viewInterface.showMessageForgotMyPasswordWith(error: error)
-    }
-}*/

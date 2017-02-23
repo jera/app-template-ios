@@ -12,7 +12,7 @@ protocol ForgotPasswordRepositoryInterface{
     func sendNewPasswordTo(email: String) -> Observable<String?>
 }
 
-class ForgotPasswordRepository: ForgotPasswordRepositoryInterface {
+class ForgotPasswordRepository: BaseRepository, ForgotPasswordRepositoryInterface {
     let apiClientInterface: APIClientInterface
     
     init(apiClientInterface: APIClientInterface){
