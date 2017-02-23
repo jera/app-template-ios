@@ -13,7 +13,7 @@ struct Appearance{
     
     static func applyUIAppearence(){
         UINavigationBar.appearance().tintColor = UIColor.white
-        UINavigationBar.appearance().barTintColor = UIColor.defaultBarTint()
+        UINavigationBar.appearance().barTintColor = UIColor(red:85/255, green:124/255, blue:211/255, alpha:1)
         UINavigationBar.appearance().isTranslucent = false
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
     }
