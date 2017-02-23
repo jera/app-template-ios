@@ -15,7 +15,7 @@ protocol LoginRepositoryInterface{
     func googleLogin(presenterViewController viewController: UIViewController) -> Observable<UserAPI>
 }
 
-class LoginRepository: LoginRepositoryInterface {
+class LoginRepository: BaseRepository, LoginRepositoryInterface {
     let apiClientInterface: APIClientInterface
     let facebookAPIInterface: FacebookAPIInterface
     let googleAPIInterface: GoogleAPIInterface

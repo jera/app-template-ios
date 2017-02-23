@@ -10,6 +10,14 @@
 		251B32401E5CD76E00A6D93B /* MaterialAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251B323F1E5CD76E00A6D93B /* MaterialAppearance.swift */; };
 		251B32421E5CE1C200A6D93B /* Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251B32411E5CE1C200A6D93B /* Appearance.swift */; };
 		251B32461E5DCB0000A6D93B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 251B32481E5DCB0000A6D93B /* Localizable.strings */; };
+		251B324E1E5E194800A6D93B /* CreateAccountRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251B324D1E5E194800A6D93B /* CreateAccountRepository.swift */; };
+		251B32521E5E1AFC00A6D93B /* CreateAccountInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251B32511E5E1AFC00A6D93B /* CreateAccountInteractor.swift */; };
+		251B32541E5E1D5C00A6D93B /* CreateAccountPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251B32531E5E1D5C00A6D93B /* CreateAccountPresenter.swift */; };
+		251B32561E5E1FC300A6D93B /* CreateAccountWireFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251B32551E5E1FC300A6D93B /* CreateAccountWireFrame.swift */; };
+		251B32581E5E1FD800A6D93B /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251B32571E5E1FD800A6D93B /* CreateAccountViewController.swift */; };
+		251B325A1E5E1FF100A6D93B /* CreateAccountView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 251B32591E5E1FF100A6D93B /* CreateAccountView.xib */; };
+		251B325D1E5E465900A6D93B /* BaseInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251B325C1E5E465900A6D93B /* BaseInteractor.swift */; };
+		251B32611E5E46E600A6D93B /* BaseRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251B32601E5E46E600A6D93B /* BaseRepository.swift */; };
 		257467291E560CA80068DC65 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257467281E560CA80068DC65 /* MainViewController.swift */; };
 		2574672B1E560FF30068DC65 /* MainPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2574672A1E560FF30068DC65 /* MainPresenter.swift */; };
 		2574672E1E561CF90068DC65 /* DashboardWireFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2574672D1E561CF90068DC65 /* DashboardWireFrame.swift */; };
@@ -66,6 +74,14 @@
 		251B32411E5CE1C200A6D93B /* Appearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Appearance.swift; sourceTree = "<group>"; };
 		251B32451E5DCAB000A6D93B /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		251B32471E5DCB0000A6D93B /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		251B324D1E5E194800A6D93B /* CreateAccountRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountRepository.swift; sourceTree = "<group>"; };
+		251B32511E5E1AFC00A6D93B /* CreateAccountInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateAccountInteractor.swift; path = LoginTemplate/Data/CreateUser/CreateAccountInteractor.swift; sourceTree = SOURCE_ROOT; };
+		251B32531E5E1D5C00A6D93B /* CreateAccountPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateAccountPresenter.swift; path = LoginTemplate/Data/CreateUser/CreateAccountPresenter.swift; sourceTree = SOURCE_ROOT; };
+		251B32551E5E1FC300A6D93B /* CreateAccountWireFrame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateAccountWireFrame.swift; path = LoginTemplate/Data/CreateUser/CreateAccountWireFrame.swift; sourceTree = SOURCE_ROOT; };
+		251B32571E5E1FD800A6D93B /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateAccountViewController.swift; path = LoginTemplate/Data/CreateUser/CreateAccountViewController.swift; sourceTree = SOURCE_ROOT; };
+		251B32591E5E1FF100A6D93B /* CreateAccountView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CreateAccountView.xib; path = LoginTemplate/Data/CreateUser/CreateAccountView.xib; sourceTree = SOURCE_ROOT; };
+		251B325C1E5E465900A6D93B /* BaseInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseInteractor.swift; sourceTree = "<group>"; };
+		251B32601E5E46E600A6D93B /* BaseRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseRepository.swift; sourceTree = "<group>"; };
 		257467281E560CA80068DC65 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		2574672A1E560FF30068DC65 /* MainPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainPresenter.swift; sourceTree = "<group>"; };
 		2574672D1E561CF90068DC65 /* DashboardWireFrame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardWireFrame.swift; sourceTree = "<group>"; };
@@ -138,6 +154,30 @@
 				251B323F1E5CD76E00A6D93B /* MaterialAppearance.swift */,
 			);
 			path = Appearance;
+			sourceTree = "<group>";
+		};
+		251B324C1E5E192C00A6D93B /* CreateUser */ = {
+			isa = PBXGroup;
+			children = (
+				251B324D1E5E194800A6D93B /* CreateAccountRepository.swift */,
+			);
+			path = CreateUser;
+			sourceTree = "<group>";
+		};
+		251B325B1E5E464100A6D93B /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				251B325C1E5E465900A6D93B /* BaseInteractor.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		251B325E1E5E46C800A6D93B /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				251B32601E5E46E600A6D93B /* BaseRepository.swift */,
+			);
+			path = Base;
 			sourceTree = "<group>";
 		};
 		2574672C1E561CDF0068DC65 /* Dashboard */ = {
@@ -289,6 +329,7 @@
 		25E2F70A1E524F4900AA208E /* Domain */ = {
 			isa = PBXGroup;
 			children = (
+				251B325B1E5E464100A6D93B /* Base */,
 				259071971E53ABD4008E1B52 /* API */,
 				F021B1D61E537B480092DA41 /* CreateAccount */,
 				F021B1D51E537B3B0092DA41 /* ForgotPassword */,
@@ -303,6 +344,8 @@
 			isa = PBXGroup;
 			children = (
 				F0127D361E5CC7BD00EB7446 /* ForgotPassword */,
+				251B325E1E5E46C800A6D93B /* Base */,
+				251B324C1E5E192C00A6D93B /* CreateUser */,
 				2597E7F91E5B7D15002B499F /* Login */,
 				2590718A1E525AD4008E1B52 /* API */,
 				257AF5D31E54999400EF1642 /* Entities */,
@@ -373,6 +416,10 @@
 		F021B1D31E537B1D0092DA41 /* CreateAccount */ = {
 			isa = PBXGroup;
 			children = (
+				251B32551E5E1FC300A6D93B /* CreateAccountWireFrame.swift */,
+				251B32571E5E1FD800A6D93B /* CreateAccountViewController.swift */,
+				251B32531E5E1D5C00A6D93B /* CreateAccountPresenter.swift */,
+				251B32591E5E1FF100A6D93B /* CreateAccountView.xib */,
 			);
 			path = CreateAccount;
 			sourceTree = "<group>";
@@ -396,6 +443,7 @@
 		F021B1D61E537B480092DA41 /* CreateAccount */ = {
 			isa = PBXGroup;
 			children = (
+				251B32511E5E1AFC00A6D93B /* CreateAccountInteractor.swift */,
 			);
 			path = CreateAccount;
 			sourceTree = "<group>";
@@ -466,6 +514,7 @@
 			files = (
 				257467381E5650F70068DC65 /* LoginView.xib in Resources */,
 				25E2F6FF1E52423800AA208E /* LaunchScreen.storyboard in Resources */,
+				251B325A1E5E1FF100A6D93B /* CreateAccountView.xib in Resources */,
 				2597E7FD1E5B86F5002B499F /* GoogleService-Info.plist in Resources */,
 				251B32461E5DCB0000A6D93B /* Localizable.strings in Resources */,
 				2597E8051E5BA383002B499F /* LoadingHUDView.xib in Resources */,
@@ -558,6 +607,8 @@
 				25D4C8E81E56096100E3AF4A /* PresentationHelper.swift in Sources */,
 				25E2F6F51E52423800AA208E /* AppDelegate.swift in Sources */,
 				F021B1CD1E534FC20092DA41 /* MainWireFrame.swift in Sources */,
+				251B32561E5E1FC300A6D93B /* CreateAccountWireFrame.swift in Sources */,
+				251B32581E5E1FD800A6D93B /* CreateAccountViewController.swift in Sources */,
 				259071901E525EA3008E1B52 /* UserSessionDataStore.swift in Sources */,
 				259071921E525F58008E1B52 /* ResponseAPIOperators.swift in Sources */,
 				2590718E1E525E17008E1B52 /* UserAPI.swift in Sources */,
@@ -567,6 +618,7 @@
 				25B563D91E5256FC0051F559 /* R.generated.swift in Sources */,
 				F0127D381E5CC7E900EB7446 /* ForgotPasswordRepository.swift in Sources */,
 				F021B1E21E5380630092DA41 /* ForgotPasswordPresenter.swift in Sources */,
+				251B324E1E5E194800A6D93B /* CreateAccountRepository.swift in Sources */,
 				2597E8031E5BA378002B499F /* LoadingHUDView.swift in Sources */,
 				251B32421E5CE1C200A6D93B /* Appearance.swift in Sources */,
 				2597E7F81E5B35F1002B499F /* FacebookAPI.swift in Sources */,
@@ -575,13 +627,17 @@
 				F021B1E01E5380580092DA41 /* ForgotPasswordViewController.swift in Sources */,
 				2574672B1E560FF30068DC65 /* MainPresenter.swift in Sources */,
 				F021B1C61E5348DD0092DA41 /* ForgotPasswordWireFrame.swift in Sources */,
+				251B325D1E5E465900A6D93B /* BaseInteractor.swift in Sources */,
+				251B32611E5E46E600A6D93B /* BaseRepository.swift in Sources */,
 				2597E8071E5C775C002B499F /* UserSessionRepository.swift in Sources */,
 				2597E80B1E5C82C3002B499F /* UserSession.swift in Sources */,
+				251B32541E5E1D5C00A6D93B /* CreateAccountPresenter.swift in Sources */,
 				2574672E1E561CF90068DC65 /* DashboardWireFrame.swift in Sources */,
 				F021B1CB1E534F560092DA41 /* BaseNavigationController.swift in Sources */,
 				F021B1E41E53829B0092DA41 /* ForgotPasswordInteractor.swift in Sources */,
 				F021B1DC1E537BE70092DA41 /* BaseViewController.swift in Sources */,
 				F021B1D01E5378F40092DA41 /* LoginWireFrame.swift in Sources */,
+				251B32521E5E1AFC00A6D93B /* CreateAccountInteractor.swift in Sources */,
 				257467291E560CA80068DC65 /* MainViewController.swift in Sources */,
 				2590718C1E525AF4008E1B52 /* APIClient.swift in Sources */,
 				259071991E53ABFE008E1B52 /* UserSessionDB.swift in Sources */,

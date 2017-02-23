@@ -15,7 +15,7 @@ protocol UserSessionRepositoryInterface{
     func deleteUserSession()
 }
 
-class UserSessionRepository: UserSessionRepositoryInterface {
+class UserSessionRepository: BaseRepository, UserSessionRepositoryInterface {
 //    static var shared = UserSessionRepository(dataStore: UserSessionDataStore())
     
     private var cachedUserSession: UserSessionDB?

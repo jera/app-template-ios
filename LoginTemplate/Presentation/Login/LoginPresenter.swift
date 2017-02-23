@@ -32,9 +32,36 @@ class LoginPresenter: BasePresenter {
     weak var routerInterface: LoginWireFrameInterface?
     let interactorInterface: LoginInteractorInterface
     
+    init(interactorInterface: LoginInteractorInterface){
+        self.interactorInterface = interactorInterface
+    }
+}
+
+extension LoginPresenter: LoginPresenterInterface {
+    func loginButtonPressed() {
+        interactorInterface.authenticate()
+    }
+    
+    func createAccountButtonPressed(){
+        routerInterface?.goToCreateAccount()
+    }
+    
+    func forgotPasswordButtonPressed(){
+        routerInterface?.goToForgotPassword()
+    }
+    
+    func facebookLoginButtonPressed(presenterViewController viewController: UIViewController){
+        interactorInterface.facebookLogin(presenterViewController: viewController)
+    }
+    
+    func googleLoginButtonPressed(presenterViewController viewController: UIViewController){
+        interactorInterface.googleLogin(presenterViewController: viewController)
+    }
+    
     var email: Variable<String>{
         return interactorInterface.email
     }
+    
     var emailErrorString: Observable<String?>{
         return interactorInterface.emailErrors.map({ (fieldErrors) -> String? in
             if let firstError = fieldErrors.first{
@@ -85,32 +112,6 @@ class LoginPresenter: BasePresenter {
         return Observable.combineLatest(interactorInterface.emailErrors, interactorInterface.passwordErrors, resultSelector: { (emailErrors, passwordErrors) -> Bool in
             return !(emailErrors.count > 0 || passwordErrors.count > 0)
         })
-    }
-    
-    init(interactorInterface: LoginInteractorInterface){
-        self.interactorInterface = interactorInterface
-    }
-}
-
-extension LoginPresenter: LoginPresenterInterface {
-    func loginButtonPressed() {
-        interactorInterface.authenticate()
-    }
-    
-    func createAccountButtonPressed(){
-        routerInterface?.goToCreateAccount()
-    }
-    
-    func forgotPasswordButtonPressed(){
-        routerInterface?.goToForgotPassword()
-    }
-    
-    func facebookLoginButtonPressed(presenterViewController viewController: UIViewController){
-        interactorInterface.facebookLogin(presenterViewController: viewController)
-    }
-    
-    func googleLoginButtonPressed(presenterViewController viewController: UIViewController){
-        interactorInterface.googleLogin(presenterViewController: viewController)
     }
 }
 

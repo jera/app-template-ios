@@ -25,7 +25,7 @@ protocol LoginInteractorInterface {
     var passwordErrors: Observable<[PasswordFieldError]> {get}
 }
 
-class LoginInteractor {
+class LoginInteractor: BaseInteractor {
     let repositoryInterface: LoginRepositoryInterface
     
     let authenticateResponseVariable = Variable<RequestResponse<User>>(.new)

@@ -6,6 +6,9 @@
   Copyright © 2017 Jera. All rights reserved.
 */
 
+"alert.errorTitle" = "Ops...";
+
+//Login
 "login.signInWith" = "Faça login com";
 "login.or" = "Ou";
 "login.email" = "Email";
@@ -13,8 +16,15 @@
 "login.enter" = "Entrar";
 "login.createAccount" = "Criar uma conta";
 "login.forgotPass" = "Esqueci minha senha";
+"login.loging" = "Entrando...";
+"login.logingWithFacebook" = "Entrando com Facebook...";
+"login.logingWithGoogle" = "Entrando com Google...";
 
+//CreateAccount
+"createAccount.title" = "Cadastro";
 
+//ForgotPassword
 "forgotPassword.title" = "Informe o seu email para recuperar sua senha";
 "forgotPassword.email" = "Email";
 "forgotPassword.send" = "ENVIAR";
+

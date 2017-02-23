@@ -15,7 +15,7 @@ enum MainPage {
 
 class MainWireFrame: BaseWireFrame {
     
-    private var mainPresenter = MainPresenter()
+    private let mainPresenter = MainPresenter()
     private let mainViewController = MainViewController()
     
     var loginWireFrame: LoginWireFrame? {

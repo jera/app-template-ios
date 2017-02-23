@@ -52,8 +52,7 @@ class LoginViewController: BaseViewController {
         
         addBackgroundImageView(withImage: #imageLiteral(resourceName: "img_bg"))
         
-        guard let loginView = Bundle.main.loadNibNamed("LoginView", owner: self, options: nil)?.first as? UIView else {
-            print("No LoginView")
+        guard let loginView = R.nib.loginView().instantiate(withOwner: self, options: nil).first as? UIView else {
             return
         }
         addScrollView(withSubView: loginView) { [weak self] (loginViewLayoutProxy, scrollViewLayoutProxy) in
@@ -168,10 +167,10 @@ class LoginViewController: BaseViewController {
                 case .new:
                     strongSelf.hideHud()
                 case .loading:
-                    strongSelf.showHudWith(title:  "Entrando...")
+                    strongSelf.showHudWith(title:  R.string.localizable.loginLoging())
                 case .failure(let error):
                     strongSelf.hideHud()
-                    strongSelf.showOKAlertWith(title: "Ops...", message: error.localizedDescription)
+                    strongSelf.showOKAlertWith(title: R.string.localizable.alertErrorTitle(), message: error.localizedDescription)
                 case .success:
                     strongSelf.hideHud()
                 case .cancelled:
@@ -188,11 +187,11 @@ class LoginViewController: BaseViewController {
                 case .new:
                     strongSelf.hideHud()
                 case .loading:
-                    strongSelf.showHudWith(title:  "Entrando com Facebook...")
+                    strongSelf.showHudWith(title: R.string.localizable.loginLogingWithFacebook())
                     break
                 case .failure(let error):
                     strongSelf.hideHud()
-                    strongSelf.showOKAlertWith(title: "Ops...", message: error.localizedDescription)
+                    strongSelf.showOKAlertWith(title: R.string.localizable.alertErrorTitle(), message: error.localizedDescription)
                 case .success:
                     strongSelf.hideHud()
                 case .cancelled:
@@ -209,11 +208,11 @@ class LoginViewController: BaseViewController {
                 case .new:
                     strongSelf.hideHud()
                 case .loading:
-                    strongSelf.showHudWith(title:  "Entrando com Google...")
+                    strongSelf.showHudWith(title:  R.string.localizable.loginLogingWithGoogle())
                     break
                 case .failure(let error):
                     strongSelf.hideHud()
-                    strongSelf.showOKAlertWith(title: "Ops...", message: error.localizedDescription)
+                    strongSelf.showOKAlertWith(title: R.string.localizable.alertErrorTitle(), message: error.localizedDescription)
                 case .success:
                     strongSelf.hideHud()
                 case .cancelled:
@@ -254,7 +253,14 @@ class LoginViewController: BaseViewController {
                 strongSelf.presenterInterface?.forgotPasswordButtonPressed()
             }
             .addDisposableTo(presenterInterfaceBindDisposeBag)
-        
+                
+        createAccountButton.rx.tap
+            .subscribe { [weak self] (_) in
+                guard let strongSelf = self else { return }
+                
+                strongSelf.presenterInterface?.createAccountButtonPressed()
+            }
+            .addDisposableTo(presenterInterfaceBindDisposeBag)
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle{

@@ -57,9 +57,9 @@ enum APITarget {
     case LoginWithFacebook(token: String)
     case LoginWithGoogle(token: String)
     case ForgotPassword(email: String)
-    case CreateNewAccount(name: String, email: String, password: String, image: UIImage?)
+    case CreateNewAccount(name: String, email: String, cpf: String, password: String, image: UIImage?)
     case LogoutUser
-    case EditAccount(name: String?, email: String?, password: String?, oldPassword: String?, image: UIImage?)
+    case EditAccount(name: String?, email: String?, cpf: String?, password: String?, oldPassword: String?, image: UIImage?)
     case CurrentUser
 }
 
@@ -194,10 +194,23 @@ extension APITarget: TargetType {
              .LoginWithFacebook,
              .LoginWithGoogle,
              .ForgotPassword,
-             .CreateNewAccount,
              .LogoutUser,
              .CurrentUser:
             return .request
+            
+        case .CreateNewAccount(let params):
+            guard let userImage = params.image else { return .request }
+            
+            guard let userImageData = UIImageJPEGRepresentation(userImage, 0.8) else { return .request }
+            
+            let multipartFormsToSend = [Moya.MultipartFormData(
+                provider: MultipartFormData.FormDataProvider.data(userImageData),
+                name: "avatar",
+                fileName: "avatar.jpg",
+                mimeType: "image/jpg")
+            ]
+            
+            return .upload(UploadType.multipart(multipartFormsToSend))
             
         case .EditAccount(let params):
             guard let userImage = params.image else { return .request }
@@ -225,8 +238,8 @@ protocol APIClientInterface{
     func loginWithFacebook(token: String) -> Observable<UserAPI>
     func loginWithGoogle(token: String) -> Observable<UserAPI>
     func forgotPasswordWith(email: String) -> Observable<String?>
-    func createNewAccount(name: String, email: String, password: String, image: UIImage?) -> Observable<UserAPI>
-    func editCurrentUserWith(name: String?, email: String?, password: String?, oldPassword: String?, image: UIImage?) -> Observable<UserAPI>
+    func createNewAccount(name: String, email: String, cpf: String, password: String, image: UIImage?) -> Observable<UserAPI>
+    func editCurrentUserWith(name: String?, email: String?, cpf: String?, password: String?, oldPassword: String?, image: UIImage?) -> Observable<UserAPI>
     func getCurrentUser() -> Observable<UserAPI>
     func logoutUser() -> Observable<Void>
 }
@@ -260,16 +273,16 @@ struct APIClient: APIClientInterface {
             .mapServerMessage()
     }
     
-    func createNewAccount(name: String, email: String, password: String, image: UIImage? = nil) -> Observable<UserAPI>{
+    func createNewAccount(name: String, email: String, cpf: String, password: String, image: UIImage? = nil) -> Observable<UserAPI>{
         return provider
-            .request(.CreateNewAccount(name: name, email: email, password: password, image: image))
+            .request(.CreateNewAccount(name: name, email: email, cpf: cpf, password: password, image: image))
             .processResponse(updateCurrentUser: true)
             .mapObject(UserAPI.self)
     }
     
-    func editCurrentUserWith(name: String? = nil, email: String? = nil, password: String? = nil, oldPassword: String? = nil, image: UIImage? = nil) -> Observable<UserAPI>{
+    func editCurrentUserWith(name: String? = nil, email: String? = nil, cpf: String? = nil, password: String? = nil, oldPassword: String? = nil, image: UIImage? = nil) -> Observable<UserAPI>{
         return provider
-            .request(.EditAccount(name: name, email: email, password: password, oldPassword: oldPassword, image: image))
+            .request(.EditAccount(name: name, email: email, cpf: cpf, password: password, oldPassword: oldPassword, image: image))
             .processResponse(updateCurrentUser: true)
             .mapObject(UserAPI.self)
     }
