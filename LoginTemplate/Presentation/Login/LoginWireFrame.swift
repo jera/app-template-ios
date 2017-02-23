@@ -34,11 +34,19 @@ class LoginWireFrame: BaseWireFrame {
         loginViewController.presenterInterface = loginPresenter
     }
     
+    func deallocForgotPasswordWireFrame(){
+        forgotPasswordWireFrame = nil
+    }
+    
 }
 
 extension LoginWireFrame: LoginWireFrameInterface{
     func goToForgotPassword(){
-        forgotPasswordWireFrame = ForgotPasswordWireFrame(rootViewController: loginViewController)
+        if forgotPasswordWireFrame == nil {
+            forgotPasswordWireFrame = ForgotPasswordWireFrame()
+        }
+        
+        forgotPasswordWireFrame?.presentForgotPassword(rootViewController: loginViewController, loginWireFrame: self)
     }
     
     func goToCreateAccount(){

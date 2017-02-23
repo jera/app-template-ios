@@ -38,6 +38,8 @@ extension ForgotPasswordInteractor: ForgotPasswordInteractorInterface {
     func sendNewPasswordToEmail() {
         forgotPasswordDisposeBag = DisposeBag()
         
+        forgotPasswordResponseVariable.value = .loading
+        
         repositoryInterface
             .sendNewPasswordTo(email: email.value)
             .subscribe { [weak self] (event) in

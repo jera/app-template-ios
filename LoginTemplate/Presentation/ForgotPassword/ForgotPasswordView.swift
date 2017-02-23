@@ -36,8 +36,6 @@ class ForgotPasswordView: UIView {
         
         confirmButton.applyAppearance(appearance: .main)
         confirmButton.backgroundColor = UIColor.defaultBackgroundButton()
-        confirmButton.setTitleColor(UIColor.defaultTitleButton(), for: .normal)
-        confirmButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 12)
         confirmButton.layer.cornerRadius = 5
     }
     
