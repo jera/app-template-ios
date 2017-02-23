@@ -24,7 +24,6 @@ class ForgotPasswordViewController: BaseViewController {
         
         addScrollView(withSubView: forgotPasswordView) { (forgotPasswordViewLayoutProxy, scrollViewLayoutProxy) in
             forgotPasswordViewLayoutProxy.edges == scrollViewLayoutProxy.edges
-            forgotPasswordViewLayoutProxy.height == scrollViewLayoutProxy.height
             forgotPasswordViewLayoutProxy.width == scrollViewLayoutProxy.width
         }
     }
