@@ -6,7 +6,10 @@
 //  Copyright © 2017 Jera. All rights reserved.
 //
 
+import UIKit
 import Material
+import NSStringMask
+import RxSwift
 
 extension UIButton{
     func setTitleWithoutAnimation(_ title: String?, for state: UIControlState) {

@@ -14,22 +14,24 @@ protocol CreateAccountPresenterInterface{
     func closeButtonPressed()
     
     var name: Variable<String> {get}
-    var nameErrorsString: Observable<String?> {get}
+    var nameErrorString: Observable<String?> {get}
     
     var email: Variable<String> {get}
-    var emailErrorsString: Observable<String?> {get}
+    var emailErrorString: Observable<String?> {get}
     
     var phone: Variable<String> {get}
-    var phoneErrorsString: Observable<String?> {get}
+    var phoneErrorString: Observable<String?> {get}
     
     var cpf: Variable<String> {get}
-    var cpfErrorsString: Observable<String?> {get}
+    var cpfErrorString: Observable<String?> {get}
     
     var password: Variable<String> {get}
-    var passwordErrorsString: Observable<String?> {get}
+    var passwordErrorString: Observable<String?> {get}
     
     var passwordConfirm: Variable<String> {get}
-    var passwordConfirmErrorsString: Observable<String?> {get}
+    var passwordConfirmErrorString: Observable<String?> {get}
+    
+    var passwordDifferentErrorString: Observable<String?> {get}
     
     var createAccountButtonEnabled: Observable<Bool> {get}
     
@@ -62,7 +64,7 @@ extension CreateAccountPresenter: CreateAccountPresenterInterface{
         return interactorInterface.name
     }
     
-    var nameErrorsString: Observable<String?>{
+    var nameErrorString: Observable<String?>{
         return interactorInterface.nameErrors.map({ (fieldErrors) -> String? in
             if let firstError = fieldErrors.first{
                 switch firstError{
@@ -79,12 +81,12 @@ extension CreateAccountPresenter: CreateAccountPresenterInterface{
         return interactorInterface.email
     }
     
-    var emailErrorsString: Observable<String?>{
+    var emailErrorString: Observable<String?>{
         return interactorInterface.emailErrors.map({ (fieldErrors) -> String? in
             if let firstError = fieldErrors.first{
                 switch firstError {
                 case .notValid:
-                    return "Email não válido"
+                    return "Email inválido"
                 case .empty:
                     return nil //Doesn't show if it is empty
                 }
@@ -98,7 +100,7 @@ extension CreateAccountPresenter: CreateAccountPresenterInterface{
         return interactorInterface.phone
     }
     
-    var phoneErrorsString: Observable<String?>{
+    var phoneErrorString: Observable<String?>{
         return interactorInterface.phoneErrors.map({ (fieldErrors) -> String? in
             if let firstError = fieldErrors.first{
                 switch firstError{
@@ -117,12 +119,12 @@ extension CreateAccountPresenter: CreateAccountPresenterInterface{
         return interactorInterface.cpf
     }
     
-    var cpfErrorsString: Observable<String?>{
+    var cpfErrorString: Observable<String?>{
         return interactorInterface.cpfErrors.map({ (fieldErrors) -> String? in
             if let firstError = fieldErrors.first{
                 switch firstError{
-                case .minCharaters(let count):
-                    return "CPF deve ter no mínimo \(count) caracteres"
+                case .notValid:
+                    return "CPF inválido"
                 case .empty:
                     return nil //Doesn't show if it is empty
                 }
@@ -136,7 +138,7 @@ extension CreateAccountPresenter: CreateAccountPresenterInterface{
         return interactorInterface.password
     }
     
-    var passwordErrorsString: Observable<String?>{
+    var passwordErrorString: Observable<String?>{
         return interactorInterface.passwordErrors.map({ (fieldErrors) -> String? in
             if let firstError = fieldErrors.first{
                 switch firstError{
@@ -155,7 +157,7 @@ extension CreateAccountPresenter: CreateAccountPresenterInterface{
         return interactorInterface.passwordConfirm
     }
     
-    var passwordConfirmErrorsString: Observable<String?>{
+    var passwordConfirmErrorString: Observable<String?>{
         return interactorInterface.passwordConfirmErrors.map({ (fieldErrors) -> String? in
             if let firstError = fieldErrors.first{
                 switch firstError{
@@ -170,9 +172,18 @@ extension CreateAccountPresenter: CreateAccountPresenterInterface{
         })
     }
     
+    var passwordDifferentErrorString: Observable<String?>{
+        return Observable.combineLatest(interactorInterface.password.asObservable(), interactorInterface.passwordConfirm.asObservable(), resultSelector: { (password, confirmPassword) -> String? in
+            if password != confirmPassword{
+                return "Senhas não conferem"
+            }
+            return nil
+        })
+    }
+    
     var createAccountButtonEnabled: Observable<Bool>{
-        return Observable.combineLatest(interactorInterface.emailErrors, interactorInterface.passwordErrors, resultSelector: { (emailErrors, passwordErrors) -> Bool in
-            return !(emailErrors.count > 0 || passwordErrors.count > 0)
+        return Observable.combineLatest(interactorInterface.nameErrors , interactorInterface.emailErrors, interactorInterface.phoneErrors, interactorInterface.cpfErrors , interactorInterface.passwordErrors, interactorInterface.passwordConfirmErrors, interactorInterface.password.asObservable(), interactorInterface.passwordConfirm.asObservable(), resultSelector: { (nameErrors, emailErrors, phoneErrors, cpfErrors, passwordErrors, passwordConfirmErrors, password, confirmPassword) -> Bool in
+            return !(nameErrors.count > 0 || emailErrors.count > 0 || phoneErrors.count > 0 || cpfErrors.count > 0 || passwordErrors.count > 0 || passwordConfirmErrors.count > 0 || password != confirmPassword )
         })
     }
     

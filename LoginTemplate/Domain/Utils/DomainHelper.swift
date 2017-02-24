@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import NSStringMask
 
 enum NameFieldError: Equatable{
     case empty
@@ -35,18 +36,7 @@ enum PhoneFieldError: Equatable{
 
 enum CpfFieldError: Equatable{
     case empty
-    case minCharaters(count: Int)
-    
-    static func ==(lhs: CpfFieldError, rhs: CpfFieldError) -> Bool{
-        switch (lhs, rhs) {
-        case (.empty, .empty):
-            return true
-        case (.minCharaters, .minCharaters):
-            return true
-        default:
-            return false
-        }
-    }
+    case notValid
 }
 
 enum PasswordFieldError: Equatable{
@@ -67,6 +57,9 @@ enum PasswordFieldError: Equatable{
 
 class DomainHelper {
     
+    static let cpfMask = NSStringMask(pattern: "(\\d{3}).(\\d{3}).(\\d{3})-(\\d{2})", placeholder: "_")
+    static let phoneMask = NSStringMask(pattern: "\\((\\d{2})\\) (\\d{9})", placeholder: "_")
+    
     static func isEmailValid(email: String) -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
         let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
@@ -75,7 +68,6 @@ class DomainHelper {
 }
 
 extension UIColor {
-    
     static func defaultViewBackground() -> UIColor {
         return white
     }
@@ -102,6 +94,5 @@ extension UIColor {
     
     class func textFielTint() -> UIColor{
         return UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1)
-
     }
 }

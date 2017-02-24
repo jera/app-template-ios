@@ -126,8 +126,8 @@ extension CreateAccountInteractor: CreateAccountInteractorInterface{
                     fieldErrors.append(.empty)
                 }
                 
-                if phone.characters.count < 6{
-                    fieldErrors.append(.minCharaters(count: 6))
+                if phone.characters.count < 10{
+                    fieldErrors.append(.minCharaters(count: 10))
                 }
                 
                 return fieldErrors
@@ -144,7 +144,25 @@ extension CreateAccountInteractor: CreateAccountInteractorInterface{
                     fieldErrors.append(.empty)
                 }
                 
-                if cpf.characters.count < 6{
+                if !CPF.validate(cpf: cpf){
+                    fieldErrors.append(.notValid)
+                }
+                
+                return fieldErrors
+        }
+    }
+    
+    var passwordErrors: Observable<[PasswordFieldError]>{
+        return self.password
+            .asObservable()
+            .map { (password) -> [PasswordFieldError] in
+                var fieldErrors = [PasswordFieldError]()
+                
+                if password.characters.count == 0 {
+                    fieldErrors.append(.empty)
+                }
+                
+                if password.characters.count < 6{
                     fieldErrors.append(.minCharaters(count: 6))
                 }
                 
@@ -163,24 +181,6 @@ extension CreateAccountInteractor: CreateAccountInteractorInterface{
                 }
                 
                 if passwordConfirm.characters.count < 6{
-                    fieldErrors.append(.minCharaters(count: 6))
-                }
-                
-                return fieldErrors
-        }
-    }
-    
-    var passwordErrors: Observable<[PasswordFieldError]>{
-        return self.password
-            .asObservable()
-            .map { (password) -> [PasswordFieldError] in
-                var fieldErrors = [PasswordFieldError]()
-                
-                if password.characters.count == 0 {
-                    fieldErrors.append(.empty)
-                }
-                
-                if password.characters.count < 6{
                     fieldErrors.append(.minCharaters(count: 6))
                 }
                 

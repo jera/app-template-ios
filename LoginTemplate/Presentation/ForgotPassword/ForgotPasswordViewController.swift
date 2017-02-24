@@ -45,6 +45,8 @@ class ForgotPasswordViewController: BaseViewController {
     }
     
     private func bind(){
+        guard isLoaded else { return }
+        
         presenterInterfaceBindDisposeBag = DisposeBag()
         
         guard let presenterInterface = presenterInterface else{ return }

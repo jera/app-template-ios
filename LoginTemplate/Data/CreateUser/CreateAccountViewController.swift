@@ -11,7 +11,7 @@ import RxSwift
 import Material
 import Cartography
 
-class CreateAccountViewController: BaseViewController {
+class CreateAccountViewController: BaseViewController, UITextFieldDelegate {
     
     @IBOutlet weak var avatarImageView: UIImageView!
     
@@ -76,9 +76,11 @@ class CreateAccountViewController: BaseViewController {
         
         phoneTextField.applyAppearance(appearance: .white)
         phoneTextField.keyboardType = .numberPad
+        //phoneTextField.mask = DomainHelper.phoneMask
         
         cpfTextField.applyAppearance(appearance: .white)
         cpfTextField.keyboardType = .numberPad
+        //cpfTextField.mask = DomainHelper.cpfMask
         
         passwordTextField.applyAppearance(appearance: .white)
         passwordTextField.isSecureTextEntry = true
@@ -108,6 +110,170 @@ class CreateAccountViewController: BaseViewController {
     }
     
     private func bind(){
+        guard isLoaded else { return }
         
+        presenterInterfaceBindDisposeBag = DisposeBag()
+        
+        guard let presenterInterface = presenterInterface else{ return }
+        
+        presenterInterface.name
+            .asObservable()
+            .bindTo(nameTextField.rx.text)
+            .addDisposableTo(presenterInterfaceBindDisposeBag)
+        
+        nameTextField.rx.text
+            .asObservable()
+            .map { (text) -> String in
+                return text ?? ""
+            }
+            .bindTo(presenterInterface.name)
+            .addDisposableTo(presenterInterfaceBindDisposeBag)
+        
+        presenterInterface.nameErrorString
+            .subscribe(onNext: { [weak self] (errorString) in
+                self?.nameTextField.detail = errorString
+            })
+            .addDisposableTo(presenterInterfaceBindDisposeBag)
+        
+        presenterInterface.email
+            .asObservable()
+            .bindTo(emailTextField.rx.text)
+            .addDisposableTo(presenterInterfaceBindDisposeBag)
+        
+        emailTextField.rx.text
+            .asObservable()
+            .map { (text) -> String in
+                return text ?? ""
+            }
+            .bindTo(presenterInterface.email)
+            .addDisposableTo(presenterInterfaceBindDisposeBag)
+        
+        presenterInterface.emailErrorString
+            .subscribe(onNext: { [weak self] (errorString) in
+                self?.emailTextField.detail = errorString
+            })
+            .addDisposableTo(presenterInterfaceBindDisposeBag)
+        
+        presenterInterface.phone
+            .asObservable()
+            .bindTo(phoneTextField.rx.text)
+            .addDisposableTo(presenterInterfaceBindDisposeBag)
+        
+        phoneTextField.rx.text
+            .asObservable()
+            .map { (text) -> String in
+                return text ?? ""
+            }
+            .bindTo(presenterInterface.phone)
+            .addDisposableTo(presenterInterfaceBindDisposeBag)
+        
+        presenterInterface.phoneErrorString
+            .subscribe(onNext: { [weak self] (errorString) in
+                self?.phoneTextField.detail = errorString
+            })
+            .addDisposableTo(presenterInterfaceBindDisposeBag)
+        
+        presenterInterface.cpf
+            .asObservable()
+            .bindTo(cpfTextField.rx.text)
+            .addDisposableTo(presenterInterfaceBindDisposeBag)
+        
+        cpfTextField.rx.text
+            .asObservable()
+            .map { (text) -> String in
+                return text ?? ""
+            }
+            .bindTo(presenterInterface.cpf)
+            .addDisposableTo(presenterInterfaceBindDisposeBag)
+        
+        presenterInterface.cpfErrorString
+            .subscribe(onNext: { [weak self] (errorString) in
+                self?.cpfTextField.detail = errorString
+            })
+            .addDisposableTo(presenterInterfaceBindDisposeBag)
+        
+        presenterInterface.password
+            .asObservable()
+            .bindTo(passwordTextField.rx.text)
+            .addDisposableTo(presenterInterfaceBindDisposeBag)
+        
+        passwordTextField.rx.text
+            .asObservable()
+            .map { (text) -> String in
+                return text ?? ""
+            }
+            .bindTo(presenterInterface.password)
+            .addDisposableTo(presenterInterfaceBindDisposeBag)
+        
+        presenterInterface.passwordErrorString
+            .subscribe(onNext: { [weak self] (errorString) in
+                self?.passwordTextField.detail = errorString
+            })
+            .addDisposableTo(presenterInterfaceBindDisposeBag)
+        
+        presenterInterface.passwordConfirm
+            .asObservable()
+            .bindTo(confirmPasswordTextField.rx.text)
+            .addDisposableTo(presenterInterfaceBindDisposeBag)
+        
+        confirmPasswordTextField.rx.text
+            .asObservable()
+            .map { (text) -> String in
+                return text ?? ""
+            }
+            .bindTo(presenterInterface.passwordConfirm)
+            .addDisposableTo(presenterInterfaceBindDisposeBag)
+        
+        presenterInterface.passwordConfirmErrorString
+            .subscribe(onNext: { [weak self] (errorString) in
+                self?.confirmPasswordTextField.detail = errorString
+            })
+            .addDisposableTo(presenterInterfaceBindDisposeBag)
+        
+        presenterInterface.passwordDifferentErrorString
+            .subscribe(onNext: { [weak self] (errorString) in
+                self?.confirmPasswordTextField.detail = errorString
+            })
+            .addDisposableTo(presenterInterfaceBindDisposeBag)
+        
+        presenterInterface.createAccountButtonEnabled
+            .bindTo(createAccountButton.rx.isEnabled)
+            .addDisposableTo(presenterInterfaceBindDisposeBag)
+        
+        presenterInterface.createAccountRequestResponse
+            .subscribe(onNext: { [weak self] (requestResponse) in
+                guard let strongSelf = self else { return }
+                
+                switch requestResponse{
+                case .new:
+                    strongSelf.hideHud()
+                case .loading:
+                    strongSelf.showHudWith(title:  R.string.localizable.alertWait())
+                case .failure(let error):
+                    strongSelf.hideHud()
+                    strongSelf.showOKAlertWith(title: R.string.localizable.alertErrorTitle(), message: error.localizedDescription)
+                case .success:
+                    strongSelf.hideHud()
+                case .cancelled:
+                    strongSelf.hideHud()
+                }
+            })
+            .addDisposableTo(presenterInterfaceBindDisposeBag)
+        
+        changePhotoButton.rx.tap
+            .subscribe { [weak self] (_) in
+                guard let strongSelf = self else { return }
+                
+                strongSelf.presenterInterface?.chooseUserImageButtonPressed()
+            }
+            .addDisposableTo(presenterInterfaceBindDisposeBag)
+        
+        createAccountButton.rx.tap
+            .subscribe { [weak self] (_) in
+                guard let strongSelf = self else { return }
+                
+                strongSelf.presenterInterface?.createButtonPressed()
+            }
+            .addDisposableTo(presenterInterfaceBindDisposeBag)
     }
 }
