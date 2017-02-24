@@ -7,16 +7,14 @@ target 'LoginTemplate' do
 
   # Pods for LoginTemplate
   pod 'Cartography', '~> 1.0'
-  pod 'Crashlytics', '~> 3.8'
   pod 'Material', '~> 2.4'
   pod 'Moya-ObjectMapper/RxSwift', '~> 2.3'
   pod 'R.swift', '~> 3.2'
   pod 'TPKeyboardAvoiding', '~> 1.3'
-  pod 'RxCocoa', '~> 3.1.0'
+  pod 'RxCocoa', '~> 3.2.0'
 
   #ObjC
   pod 'FBSDKLoginKit', '~> 4.19'
   pod 'Google/SignIn', '~> 3.0'
-  pod 'SVProgressHUD', '~> 2.1'
 
 end

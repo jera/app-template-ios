@@ -7,27 +7,19 @@
 //
 
 import UIKit
-import RxSwift
 
 import FBSDKCoreKit
 
 import GoogleSignIn
 import GGLSignIn
 
-import Fabric
-import Crashlytics
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var mainWireFrame:MainWireFrame?
-
-
-    let temp = DisposeBag()
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        Fabric.with([Crashlytics.self])
-        
         FacebookAPI.configureWith(appId: "214642118985510", displayName:  "AgroPocket")
         GoogleAPI.configure()
         
