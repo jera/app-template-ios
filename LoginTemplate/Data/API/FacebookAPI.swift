@@ -19,11 +19,6 @@ class FacebookAPI: FacebookAPIInterface {
     
     private let loginManager = FBSDKLoginManager()
     
-    static func configureWith(appId: String, displayName: String){
-        FBSDKSettings.setAppID(appId)
-        FBSDKSettings.setDisplayName(displayName)
-    }
-    
     func signIn(fromViewController: UIViewController) -> Observable<String>{
         return Observable<String>.create({ [weak self] (observer) -> Disposable in
             guard let strongSelf = self else {

@@ -20,7 +20,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var mainWireFrame:MainWireFrame?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        FacebookAPI.configureWith(appId: "214642118985510", displayName:  "AgroPocket")
         GoogleAPI.configure()
         
         Appearance.applyUIAppearence()
