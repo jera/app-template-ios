@@ -7,63 +7,12 @@
 //
 
 import UIKit
-import NSStringMask
 
-enum NameFieldError: Equatable{
-    case empty
-}
-
-enum EmailFieldError: Equatable{
-    case empty
-    case notValid
-}
-
-enum PhoneFieldError: Equatable{
-    case empty
-    case minCharaters(count: Int)
-    
-    static func ==(lhs: PhoneFieldError, rhs: PhoneFieldError) -> Bool{
-        switch (lhs, rhs) {
-        case (.empty, .empty):
-            return true
-        case (.minCharaters, .minCharaters):
-            return true
-        default:
-            return false
-        }
-    }
-}
-
-enum CpfFieldError: Equatable{
-    case empty
-    case notValid
-}
-
-enum PasswordFieldError: Equatable{
-    case empty
-    case minCharaters(count: Int)
-    
-    static func ==(lhs: PasswordFieldError, rhs: PasswordFieldError) -> Bool{
-        switch (lhs, rhs) {
-        case (.empty, .empty):
-            return true
-        case (.minCharaters, .minCharaters):
-            return true
-        default:
-            return false
-        }
-    }
-}
-
-class DomainHelper {
-    
-    static let cpfMask = NSStringMask(pattern: "(\\d{3}).(\\d{3}).(\\d{3})-(\\d{2})", placeholder: "_")
-    static let phoneMask = NSStringMask(pattern: "\\((\\d{2})\\) (\\d{9})", placeholder: "_")
-    
-    static func isEmailValid(email: String) -> Bool {
+extension String {
+    func isValidEmail() -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
         let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
-        return emailTest.evaluate(with: email)
+        return emailTest.evaluate(with: self)
     }
 }
 

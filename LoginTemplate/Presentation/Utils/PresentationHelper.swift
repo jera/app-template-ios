@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PresentationHelper {
+extension UIStoryboard {
     static func controllerFromStoryboard(withName name: String, viewControllerIdentifier: String? = nil) -> UIViewController? {
         let storyboard = UIStoryboard(name: name, bundle: Bundle.main)
         

@@ -18,6 +18,8 @@
 		251B325A1E5E1FF100A6D93B /* CreateAccountView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 251B32591E5E1FF100A6D93B /* CreateAccountView.xib */; };
 		251B325D1E5E465900A6D93B /* BaseInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251B325C1E5E465900A6D93B /* BaseInteractor.swift */; };
 		251B32611E5E46E600A6D93B /* BaseRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251B32601E5E46E600A6D93B /* BaseRepository.swift */; };
+		25633DFB1E646467007F8490 /* MaskTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25633DFA1E646467007F8490 /* MaskTextField.swift */; };
+		25633DFD1E6465B3007F8490 /* FieldErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25633DFC1E6465B3007F8490 /* FieldErrors.swift */; };
 		257467291E560CA80068DC65 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257467281E560CA80068DC65 /* MainViewController.swift */; };
 		2574672B1E560FF30068DC65 /* MainPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2574672A1E560FF30068DC65 /* MainPresenter.swift */; };
 		2574672E1E561CF90068DC65 /* DashboardWireFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2574672D1E561CF90068DC65 /* DashboardWireFrame.swift */; };
@@ -83,6 +85,8 @@
 		251B32591E5E1FF100A6D93B /* CreateAccountView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CreateAccountView.xib; path = LoginTemplate/Data/CreateUser/CreateAccountView.xib; sourceTree = SOURCE_ROOT; };
 		251B325C1E5E465900A6D93B /* BaseInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseInteractor.swift; sourceTree = "<group>"; };
 		251B32601E5E46E600A6D93B /* BaseRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseRepository.swift; sourceTree = "<group>"; };
+		25633DFA1E646467007F8490 /* MaskTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaskTextField.swift; sourceTree = "<group>"; };
+		25633DFC1E6465B3007F8490 /* FieldErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FieldErrors.swift; sourceTree = "<group>"; };
 		257467281E560CA80068DC65 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		2574672A1E560FF30068DC65 /* MainPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainPresenter.swift; sourceTree = "<group>"; };
 		2574672D1E561CF90068DC65 /* DashboardWireFrame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashboardWireFrame.swift; sourceTree = "<group>"; };
@@ -267,6 +271,7 @@
 			children = (
 				25D4C8E41E55FD2100E3AF4A /* DomainHelper.swift */,
 				F006BBD61E6078EE0006D1C8 /* CPF.swift */,
+				25633DFC1E6465B3007F8490 /* FieldErrors.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -401,6 +406,7 @@
 				257467351E564D0A0068DC65 /* BasePresenter.swift */,
 				F021B1CA1E534F560092DA41 /* BaseNavigationController.swift */,
 				F021B1DB1E537BE70092DA41 /* BaseViewController.swift */,
+				25633DFA1E646467007F8490 /* MaskTextField.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -632,8 +638,10 @@
 				F021B1C61E5348DD0092DA41 /* ForgotPasswordWireFrame.swift in Sources */,
 				251B325D1E5E465900A6D93B /* BaseInteractor.swift in Sources */,
 				251B32611E5E46E600A6D93B /* BaseRepository.swift in Sources */,
+				25633DFD1E6465B3007F8490 /* FieldErrors.swift in Sources */,
 				2597E8071E5C775C002B499F /* UserSessionRepository.swift in Sources */,
 				2597E80B1E5C82C3002B499F /* UserSession.swift in Sources */,
+				25633DFB1E646467007F8490 /* MaskTextField.swift in Sources */,
 				251B32541E5E1D5C00A6D93B /* CreateAccountPresenter.swift in Sources */,
 				2574672E1E561CF90068DC65 /* DashboardWireFrame.swift in Sources */,
 				F021B1CB1E534F560092DA41 /* BaseNavigationController.swift in Sources */,

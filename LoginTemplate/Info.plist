@@ -25,7 +25,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb214642118985510</string>
+				<string>fb190121874806917</string>
 			</array>
 		</dict>
 		<dict>
@@ -89,5 +89,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>FacebookAppID</key>
+	<string>190121874806917</string>
+	<key>FacebookDisplayName</key>
+	<string>LoginTemplate</string>
 </dict>
 </plist>

@@ -28,7 +28,7 @@ protocol CreateAccountInteractorInterface {
     var passwordErrors: Observable<[PasswordFieldError]> {get}
     
     var passwordConfirm: Variable<String> {get}
-    var passwordConfirmErrors: Observable<[PasswordFieldError]> {get}
+    var passwordConfirmErrors: Observable<[ConfirmPasswordFieldError]> {get}
 }
 
 class CreateAccountInteractor: BaseInteractor {
@@ -108,7 +108,7 @@ extension CreateAccountInteractor: CreateAccountInteractorInterface{
                     fieldErrors.append(.empty)
                 }
                 
-                if !DomainHelper.isEmailValid(email: email){
+                if !email.isValidEmail(){
                     fieldErrors.append(.notValid)
                 }
                 
@@ -170,21 +170,15 @@ extension CreateAccountInteractor: CreateAccountInteractorInterface{
         }
     }
     
-    var passwordConfirmErrors: Observable<[PasswordFieldError]>{
-        return self.passwordConfirm
-            .asObservable()
-            .map { (passwordConfirm) -> [PasswordFieldError] in
-                var fieldErrors = [PasswordFieldError]()
-                
-                if passwordConfirm.characters.count == 0 {
-                    fieldErrors.append(.empty)
-                }
-                
-                if passwordConfirm.characters.count < 6{
-                    fieldErrors.append(.minCharaters(count: 6))
-                }
-                
-                return fieldErrors
-        }
+    var passwordConfirmErrors: Observable<[ConfirmPasswordFieldError]>{
+        return Observable.combineLatest(password.asObservable(), passwordConfirm.asObservable(), resultSelector: { (password, passwordConfirm) -> [ConfirmPasswordFieldError] in
+            var fieldErrors = [ConfirmPasswordFieldError]()
+            
+            if password != passwordConfirm{
+                fieldErrors.append(.confirmPasswordNotMatch)
+            }
+            
+            return fieldErrors
+        })
     }
 }

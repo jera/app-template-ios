@@ -31,7 +31,7 @@ protocol CreateAccountPresenterInterface{
     var passwordConfirm: Variable<String> {get}
     var passwordConfirmErrorString: Observable<String?> {get}
     
-    var passwordDifferentErrorString: Observable<String?> {get}
+//    var passwordDifferentErrorString: Observable<String?> {get}
     
     var createAccountButtonEnabled: Observable<Bool> {get}
     
@@ -161,22 +161,11 @@ extension CreateAccountPresenter: CreateAccountPresenterInterface{
         return interactorInterface.passwordConfirmErrors.map({ (fieldErrors) -> String? in
             if let firstError = fieldErrors.first{
                 switch firstError{
-                case .minCharaters(let count):
-                    return "Senha deve ter no mínimo \(count) caracteres"
-                case .empty:
-                    return nil //Doesn't show if it is empty
+                case .confirmPasswordNotMatch:
+                    return "Senhas não conferem"
                 }
             }
             
-            return nil
-        })
-    }
-    
-    var passwordDifferentErrorString: Observable<String?>{
-        return Observable.combineLatest(interactorInterface.password.asObservable(), interactorInterface.passwordConfirm.asObservable(), resultSelector: { (password, confirmPassword) -> String? in
-            if password != confirmPassword{
-                return "Senhas não conferem"
-            }
             return nil
         })
     }
