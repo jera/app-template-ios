@@ -16,5 +16,6 @@ target 'LoginTemplate' do
   #ObjC
   pod 'FBSDKLoginKit', '~> 4.19'
   pod 'Google/SignIn', '~> 3.0'
+  pod 'NSStringMask', :git => 'https://github.com/aleufms/NSStringMask', :commit => '13f13ce1eeb74985ea07f2950eb5925dc7f231c8'  #Remove warnings and bullshits
 
 end

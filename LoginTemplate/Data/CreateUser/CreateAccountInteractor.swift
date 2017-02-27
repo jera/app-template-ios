@@ -12,23 +12,25 @@ protocol CreateAccountInteractorInterface {
     func createAccount()
     var createAccountResponse: Observable<RequestResponse<User>> { get }
     
-//    var name: Variable<String> {get}
-//    var nameErrors: Observable<[EmailFieldError]> {get}
+    var userImage: Variable<UIImage?> {get}
+    
+    var name: Variable<String> {get}
+    var nameErrors: Observable<[NameFieldError]> {get}
     
     var email: Variable<String> {get}
     var emailErrors: Observable<[EmailFieldError]> {get}
     
-//    var phone: Variable<String> {get}
-//    var phoneErrors: Observable<[EmailFieldError]> {get}
+    var phone: Variable<String> {get}
+    var phoneErrors: Observable<[PhoneFieldError]> {get}
     
-//    var cpf: Variable<String> {get}
-//    var cpfErrors: Observable<[EmailFieldError]> {get}
+    var cpf: Variable<String> {get}
+    var cpfErrors: Observable<[CpfFieldError]> {get}
     
     var password: Variable<String> {get}
     var passwordErrors: Observable<[PasswordFieldError]> {get}
     
-//    var passwordConfirm: Variable<String> {get}
-//    var passwordConfirmErrors: Observable<[PasswordFieldError]> {get}
+    var passwordConfirm: Variable<String> {get}
+    var passwordConfirmErrors: Observable<[ConfirmPasswordFieldError]> {get}
 }
 
 class CreateAccountInteractor: BaseInteractor {
@@ -37,13 +39,13 @@ class CreateAccountInteractor: BaseInteractor {
     fileprivate var createAccountDisposeBag: DisposeBag!
     let createAccountResponseVariable = Variable<RequestResponse<User>>(.new)
     
+    let userImage = Variable<UIImage?>(nil)
     let name = Variable("")
     let email = Variable("")
     let phone = Variable("")
     let cpf = Variable("")
     let password = Variable("")
     let passwordConfirm = Variable("")
-    let image = Variable<UIImage?>(nil)
     
     init(repositoryInterface: CreateAccountRepositoryInterface) {
         self.repositoryInterface = repositoryInterface
@@ -61,7 +63,7 @@ extension CreateAccountInteractor: CreateAccountInteractorInterface{
         createAccountResponseVariable.value = .loading
         
         repositoryInterface
-            .createWith(name: name.value, email: email.value, phone: phone.value, cpf: cpf.value, password: password.value, image: image.value)
+            .createWith(name: name.value, email: email.value, phone: phone.value, cpf: cpf.value, password: password.value, image: userImage.value)
             .subscribe { [weak self] (event) in
                 guard let strongSelf = self else { return }
                 
@@ -84,6 +86,20 @@ extension CreateAccountInteractor: CreateAccountInteractorInterface{
             .addDisposableTo(createAccountDisposeBag)
     }
     
+    var nameErrors: Observable<[NameFieldError]>{
+        return self.name
+            .asObservable()
+            .map { (name) -> [NameFieldError] in
+                var fieldErrors = [NameFieldError]()
+                
+                if name.characters.count == 0 {
+                    fieldErrors.append(.empty)
+                }
+                
+                return fieldErrors
+        }
+    }
+    
     var emailErrors: Observable<[EmailFieldError]>{
         return self.email
             .asObservable()
@@ -94,7 +110,43 @@ extension CreateAccountInteractor: CreateAccountInteractorInterface{
                     fieldErrors.append(.empty)
                 }
                 
-                if !DomainHelper.isEmailValid(email: email){
+                if !email.isValidEmail(){
+                    fieldErrors.append(.notValid)
+                }
+                
+                return fieldErrors
+        }
+    }
+    
+    var phoneErrors: Observable<[PhoneFieldError]>{
+        return self.phone
+            .asObservable()
+            .map { (phone) -> [PhoneFieldError] in
+                var fieldErrors = [PhoneFieldError]()
+                
+                if phone.characters.count == 0 {
+                    fieldErrors.append(.empty)
+                }
+                
+                if phone.characters.count < 10{
+                    fieldErrors.append(.minCharaters(count: 10))
+                }
+                
+                return fieldErrors
+        }
+    }
+    
+    var cpfErrors: Observable<[CpfFieldError]>{
+        return self.cpf
+            .asObservable()
+            .map { (cpf) -> [CpfFieldError] in
+                var fieldErrors = [CpfFieldError]()
+                
+                if cpf.characters.count == 0 {
+                    fieldErrors.append(.empty)
+                }
+                
+                if !CPF.validate(cpf: cpf){
                     fieldErrors.append(.notValid)
                 }
                 
@@ -118,5 +170,17 @@ extension CreateAccountInteractor: CreateAccountInteractorInterface{
                 
                 return fieldErrors
         }
+    }
+    
+    var passwordConfirmErrors: Observable<[ConfirmPasswordFieldError]>{
+        return Observable.combineLatest(password.asObservable(), passwordConfirm.asObservable(), resultSelector: { (password, passwordConfirm) -> [ConfirmPasswordFieldError] in
+            var fieldErrors = [ConfirmPasswordFieldError]()
+            
+            if password != passwordConfirm{
+                fieldErrors.append(.confirmPasswordNotMatch)
+            }
+            
+            return fieldErrors
+        })
     }
 }

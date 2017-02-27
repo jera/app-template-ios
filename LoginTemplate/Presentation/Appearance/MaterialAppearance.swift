@@ -6,7 +6,10 @@
 //  Copyright © 2017 Jera. All rights reserved.
 //
 
+import UIKit
 import Material
+import NSStringMask
+import RxSwift
 
 extension UIButton{
     func setTitleWithoutAnimation(_ title: String?, for state: UIControlState) {
@@ -74,6 +77,7 @@ extension RaisedButton{
 
 enum FlatButtonAppearance{
     case main
+    case white
 }
 
 extension FlatButton{
@@ -87,6 +91,14 @@ extension FlatButton{
             
             //disable
             setTitleColor(Color(white: 0.74, alpha: 1), for: .disabled)
+        case .white:
+            pulseColor = .gray
+            titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+            setTitleColor(.gray, for: .normal)
+            contentEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
+            
+            //disable
+            setTitleColor(Color(white: 0.74, alpha: 1), for: .disabled)
         }
     }
 }
@@ -94,7 +106,6 @@ extension FlatButton{
 enum TextFieldAppearence {
     case main
     case white
-//    case AppearenceToScreenWrite
 }
 
 
@@ -139,25 +150,6 @@ extension TextField{
             detailLabel.font = UIFont.systemFont(ofSize: 10)
             detailColor = Color.red.base
             detailVerticalOffset = -2
-//        case .AppearenceToScreenWrite:
-//            tintColor = UIColor.gray
-//            font = UIFont.systemFont(ofSize: 14)
-//            textColor = UIColor.black
-//            backgroundColor = UIColor.clear
-//            
-//            placeholderLabel.font = UIFont.systemFont(ofSize: 14)
-//            placeholderNormalColor = UIColor.gray.withAlphaComponent(0.7)
-//            placeholderActiveColor = UIColor.gray
-//            placeholderVerticalOffset = 20
-//            
-//            dividerColor = UIColor.gray.withAlphaComponent(0.7)
-//            dividerNormalColor = UIColor.gray.withAlphaComponent(0.7)
-//            dividerActiveColor = UIColor.gray
-//            
-//            detailLabel.font = UIFont.systemFont(ofSize: 12)
-//            detailColor = UIColor.gray.withAlphaComponent(1)
-//            
-//            detailVerticalOffset = 4
         }
     }
 }

@@ -7,6 +7,7 @@
 */
 
 "alert.errorTitle" = "Ops...";
+"alert.wait" = "Aguarde";
 
 //Login
 "login.signInWith" = "Faça login com";
@@ -22,8 +23,17 @@
 
 //CreateAccount
 "createAccount.title" = "Cadastro";
+"createAccount.seachPhoto" = "ESCOLHER FOTO";
+"createAccount.name" = "Nome Completo";
+"createAccount.email" = "Email";
+"createAccount.phone" = "Telefone";
+"createAccount.cpf" = "CPF";
+"createAccount.password" = "Senha";
+"createAccount.confirmPassword" = "Confirmar Senha";
+"createAccount.finishRegister" = "FINALIZAR CADASTRO";
 
 //ForgotPassword
+"forgotPassword.titleNavBar" = "Cadastro";
 "forgotPassword.title" = "Informe o seu email para recuperar sua senha";
 "forgotPassword.email" = "Email";
 "forgotPassword.send" = "ENVIAR";

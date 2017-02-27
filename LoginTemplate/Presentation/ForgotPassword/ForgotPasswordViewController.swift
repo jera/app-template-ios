@@ -32,8 +32,10 @@ class ForgotPasswordViewController: BaseViewController {
     
     override func viewDidLoad(){
         super.viewDidLoad()
+    
+        view.backgroundColor = UIColor.defaultViewBackground()
         
-        title = "Recuperar senha"
+        title = R.string.localizable.forgotPasswordTitleNavBar()
         
         addCloseButton(image: UIImage(named: "ic_nav_back")!) { [weak self] () in
             self?.presenterInterface?.didTapCloseForgotPasswordView()
@@ -43,6 +45,8 @@ class ForgotPasswordViewController: BaseViewController {
     }
     
     private func bind(){
+        guard isLoaded else { return }
+        
         presenterInterfaceBindDisposeBag = DisposeBag()
         
         guard let presenterInterface = presenterInterface else{ return }

@@ -16,7 +16,7 @@ protocol PresenterWireFrameInterface: class{
     func  wireframeDidDismiss()
 }
 
-class BaseWireFrame {
+class BaseWireFrame: NSObject {
     var presentedWireFrame: PresentedWireFrameInterface?
     weak var presenterWireFrame: PresenterWireFrameInterface?
     

@@ -13,11 +13,25 @@ protocol CreateAccountPresenterInterface{
     func chooseUserImageButtonPressed()
     func closeButtonPressed()
     
+    var userImage: Observable<UIImage?> {get}
+    
+    var name: Variable<String> {get}
+    var nameErrorString: Observable<String?> {get}
+    
     var email: Variable<String> {get}
     var emailErrorString: Observable<String?> {get}
     
+    var phone: Variable<String> {get}
+    var phoneErrorString: Observable<String?> {get}
+    
+    var cpf: Variable<String> {get}
+    var cpfErrorString: Observable<String?> {get}
+    
     var password: Variable<String> {get}
     var passwordErrorString: Observable<String?> {get}
+    
+    var passwordConfirm: Variable<String> {get}
+    var passwordConfirmErrorString: Observable<String?> {get}
     
     var createAccountButtonEnabled: Observable<Bool> {get}
     
@@ -39,11 +53,32 @@ extension CreateAccountPresenter: CreateAccountPresenterInterface{
     }
     
     func chooseUserImageButtonPressed(){
-        print("todo")
+        routerInterface?.chooseUserImageButtonPressed(showDeleteCurrentImage: interactorInterface.userImage.value != nil)
     }
     
     func closeButtonPressed(){
         routerInterface?.dismiss()
+    }
+    
+    var userImage: Observable<UIImage?>{
+        return interactorInterface.userImage.asObservable()
+    }
+    
+    var name: Variable<String>{
+        return interactorInterface.name
+    }
+    
+    var nameErrorString: Observable<String?>{
+        return interactorInterface.nameErrors.map({ (fieldErrors) -> String? in
+            if let firstError = fieldErrors.first{
+                switch firstError{
+                case .empty:
+                    return nil //Doesn't show if it is empty
+                }
+            }
+            
+            return nil
+        })
     }
     
     var email: Variable<String>{
@@ -55,7 +90,45 @@ extension CreateAccountPresenter: CreateAccountPresenterInterface{
             if let firstError = fieldErrors.first{
                 switch firstError {
                 case .notValid:
-                    return "Email não válido"
+                    return "Email inválido"
+                case .empty:
+                    return nil //Doesn't show if it is empty
+                }
+            }
+            
+            return nil
+        })
+    }
+    
+    var phone: Variable<String>{
+        return interactorInterface.phone
+    }
+    
+    var phoneErrorString: Observable<String?>{
+        return interactorInterface.phoneErrors.map({ (fieldErrors) -> String? in
+            if let firstError = fieldErrors.first{
+                switch firstError{
+                case .minCharaters(let count):
+                    return "Telefone deve ter no mínimo \(count) caracteres"
+                case .empty:
+                    return nil //Doesn't show if it is empty
+                }
+            }
+            
+            return nil
+        })
+    }
+    
+    var cpf: Variable<String>{
+        return interactorInterface.cpf
+    }
+    
+    var cpfErrorString: Observable<String?>{
+        return interactorInterface.cpfErrors.map({ (fieldErrors) -> String? in
+            if let firstError = fieldErrors.first{
+                switch firstError{
+                case .notValid:
+                    return "CPF inválido"
                 case .empty:
                     return nil //Doesn't show if it is empty
                 }
@@ -84,9 +157,26 @@ extension CreateAccountPresenter: CreateAccountPresenterInterface{
         })
     }
     
+    var passwordConfirm: Variable<String>{
+        return interactorInterface.passwordConfirm
+    }
+    
+    var passwordConfirmErrorString: Observable<String?>{
+        return interactorInterface.passwordConfirmErrors.map({ (fieldErrors) -> String? in
+            if let firstError = fieldErrors.first{
+                switch firstError{
+                case .confirmPasswordNotMatch:
+                    return "Senhas não conferem"
+                }
+            }
+            
+            return nil
+        })
+    }
+    
     var createAccountButtonEnabled: Observable<Bool>{
-        return Observable.combineLatest(interactorInterface.emailErrors, interactorInterface.passwordErrors, resultSelector: { (emailErrors, passwordErrors) -> Bool in
-            return !(emailErrors.count > 0 || passwordErrors.count > 0)
+        return Observable.combineLatest(interactorInterface.nameErrors , interactorInterface.emailErrors, interactorInterface.phoneErrors, interactorInterface.cpfErrors , interactorInterface.passwordErrors, interactorInterface.passwordConfirmErrors, interactorInterface.password.asObservable(), interactorInterface.passwordConfirm.asObservable(), resultSelector: { (nameErrors, emailErrors, phoneErrors, cpfErrors, passwordErrors, passwordConfirmErrors, password, confirmPassword) -> Bool in
+            return !(nameErrors.count > 0 || emailErrors.count > 0 || phoneErrors.count > 0 || cpfErrors.count > 0 || passwordErrors.count > 0 || passwordConfirmErrors.count > 0 || password != confirmPassword )
         })
     }
     
