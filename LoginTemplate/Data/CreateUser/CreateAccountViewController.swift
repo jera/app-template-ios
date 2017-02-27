@@ -70,6 +70,7 @@ class CreateAccountViewController: BaseViewController, UITextFieldDelegate {
         
         nameTextField.applyAppearance(appearance: .white)
         nameTextField.autocorrectionType = .no
+        nameTextField.autocapitalizationType = .words
         
         emailTextField.applyAppearance(appearance: .white)
         emailTextField.keyboardType = .emailAddress
@@ -229,12 +230,6 @@ class CreateAccountViewController: BaseViewController, UITextFieldDelegate {
                 self?.confirmPasswordTextField.detail = errorString
             })
             .addDisposableTo(presenterInterfaceBindDisposeBag)
-        
-//        presenterInterface.passwordDifferentErrorString
-//            .subscribe(onNext: { [weak self] (errorString) in
-//                self?.confirmPasswordTextField.detail = errorString
-//            })
-//            .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         presenterInterface.createAccountButtonEnabled
             .bindTo(createAccountButton.rx.isEnabled)

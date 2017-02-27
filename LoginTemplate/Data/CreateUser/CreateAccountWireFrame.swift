@@ -49,6 +49,8 @@ class CreateAccountWireFrame: BaseWireFrame {
         imagePickerController.sourceType = .camera
         imagePickerController.delegate = self
         imagePickerController.allowsEditing = true
+        imagePickerController.cameraDevice = .front
+        imagePickerController.cameraCaptureMode = .photo
         
         createAccountViewController.present(imagePickerController, animated: true, completion: nil)
         

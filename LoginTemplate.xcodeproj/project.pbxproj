@@ -493,7 +493,8 @@
 				TargetAttributes = {
 					25E2F6F01E52423800AA208E = {
 						CreatedOnToolsVersion = 8.2.1;
-						ProvisioningStyle = Automatic;
+						DevelopmentTeam = E234QZ5Z6G;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -777,11 +778,15 @@
 			baseConfigurationReference = 4B868F5EDD74BAB53382AE56 /* Pods-LoginTemplate.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = E234QZ5Z6G;
 				INFOPLIST_FILE = LoginTemplate/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = br.com.jera.LoginTemplate;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "6df51f6a-76b6-476c-b281-36f965541d48";
+				PROVISIONING_PROFILE_SPECIFIER = "br.com.jera.LoginTemplate Development";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -791,11 +796,15 @@
 			baseConfigurationReference = BABA31F3C30D8383565167AC /* Pods-LoginTemplate.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				DEVELOPMENT_TEAM = E234QZ5Z6G;
 				INFOPLIST_FILE = LoginTemplate/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = br.com.jera.LoginTemplate;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "7780eb52-6187-4c60-a5a9-972dadcf099c";
+				PROVISIONING_PROFILE_SPECIFIER = "br.com.jera.LoginTemplate AppStore";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

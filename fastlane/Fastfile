@@ -1,0 +1,311 @@
+# Customise this file, documentation can be found here:
+# https://github.com/fastlane/fastlane/tree/master/fastlane/docs
+# All available actions: https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Actions.md
+# can also be listed using the `fastlane actions` command
+
+# Change the syntax highlighting to Ruby
+# All lines starting with a # are ignored when running `fastlane`
+
+# If you want to automatically update fastlane if a new version is available:
+# update_fastlane
+
+# This is the minimum version number required.
+# Update this, if you use features of a newer version
+
+fastlane_version "2.18.3"
+
+default_platform :ios
+
+platform :ios do
+  before_all do
+    apply_variables
+  end
+
+  lane :refresh_dsyms do
+    download_dsyms                  # Download dSYM files from iTunes Connect
+    upload_symbols_to_crashlytics   # Upload them to Crashlytics
+    clean_build_artifacts           # Delete the local dSYM files
+  end
+
+  lane :init_date_build do
+    increment_build_number(
+      build_number: getDateBuild
+    )
+  end
+
+  private_lane :apply_variables do
+    if getVariablesName!= nil
+      import "./Variables-#{getVariablesName}.env"
+    else
+      import "./Variables.env"
+    end
+  end
+
+  def getSprint
+    branch = git_branch
+    match = branch.match /-sprint([0-9])*$/
+    if match != nil
+      return match[1]
+    else
+      return nil
+    end
+  end
+
+  def getVariablesName
+    branch = git_branch
+    match = branch.match /^release\/(?:(.*)\/)?v?/
+    if match != nil
+      return match[1]
+    else
+      return nil
+    end
+  end
+
+  def getBranchReleaseVersion
+    branch = git_branch
+    if branch.match /^release\//
+      branchReleaseVersion = branch.gsub /^release\/(?:(.*)\/)?v?/, ""
+      branchReleaseVersion = branchReleaseVersion.gsub /-sprint([0-9])*$/, ""
+    end
+
+    branchReleaseVersion
+  end
+
+  lane :set_branch_release_version do
+    branch_release_version = getBranchReleaseVersion
+    if branch_release_version != nil
+      increment_version_number(
+        version_number: getBranchReleaseVersion # Set a specific version number
+      )
+    end
+  end
+
+  def getBuild
+    number_of_commits.to_s
+  end
+
+  def getTodayDate
+    Date.today().strftime("%Y%m%d")
+  end
+
+  def getDateBuild
+    getTodayDate+"."+getBuild
+  end
+
+  desc "Matches certificates and provisioning profiles for production"
+  lane :certificates_prod do
+    produce(
+      app_name: ENV["APP_NAME"],
+      language: 'Brazilian Portuguese'
+    )
+
+    cert(output_path: ENV["CERTIFICATES_PATH"])
+    pem(
+      output_path: ENV["CERTIFICATES_PATH"],
+      p12_password: ENV["P12_PASSWORD"]
+    )
+    sigh(adhoc: true, output_path: ENV["CERTIFICATES_PATH"])
+    ENV["SIGH_ADHOC_PROFILE_PATH"] = lane_context[SharedValues::SIGH_PROFILE_PATH]
+    sigh(output_path: ENV["CERTIFICATES_PATH"])
+    ENV["SIGH_APPSTORE_PROFILE_PATH"] = lane_context[SharedValues::SIGH_PROFILE_PATH]
+  end
+
+  desc "Matches certificates and provisioning profiles for development"
+  lane :certificates_dev do
+    produce(
+      app_name: ENV["APP_NAME"],
+      language: 'Brazilian Portuguese'
+    )
+
+    register_devices(
+      devices_file: './fastlane/devices_jera.txt'
+    )
+
+    cert(development: true, output_path: ENV["CERTIFICATES_PATH"])
+    pem(
+      output_path: ENV["CERTIFICATES_PATH"],
+      development: true,
+      p12_password: ENV["P12_PASSWORD"],
+    )
+
+    sigh(development: true, output_path: ENV["CERTIFICATES_PATH"])
+  end
+
+  # lane :register_devices do
+  #   register_devices(
+  #     devices_file: './fastlane/devices.txt'
+  #   )
+  # end
+
+  desc "Matches certificates and provisioning profiles"
+  lane :certificates do
+    certificates_dev
+    certificates_prod
+  end
+
+  desc "Submit a new Beta Build to Apple TestFlight from local machine"
+  desc "This will also make sure the profile is up to date"
+  lane :deploy_local do
+    ENV["DELIVER_ITMSTRANSPORTER_ADDITIONAL_UPLOAD_PARAMETERS"] = "-t DAV" #to bypass Jera proxy
+    set_branch_release_version
+    init_date_build
+    cocoapods
+    certificates
+    gym(scheme: ENV["SCHEME"], include_bitcode: true)
+    pilot(skip_waiting_for_build_processing: true)
+  end
+
+  desc "Submit a new Beta Build to Apple TestFlight"
+  desc "This will also make sure the profile is up to date"
+  lane :deploy do
+    set_branch_release_version
+    init_date_build
+    if getSprint != nil
+      addBetaBadge
+    end
+    slack_deploy_begin
+    cocoapods
+    certificates_prod
+    gym(scheme: ENV["SCHEME"], include_bitcode: true, codesigning_identity: ENV["CODE_SIGN_IDENTITY"])
+    slack_compile_success
+    pilot(skip_waiting_for_build_processing: true)
+    # resign(
+    #   signing_identity: ENV["CODE_SIGN_IDENTITY"],
+    #   provisioning_profile: ENV["SIGH_ADHOC_PROFILE_PATH"]
+    # )
+    # refresh_dsyms
+    # commit_version_bump(message: 'Version Bump')
+
+    upload_to_appetize
+  end
+
+  lane :test do
+
+    commit = last_git_commit
+    slack(
+      message: "*<#{ENV["APP_NAME"]}>*: Inicio dos testes... :rocket:",
+      payload: {
+      'Autor' => commit[:author],
+      'Mensagem' => commit[:message]
+      },
+      default_payloads: []
+    )
+
+    cocoapods
+    scan(
+      scheme: ENV["SCHEME"],
+      # sdk: "iphonesimulator9.2",
+      device: "iPhone 6s (9.3)"
+      )
+
+    # upload_to_appetize
+  end
+
+  desc "Build your app and upload it to Appetize to stream it in your browser"
+  lane :upload_to_appetize do
+
+    if (ENV["APPETIZE_TOKEN"] != nil)
+
+      version     = get_version_number
+      build       = getDateBuild
+
+      slack(
+        message: ":iphone: *Appetize <#{ENV["APP_NAME"]}>* #{version} (#{build}) :iphone::\nBuilding the app and uploading it to Appetize to stream it in your browser",
+        default_payloads: []
+      )
+
+      build_and_upload_to_appetize(
+        xcodebuild: {
+          workspace: ENV["WORKSPACE"],
+          scheme: ENV["SCHEME"]
+        },
+        api_token: ENV["APPETIZE_TOKEN"]
+      )
+
+      slack(
+        message: ":iphone: *Appetize <#{ENV["APP_NAME"]}>* #{version} (#{build}) :iphone::\n:link: App URL: #{Actions.lane_context[SharedValues::APPETIZE_APP_URL]}\n:lock: Manage URL: #{Actions.lane_context[SharedValues::APPETIZE_MANAGE_URL]}\n:key: Public Key: #{Actions.lane_context[SharedValues::APPETIZE_PUBLIC_KEY]}",
+        default_payloads: []
+      )
+
+    else
+      print "APPETIZE: Sem appetize token, skipping..."
+    end
+
+  end
+
+  lane :addBetaBadge do
+    version     = get_version_number
+    build       = getDateBuild
+    badge(dark: true, shield: "#{version}-#{build}-orange")
+  end
+
+  private_lane :slack_deploy_begin do
+    version     = get_version_number
+    build       = getDateBuild
+
+    slack(
+      message: "*<#{ENV["APP_NAME"]}>*: Inicio do build... :coffee:",
+      payload: {
+      'Version' => version,
+      'Build' => build
+      },
+      default_payloads: [:lane, :git_branch, :git_author, :last_git_commit]
+    )
+  end
+
+  private_lane :slack_compile_success do
+    version     = get_version_number
+    build       = getDateBuild
+
+    slack(
+      message: "*<#{ENV["APP_NAME"]}>* #{version} (#{build}): Build completo, enviando... :rocket:",
+      default_payloads: []
+    )
+  end
+
+  private_lane :slack_deploy_success do
+    version     = get_version_number
+    build       = getDateBuild
+
+    slack(
+      message: "*<#{ENV["APP_NAME"]}>* #{version} (#{build}): Pode vir Jorge, subiu! :beers:",
+      default_payloads: []
+    )
+  end
+
+  private_lane :slack_error do |options|
+    version     = get_version_number
+    build       = getDateBuild
+    error_message = options[:error_message]
+
+    slack(
+      message: "*<#{ENV["APP_NAME"]}>*: Deu ruim! :boom:\n`#{error_message}`",
+      payload: {
+      'Version' => version,
+      'Build' => build
+      },
+      success: false
+    )
+  end
+
+  # You can define as many lanes as you want
+
+  after_all do |lane|
+    # This block is called, only if the executed lane was successful
+    if lane == :deploy
+      slack_deploy_success
+    end
+  end
+
+  error do |lane, exception|
+    if lane == :deploy
+      slack_error(error_message: exception.message)
+    end
+  end
+end
+
+# More information about multiple platforms in fastlane: https://github.com/KrauseFx/fastlane/blob/master/docs/Platforms.md
+# All available actions: https://github.com/KrauseFx/fastlane/blob/master/docs/Actions.md
+
+# fastlane reports which actions are used
+# No personal data is recorded. Learn more at https://github.com/fastlane/enhancer
