@@ -61,7 +61,7 @@ class CreateAccountViewController: BaseViewController, UITextFieldDelegate {
     
     
     private func applyAppearance(){
-        avatarImageView.image = UIImage(named: "avatar")
+//        avatarImageView.image = UIImage(named: "avatar")
         
         avatarImageView.layer.cornerRadius = avatarImageView.frame.size.width/2
         avatarImageView.clipsToBounds = true
@@ -116,6 +116,13 @@ class CreateAccountViewController: BaseViewController, UITextFieldDelegate {
         presenterInterfaceBindDisposeBag = DisposeBag()
         
         guard let presenterInterface = presenterInterface else{ return }
+        
+        presenterInterface.userImage
+            .map { (userImage) -> UIImage in
+                return userImage ?? #imageLiteral(resourceName: "avatar")
+            }
+            .bindTo(avatarImageView.rx.image)
+            .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         presenterInterface.name
             .asObservable()

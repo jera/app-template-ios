@@ -13,6 +13,8 @@ protocol CreateAccountPresenterInterface{
     func chooseUserImageButtonPressed()
     func closeButtonPressed()
     
+    var userImage: Observable<UIImage?> {get}
+    
     var name: Variable<String> {get}
     var nameErrorString: Observable<String?> {get}
     
@@ -30,8 +32,6 @@ protocol CreateAccountPresenterInterface{
     
     var passwordConfirm: Variable<String> {get}
     var passwordConfirmErrorString: Observable<String?> {get}
-    
-//    var passwordDifferentErrorString: Observable<String?> {get}
     
     var createAccountButtonEnabled: Observable<Bool> {get}
     
@@ -53,11 +53,15 @@ extension CreateAccountPresenter: CreateAccountPresenterInterface{
     }
     
     func chooseUserImageButtonPressed(){
-        print("todo")
+        routerInterface?.chooseUserImageButtonPressed(showDeleteCurrentImage: interactorInterface.userImage.value != nil)
     }
     
     func closeButtonPressed(){
         routerInterface?.dismiss()
+    }
+    
+    var userImage: Observable<UIImage?>{
+        return interactorInterface.userImage.asObservable()
     }
     
     var name: Variable<String>{

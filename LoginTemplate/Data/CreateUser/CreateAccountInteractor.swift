@@ -12,6 +12,8 @@ protocol CreateAccountInteractorInterface {
     func createAccount()
     var createAccountResponse: Observable<RequestResponse<User>> { get }
     
+    var userImage: Variable<UIImage?> {get}
+    
     var name: Variable<String> {get}
     var nameErrors: Observable<[NameFieldError]> {get}
     
@@ -37,13 +39,13 @@ class CreateAccountInteractor: BaseInteractor {
     fileprivate var createAccountDisposeBag: DisposeBag!
     let createAccountResponseVariable = Variable<RequestResponse<User>>(.new)
     
+    let userImage = Variable<UIImage?>(nil)
     let name = Variable("")
     let email = Variable("")
     let phone = Variable("")
     let cpf = Variable("")
     let password = Variable("")
     let passwordConfirm = Variable("")
-    let image = Variable<UIImage?>(nil)
     
     init(repositoryInterface: CreateAccountRepositoryInterface) {
         self.repositoryInterface = repositoryInterface
@@ -61,7 +63,7 @@ extension CreateAccountInteractor: CreateAccountInteractorInterface{
         createAccountResponseVariable.value = .loading
         
         repositoryInterface
-            .createWith(name: name.value, email: email.value, phone: phone.value, cpf: cpf.value, password: password.value, image: image.value)
+            .createWith(name: name.value, email: email.value, phone: phone.value, cpf: cpf.value, password: password.value, image: userImage.value)
             .subscribe { [weak self] (event) in
                 guard let strongSelf = self else { return }
                 
