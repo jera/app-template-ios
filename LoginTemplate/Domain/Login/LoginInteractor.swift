@@ -156,7 +156,7 @@ extension LoginInteractor: LoginInteractorInterface {
                     fieldErrors.append(.empty)
                 }
                 
-                if !DomainHelper.isEmailValid(email: email){
+                if !email.isValidEmail(){
                     fieldErrors.append(.notValid)
                 }
                 

@@ -12,6 +12,8 @@ protocol CreateAccountInteractorInterface {
     func createAccount()
     var createAccountResponse: Observable<RequestResponse<User>> { get }
     
+    var userImage: Variable<UIImage?> {get}
+    
     var name: Variable<String> {get}
     var nameErrors: Observable<[NameFieldError]> {get}
     
@@ -28,7 +30,7 @@ protocol CreateAccountInteractorInterface {
     var passwordErrors: Observable<[PasswordFieldError]> {get}
     
     var passwordConfirm: Variable<String> {get}
-    var passwordConfirmErrors: Observable<[PasswordFieldError]> {get}
+    var passwordConfirmErrors: Observable<[ConfirmPasswordFieldError]> {get}
 }
 
 class CreateAccountInteractor: BaseInteractor {
@@ -37,13 +39,13 @@ class CreateAccountInteractor: BaseInteractor {
     fileprivate var createAccountDisposeBag: DisposeBag!
     let createAccountResponseVariable = Variable<RequestResponse<User>>(.new)
     
+    let userImage = Variable<UIImage?>(nil)
     let name = Variable("")
     let email = Variable("")
     let phone = Variable("")
     let cpf = Variable("")
     let password = Variable("")
     let passwordConfirm = Variable("")
-    let image = Variable<UIImage?>(nil)
     
     init(repositoryInterface: CreateAccountRepositoryInterface) {
         self.repositoryInterface = repositoryInterface
@@ -61,7 +63,7 @@ extension CreateAccountInteractor: CreateAccountInteractorInterface{
         createAccountResponseVariable.value = .loading
         
         repositoryInterface
-            .createWith(name: name.value, email: email.value, phone: phone.value, cpf: cpf.value, password: password.value, image: image.value)
+            .createWith(name: name.value, email: email.value, phone: phone.value, cpf: cpf.value, password: password.value, image: userImage.value)
             .subscribe { [weak self] (event) in
                 guard let strongSelf = self else { return }
                 
@@ -108,7 +110,7 @@ extension CreateAccountInteractor: CreateAccountInteractorInterface{
                     fieldErrors.append(.empty)
                 }
                 
-                if !DomainHelper.isEmailValid(email: email){
+                if !email.isValidEmail(){
                     fieldErrors.append(.notValid)
                 }
                 
@@ -170,21 +172,15 @@ extension CreateAccountInteractor: CreateAccountInteractorInterface{
         }
     }
     
-    var passwordConfirmErrors: Observable<[PasswordFieldError]>{
-        return self.passwordConfirm
-            .asObservable()
-            .map { (passwordConfirm) -> [PasswordFieldError] in
-                var fieldErrors = [PasswordFieldError]()
-                
-                if passwordConfirm.characters.count == 0 {
-                    fieldErrors.append(.empty)
-                }
-                
-                if passwordConfirm.characters.count < 6{
-                    fieldErrors.append(.minCharaters(count: 6))
-                }
-                
-                return fieldErrors
-        }
+    var passwordConfirmErrors: Observable<[ConfirmPasswordFieldError]>{
+        return Observable.combineLatest(password.asObservable(), passwordConfirm.asObservable(), resultSelector: { (password, passwordConfirm) -> [ConfirmPasswordFieldError] in
+            var fieldErrors = [ConfirmPasswordFieldError]()
+            
+            if password != passwordConfirm{
+                fieldErrors.append(.confirmPasswordNotMatch)
+            }
+            
+            return fieldErrors
+        })
     }
 }

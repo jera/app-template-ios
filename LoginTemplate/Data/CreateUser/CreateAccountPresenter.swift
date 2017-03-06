@@ -13,6 +13,8 @@ protocol CreateAccountPresenterInterface{
     func chooseUserImageButtonPressed()
     func closeButtonPressed()
     
+    var userImage: Observable<UIImage?> {get}
+    
     var name: Variable<String> {get}
     var nameErrorString: Observable<String?> {get}
     
@@ -30,8 +32,6 @@ protocol CreateAccountPresenterInterface{
     
     var passwordConfirm: Variable<String> {get}
     var passwordConfirmErrorString: Observable<String?> {get}
-    
-    var passwordDifferentErrorString: Observable<String?> {get}
     
     var createAccountButtonEnabled: Observable<Bool> {get}
     
@@ -53,11 +53,15 @@ extension CreateAccountPresenter: CreateAccountPresenterInterface{
     }
     
     func chooseUserImageButtonPressed(){
-        print("todo")
+        routerInterface?.chooseUserImageButtonPressed(showDeleteCurrentImage: interactorInterface.userImage.value != nil)
     }
     
     func closeButtonPressed(){
         routerInterface?.dismiss()
+    }
+    
+    var userImage: Observable<UIImage?>{
+        return interactorInterface.userImage.asObservable()
     }
     
     var name: Variable<String>{
@@ -164,27 +168,15 @@ extension CreateAccountPresenter: CreateAccountPresenterInterface{
         return interactorInterface.passwordConfirmErrors.map({ (fieldErrors) -> String? in
             if let firstError = fieldErrors.first{
                 switch firstError{
-                case .minCharaters(let count):
-//                    return "Senha deve ter no mínimo \(count) caracteres"
-                    return "\(R.string.localizable.defaultPasswordValueMinimum()) \(count) \(R.string.localizable.defaultCharacter())" //FIZ MAS NAO CONCORDO
-                case .empty:
-                    return nil //Doesn't show if it is empty
+                case .confirmPasswordNotMatch:
+                    return R.string.localizable.createAccountPasswordNotEqual()
                 }
             }
             
             return nil
         })
     }
-    
-    var passwordDifferentErrorString: Observable<String?>{
-        return Observable.combineLatest(interactorInterface.password.asObservable(), interactorInterface.passwordConfirm.asObservable(), resultSelector: { (password, confirmPassword) -> String? in
-            if password != confirmPassword{
-                return R.string.localizable.createAccountPasswordNotEqual()
-            }
-            return nil
-        })
-    }
-    
+
     var createAccountButtonEnabled: Observable<Bool>{
         return Observable.combineLatest(interactorInterface.nameErrors , interactorInterface.emailErrors, interactorInterface.phoneErrors, interactorInterface.cpfErrors , interactorInterface.passwordErrors, interactorInterface.passwordConfirmErrors, interactorInterface.password.asObservable(), interactorInterface.passwordConfirm.asObservable(), resultSelector: { (nameErrors, emailErrors, phoneErrors, cpfErrors, passwordErrors, passwordConfirmErrors, password, confirmPassword) -> Bool in
             return !(nameErrors.count > 0 || emailErrors.count > 0 || phoneErrors.count > 0 || cpfErrors.count > 0 || passwordErrors.count > 0 || passwordConfirmErrors.count > 0 || password != confirmPassword )

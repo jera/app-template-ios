@@ -17,8 +17,8 @@ class CreateAccountViewController: BaseViewController, UITextFieldDelegate {
     
     @IBOutlet weak var nameTextField: TextField!
     @IBOutlet weak var emailTextField: TextField!
-    @IBOutlet weak var phoneTextField: TextField!
-    @IBOutlet weak var cpfTextField: TextField!
+    @IBOutlet weak var phoneTextField: MaskTextField!
+    @IBOutlet weak var cpfTextField: MaskTextField!
     @IBOutlet weak var passwordTextField: TextField!
     @IBOutlet weak var confirmPasswordTextField: TextField!
     
@@ -61,7 +61,7 @@ class CreateAccountViewController: BaseViewController, UITextFieldDelegate {
     
     
     private func applyAppearance(){
-        avatarImageView.image = UIImage(named: "avatar")
+//        avatarImageView.image = UIImage(named: "avatar")
         
         avatarImageView.layer.cornerRadius = avatarImageView.frame.size.width/2
         avatarImageView.clipsToBounds = true
@@ -69,6 +69,8 @@ class CreateAccountViewController: BaseViewController, UITextFieldDelegate {
         avatarImageView.layer.borderWidth = 2.0
         
         nameTextField.applyAppearance(appearance: .white)
+        nameTextField.autocorrectionType = .no
+        nameTextField.autocapitalizationType = .words
         
         emailTextField.applyAppearance(appearance: .white)
         emailTextField.keyboardType = .emailAddress
@@ -76,11 +78,11 @@ class CreateAccountViewController: BaseViewController, UITextFieldDelegate {
         
         phoneTextField.applyAppearance(appearance: .white)
         phoneTextField.keyboardType = .numberPad
-        //phoneTextField.mask = DomainHelper.phoneMask
+        phoneTextField.fieldMask = .phone
         
         cpfTextField.applyAppearance(appearance: .white)
         cpfTextField.keyboardType = .numberPad
-        //cpfTextField.mask = DomainHelper.cpfMask
+        cpfTextField.fieldMask = .cpf
         
         passwordTextField.applyAppearance(appearance: .white)
         passwordTextField.isSecureTextEntry = true
@@ -115,6 +117,13 @@ class CreateAccountViewController: BaseViewController, UITextFieldDelegate {
         presenterInterfaceBindDisposeBag = DisposeBag()
         
         guard let presenterInterface = presenterInterface else{ return }
+        
+        presenterInterface.userImage
+            .map { (userImage) -> UIImage in
+                return userImage ?? #imageLiteral(resourceName: "avatar")
+            }
+            .bindTo(avatarImageView.rx.image)
+            .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         presenterInterface.name
             .asObservable()
@@ -159,11 +168,7 @@ class CreateAccountViewController: BaseViewController, UITextFieldDelegate {
             .bindTo(phoneTextField.rx.text)
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
-        phoneTextField.rx.text
-            .asObservable()
-            .map { (text) -> String in
-                return text ?? ""
-            }
+        phoneTextField.rawTextObservable
             .bindTo(presenterInterface.phone)
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
@@ -178,11 +183,7 @@ class CreateAccountViewController: BaseViewController, UITextFieldDelegate {
             .bindTo(cpfTextField.rx.text)
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
-        cpfTextField.rx.text
-            .asObservable()
-            .map { (text) -> String in
-                return text ?? ""
-            }
+        cpfTextField.rawTextObservable
             .bindTo(presenterInterface.cpf)
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
@@ -225,12 +226,6 @@ class CreateAccountViewController: BaseViewController, UITextFieldDelegate {
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         presenterInterface.passwordConfirmErrorString
-            .subscribe(onNext: { [weak self] (errorString) in
-                self?.confirmPasswordTextField.detail = errorString
-            })
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
-        
-        presenterInterface.passwordDifferentErrorString
             .subscribe(onNext: { [weak self] (errorString) in
                 self?.confirmPasswordTextField.detail = errorString
             })
