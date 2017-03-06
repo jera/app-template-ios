@@ -86,8 +86,7 @@ extension LoginPresenter: LoginPresenterInterface {
             if let firstError = fieldErrors.first{
                 switch firstError{
                 case .minCharaters(let count):
-//                    return "Senha deve ter no mínimo \(count) caracteres"
-                    return "\(R.string.localizable.defaultPasswordValueMinimum()) \(count) \(R.string.localizable.defaultCharacter())" //FIZ MAS NAO CONCORDO
+                    return R.string.localizable.defaultPasswordValueMinimum("\(count)")
                 case .empty:
                     return nil //Doesn't show if it is empty
                 }

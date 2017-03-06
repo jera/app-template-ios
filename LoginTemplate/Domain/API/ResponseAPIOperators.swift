@@ -69,7 +69,7 @@ extension ObservableType where E == Moya.Response {
                         }
                     }else{
                         
-                        return Observable.error(APIClient.error(description: "\(R.string.localizable.messageUserJson()) (\(jsonAPIObject)) \(R.string.localizable.messageCannotBeMapped())")) //FIZ MAS NAO CONCORDO
+                        return Observable.error(APIClient.error(description: R.string.localizable.messageUserJson("\(jsonAPIObject)")))
                     }
                 }else{
                     do{
@@ -103,7 +103,7 @@ extension ObservableType where E == Moya.Response {
                     if let errorAPI = Mapper<ErrorAPI>().map(JSON: JSONDict){
                         return Observable.error(APIClient.error(description: errorAPI.localizedDescription))
                     }else{
-                        return Observable.error(APIClient.error(description: "\(R.string.localizable.messageJson) (\(JSONDict)) \(R.string.localizable.messageCannotBeMapped())")) //FIZ MAS NAO CONCORDO
+                        return Observable.error(APIClient.error(description: R.string.localizable.messageJson("\(JSONDict)")))
                     }
                 case .failure(let error):
                     return Observable.error(error)
@@ -124,7 +124,7 @@ extension ObservableType where E == Moya.Response {
                         return Observable.error(APIClient.error(description: errorAPI.localizedDescription))
                     }
                 }else{
-                    return Observable.error(APIClient.error(description: "\(R.string.localizable.messageJson) (\(JSONDict)) \(R.string.localizable.messageCannotBeMapped())")) //FIZ MAS NAO CONCORDO
+                    return Observable.error(APIClient.error(description: R.string.localizable.messageJson("\(JSONDict)")))
                 }
             case .failure(let error):
                 return Observable.error(error)

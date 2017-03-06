@@ -109,8 +109,7 @@ extension CreateAccountPresenter: CreateAccountPresenterInterface{
             if let firstError = fieldErrors.first{
                 switch firstError{
                 case .minCharaters(let count):
-//                    return "Telefone deve ter no mínimo \(count) caracteres"
-                    return "\(R.string.localizable.defaultPhoneValueMinimum()) \(count) \(R.string.localizable.defaultCharacter())" //FIZ MAS NAO CONCORDO
+                    return R.string.localizable.defaultPhoneValueMinimum("\(count)")
                 case .empty:
                     return nil //Doesn't show if it is empty
                 }
@@ -148,8 +147,7 @@ extension CreateAccountPresenter: CreateAccountPresenterInterface{
             if let firstError = fieldErrors.first{
                 switch firstError{
                 case .minCharaters(let count):
-//                    return "Senha deve ter no mínimo \(count) caracteres"\
-                    return "\(R.string.localizable.defaultPasswordValueMinimum()) \(count) \(R.string.localizable.defaultCharacter())" //FIZ MAS NAO CONCORDO
+                    return R.string.localizable.defaultPasswordValueMinimum("\(count)")
 
                 case .empty:
                     return nil //Doesn't show if it is empty

@@ -19,16 +19,14 @@
 "message.errorUpdateCredential" = "Falha na tentativa de atualizar as credenciais: Não existe sessão de usuário";
 "message.jsonInvalid" = "Resposta não é um JSON";
 "message.authenticationFailed" = "A autenticação falhou!";
-"message.json" = "JSON";
-"message.userJson" = "JSON de usuário";
-"message.cannotBeMapped" = "não pôde ser mapeado";
+"message.json" = "JSON %@ não pôde ser mapeado";
+"message.userJson" = "JSON de usuário %@ não pôde ser mapeado";
 
 //Default
 "default.email" = "Email";
 "default.emailNotValid" = "Email não válido";
-"default.passwordValueMinimum" = "Senha deve ter no mínimo";
-"default.phoneValueMinimum" = "Telefone deve ter no mínimo";
-"default.character" = "caracteres";
+"default.passwordValueMinimum" = "Senha deve ter no mínimo %@ caracteres";
+"default.phoneValueMinimum" = "Telefone deve ter no mínimo %@ caracteres";
 
 //Login
 "login.signInWith" = "Faça login com";
