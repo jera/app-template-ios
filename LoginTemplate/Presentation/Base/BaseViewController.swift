@@ -27,7 +27,7 @@ class BaseViewController: UIViewController{
     
     func showOKAlertWith(title: String?, message: String){
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        alertController.addAction(UIAlertAction(title: R.string.localizable.alertOk(), style: .default, handler: nil))
         present(alertController, animated: true, completion: nil)
     }
     

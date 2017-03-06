@@ -73,7 +73,7 @@ extension LoginInteractor: LoginInteractorInterface {
                 case .next(let userAPI):
                     
                     guard let user = User(userAPI: userAPI) else{
-                        strongSelf.authenticateResponseVariable.value = .failure(error: APIClient.error(description: "API retornou um usuário inválido: \(userAPI)"))
+                        strongSelf.authenticateResponseVariable.value = .failure(error: APIClient.error(description: "\(R.string.localizable.messageUserInvalid()) \(userAPI)"))
                         return
                     }
                     
@@ -102,7 +102,7 @@ extension LoginInteractor: LoginInteractorInterface {
                 case .next(let userAPI):
                     
                     guard let user = User(userAPI: userAPI) else{
-                        strongSelf.facebookLoginResponseVariable.value = .failure(error: APIClient.error(description: "API retornou um usuário inválido: \(userAPI)"))
+                        strongSelf.facebookLoginResponseVariable.value = .failure(error: APIClient.error(description: "\(R.string.localizable.messageUserInvalid()) \(userAPI)"))
                         return
                     }
                     
@@ -131,7 +131,7 @@ extension LoginInteractor: LoginInteractorInterface {
                 case .next(let userAPI):
                     
                     guard let user = User(userAPI: userAPI) else{
-                        strongSelf.googleLoginResponseVariable.value = .failure(error: APIClient.error(description: "API retornou um usuário inválido: \(userAPI)"))
+                        strongSelf.googleLoginResponseVariable.value = .failure(error: APIClient.error(description: "\(R.string.localizable.messageUserInvalid()) \(userAPI)"))
                         return
                     }
                     

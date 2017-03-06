@@ -90,7 +90,7 @@ extension CreateAccountPresenter: CreateAccountPresenterInterface{
             if let firstError = fieldErrors.first{
                 switch firstError {
                 case .notValid:
-                    return "Email inválido"
+                    return R.string.localizable.defaultEmailNotValid()
                 case .empty:
                     return nil //Doesn't show if it is empty
                 }
@@ -109,7 +109,7 @@ extension CreateAccountPresenter: CreateAccountPresenterInterface{
             if let firstError = fieldErrors.first{
                 switch firstError{
                 case .minCharaters(let count):
-                    return "Telefone deve ter no mínimo \(count) caracteres"
+                    return R.string.localizable.defaultPhoneValueMinimum("\(count)")
                 case .empty:
                     return nil //Doesn't show if it is empty
                 }
@@ -128,7 +128,7 @@ extension CreateAccountPresenter: CreateAccountPresenterInterface{
             if let firstError = fieldErrors.first{
                 switch firstError{
                 case .notValid:
-                    return "CPF inválido"
+                    return R.string.localizable.createAccountCpfInvalid()
                 case .empty:
                     return nil //Doesn't show if it is empty
                 }
@@ -147,7 +147,8 @@ extension CreateAccountPresenter: CreateAccountPresenterInterface{
             if let firstError = fieldErrors.first{
                 switch firstError{
                 case .minCharaters(let count):
-                    return "Senha deve ter no mínimo \(count) caracteres"
+                    return R.string.localizable.defaultPasswordValueMinimum("\(count)")
+
                 case .empty:
                     return nil //Doesn't show if it is empty
                 }
@@ -166,14 +167,14 @@ extension CreateAccountPresenter: CreateAccountPresenterInterface{
             if let firstError = fieldErrors.first{
                 switch firstError{
                 case .confirmPasswordNotMatch:
-                    return "Senhas não conferem"
+                    return R.string.localizable.createAccountPasswordNotEqual()
                 }
             }
             
             return nil
         })
     }
-    
+
     var createAccountButtonEnabled: Observable<Bool>{
         return Observable.combineLatest(interactorInterface.nameErrors , interactorInterface.emailErrors, interactorInterface.phoneErrors, interactorInterface.cpfErrors , interactorInterface.passwordErrors, interactorInterface.passwordConfirmErrors, interactorInterface.password.asObservable(), interactorInterface.passwordConfirm.asObservable(), resultSelector: { (nameErrors, emailErrors, phoneErrors, cpfErrors, passwordErrors, passwordConfirmErrors, password, confirmPassword) -> Bool in
             return !(nameErrors.count > 0 || emailErrors.count > 0 || phoneErrors.count > 0 || cpfErrors.count > 0 || passwordErrors.count > 0 || passwordConfirmErrors.count > 0 || password != confirmPassword )

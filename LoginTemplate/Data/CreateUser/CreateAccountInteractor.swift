@@ -71,7 +71,7 @@ extension CreateAccountInteractor: CreateAccountInteractorInterface{
                 case .next(let userAPI):
                     
                     guard let user = User(userAPI: userAPI) else{
-                        strongSelf.createAccountResponseVariable.value = .failure(error: APIClient.error(description: "API retornou um usuário inválido: \(userAPI)"))
+                        strongSelf.createAccountResponseVariable.value = .failure(error: APIClient.error(description: "\(R.string.localizable.messageUserInvalid()) \(userAPI)"))
                         return
                     }
                     

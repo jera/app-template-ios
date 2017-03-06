@@ -37,7 +37,7 @@ class ErrorAPI: Mappable {
             }).joined(separator: "\n")
         }
         
-        return "Um erro desconhecido ocorreu"
+        return R.string.localizable.messageError()
     }
     
     init() {}
