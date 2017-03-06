@@ -39,7 +39,7 @@ class ForgotPasswordView: UIView {
     
     private func applyTexts(){
         titleLabel.text = R.string.localizable.forgotPasswordTitle()
-        emailTextField.placeholder = R.string.localizable.forgotPasswordEmail()
+        emailTextField.placeholder = R.string.localizable.defaultEmail()
         confirmButton.setTitleWithoutAnimation(R.string.localizable.forgotPasswordSend().uppercased(), for: .normal)
     }
     

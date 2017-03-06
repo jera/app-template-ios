@@ -102,7 +102,7 @@ class LoginViewController: BaseViewController {
         doSignWithLabel.text = R.string.localizable.loginSignInWith()
         orLabel.text = R.string.localizable.loginOr()
         
-        emailTextField.placeholder = R.string.localizable.loginEmail()
+        emailTextField.placeholder = R.string.localizable.defaultEmail()
         passwordTextField.placeholder = R.string.localizable.loginPass()
         loginButton.setTitleWithoutAnimation(R.string.localizable.loginEnter().uppercased(), for: .normal)
         
@@ -170,7 +170,7 @@ class LoginViewController: BaseViewController {
                     strongSelf.showHudWith(title:  R.string.localizable.loginLoging())
                 case .failure(let error):
                     strongSelf.hideHud()
-                    strongSelf.showOKAlertWith(title: R.string.localizable.alertErrorTitle(), message: error.localizedDescription)
+                    strongSelf.showOKAlertWith(title: R.string.localizable.alertTitle(), message: error.localizedDescription)
                 case .success:
                     strongSelf.hideHud()
                 case .cancelled:
@@ -191,7 +191,7 @@ class LoginViewController: BaseViewController {
                     break
                 case .failure(let error):
                     strongSelf.hideHud()
-                    strongSelf.showOKAlertWith(title: R.string.localizable.alertErrorTitle(), message: error.localizedDescription)
+                    strongSelf.showOKAlertWith(title: R.string.localizable.alertTitle(), message: error.localizedDescription)
                 case .success:
                     strongSelf.hideHud()
                 case .cancelled:
@@ -212,7 +212,7 @@ class LoginViewController: BaseViewController {
                     break
                 case .failure(let error):
                     strongSelf.hideHud()
-                    strongSelf.showOKAlertWith(title: R.string.localizable.alertErrorTitle(), message: error.localizedDescription)
+                    strongSelf.showOKAlertWith(title: R.string.localizable.alertTitle(), message: error.localizedDescription)
                 case .success:
                     strongSelf.hideHud()
                 case .cancelled:

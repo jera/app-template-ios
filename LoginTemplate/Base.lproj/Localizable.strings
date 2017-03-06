@@ -6,13 +6,33 @@
   Copyright © 2017 Jera. All rights reserved.
 */
 
-"alert.errorTitle" = "Ops...";
+//Alert
+"alert.title" = "Ops...";
 "alert.wait" = "Aguarde";
+"alert.loading" = "Carregando...";
+"alert.ok" = "OK";
+
+//Message
+"message.error" = "Um erro desconhecido ocorreu";
+"message.expiredSession" = "Sessão expirou. Por favor, faça o login novamente";
+"message.userInvalid" = "API retornou um usuário inválido:";
+"message.errorUpdateCredential" = "Falha na tentativa de atualizar as credenciais: Não existe sessão de usuário";
+"message.jsonInvalid" = "Resposta não é um JSON";
+"message.authenticationFailed" = "A autenticação falhou!";
+"message.json" = "JSON";
+"message.userJson" = "JSON de usuário";
+"message.cannotBeMapped" = "não pôde ser mapeado";
+
+//Default
+"default.email" = "Email";
+"default.emailNotValid" = "Email não válido";
+"default.passwordValueMinimum" = "Senha deve ter no mínimo";
+"default.phoneValueMinimum" = "Telefone deve ter no mínimo";
+"default.character" = "caracteres";
 
 //Login
 "login.signInWith" = "Faça login com";
 "login.or" = "Ou";
-"login.email" = "Email";
 "login.pass" = "Senha";
 "login.enter" = "Entrar";
 "login.createAccount" = "Criar uma conta";
@@ -20,21 +40,26 @@
 "login.loging" = "Entrando...";
 "login.logingWithFacebook" = "Entrando com Facebook...";
 "login.logingWithGoogle" = "Entrando com Google...";
+"login.facebook" = "FACEBOOK";
+"login.google" = "GOOGLE";
 
 //CreateAccount
 "createAccount.title" = "Cadastro";
 "createAccount.seachPhoto" = "ESCOLHER FOTO";
 "createAccount.name" = "Nome Completo";
-"createAccount.email" = "Email";
 "createAccount.phone" = "Telefone";
 "createAccount.cpf" = "CPF";
 "createAccount.password" = "Senha";
 "createAccount.confirmPassword" = "Confirmar Senha";
 "createAccount.finishRegister" = "FINALIZAR CADASTRO";
+"createAccount.cpfInvalid" = "CPF inválido";
+"createAccount.passwordNotEqual"= "Senhas não conferem";
 
 //ForgotPassword
 "forgotPassword.titleNavBar" = "Cadastro";
 "forgotPassword.title" = "Informe o seu email para recuperar sua senha";
-"forgotPassword.email" = "Email";
 "forgotPassword.send" = "ENVIAR";
+"forgotPassword.checkYourEmail" = "Verifique seu e-mail";
+"forgotPassword.message" = "Você receberá um e-mail com instruções sobre como redefinir sua senha.";
+
 

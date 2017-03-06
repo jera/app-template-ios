@@ -67,7 +67,7 @@ extension LoginPresenter: LoginPresenterInterface {
             if let firstError = fieldErrors.first{
                 switch firstError {
                 case .notValid:
-                    return "Email não válido"
+                    return R.string.localizable.defaultEmailNotValid()
                 case .empty:
                     return nil //Doesn't show if it is empty
                 }
@@ -86,7 +86,8 @@ extension LoginPresenter: LoginPresenterInterface {
             if let firstError = fieldErrors.first{
                 switch firstError{
                 case .minCharaters(let count):
-                    return "Senha deve ter no mínimo \(count) caracteres"
+//                    return "Senha deve ter no mínimo \(count) caracteres"
+                    return "\(R.string.localizable.defaultPasswordValueMinimum()) \(count) \(R.string.localizable.defaultCharacter())" //FIZ MAS NAO CONCORDO
                 case .empty:
                     return nil //Doesn't show if it is empty
                 }

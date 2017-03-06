@@ -99,7 +99,7 @@ class CreateAccountViewController: BaseViewController, UITextFieldDelegate {
         title = R.string.localizable.createAccountTitle()
         
         nameTextField.placeholder = R.string.localizable.createAccountName()
-        emailTextField.placeholder = R.string.localizable.createAccountEmail()
+        emailTextField.placeholder = R.string.localizable.defaultEmail()
         phoneTextField.placeholder = R.string.localizable.createAccountPhone()
         cpfTextField.placeholder = R.string.localizable.createAccountCpf()
         passwordTextField.placeholder = R.string.localizable.createAccountPassword()
@@ -251,7 +251,7 @@ class CreateAccountViewController: BaseViewController, UITextFieldDelegate {
                     strongSelf.showHudWith(title:  R.string.localizable.alertWait())
                 case .failure(let error):
                     strongSelf.hideHud()
-                    strongSelf.showOKAlertWith(title: R.string.localizable.alertErrorTitle(), message: error.localizedDescription)
+                    strongSelf.showOKAlertWith(title: R.string.localizable.alertTitle(), message: error.localizedDescription)
                 case .success:
                     strongSelf.hideHud()
                 case .cancelled:

@@ -24,7 +24,7 @@ extension Data{
     var asJSON: Result<[String: Any], NSError>{
         do {
             guard let JSONDict = try JSONSerialization.jsonObject(with: self, options: []) as? [String: Any] else{
-                return Result.failure(APIClient.error(description: "Resposta não é um JSON"))
+                return Result.failure(APIClient.error(description: R.string.localizable.messageJsonInvalid()))
             }
             return Result.success(JSONDict)
         } catch let error as NSError {
@@ -69,7 +69,7 @@ extension ObservableType where E == Moya.Response {
                         }
                     }else{
                         
-                        return Observable.error(APIClient.error(description: "JSON de usuário (\(jsonAPIObject)) não pôde ser mapeado"))
+                        return Observable.error(APIClient.error(description: "\(R.string.localizable.messageUserJson()) (\(jsonAPIObject)) \(R.string.localizable.messageCannotBeMapped())")) //FIZ MAS NAO CONCORDO
                     }
                 }else{
                     do{
@@ -92,7 +92,7 @@ extension ObservableType where E == Moya.Response {
                     if let errorAPI = Mapper<ErrorAPI>().map(JSON: JSONDict){
                         return Observable.error(APIClient.error(description: errorAPI.localizedDescription))
                     }else{
-                        return Observable.error(APIClient.error(description: "A autenticação falhou!"))
+                        return Observable.error(APIClient.error(description: R.string.localizable.messageAuthenticationFailed()))
                     }
                 case .failure(let error):
                     return Observable.error(error)
@@ -103,7 +103,7 @@ extension ObservableType where E == Moya.Response {
                     if let errorAPI = Mapper<ErrorAPI>().map(JSON: JSONDict){
                         return Observable.error(APIClient.error(description: errorAPI.localizedDescription))
                     }else{
-                        return Observable.error(APIClient.error(description: "JSON (\(JSONDict)) não pôde ser mapeado"))
+                        return Observable.error(APIClient.error(description: "\(R.string.localizable.messageJson) (\(JSONDict)) \(R.string.localizable.messageCannotBeMapped())")) //FIZ MAS NAO CONCORDO
                     }
                 case .failure(let error):
                     return Observable.error(error)
@@ -124,7 +124,7 @@ extension ObservableType where E == Moya.Response {
                         return Observable.error(APIClient.error(description: errorAPI.localizedDescription))
                     }
                 }else{
-                    return Observable.error(APIClient.error(description: "JSON (\(JSONDict)) não pôde ser mapeado"))
+                    return Observable.error(APIClient.error(description: "\(R.string.localizable.messageJson) (\(JSONDict)) \(R.string.localizable.messageCannotBeMapped())")) //FIZ MAS NAO CONCORDO
                 }
             case .failure(let error):
                 return Observable.error(error)

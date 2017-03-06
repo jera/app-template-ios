@@ -86,7 +86,7 @@ extension CreateAccountPresenter: CreateAccountPresenterInterface{
             if let firstError = fieldErrors.first{
                 switch firstError {
                 case .notValid:
-                    return "Email inválido"
+                    return R.string.localizable.defaultEmailNotValid()
                 case .empty:
                     return nil //Doesn't show if it is empty
                 }
@@ -105,7 +105,8 @@ extension CreateAccountPresenter: CreateAccountPresenterInterface{
             if let firstError = fieldErrors.first{
                 switch firstError{
                 case .minCharaters(let count):
-                    return "Telefone deve ter no mínimo \(count) caracteres"
+//                    return "Telefone deve ter no mínimo \(count) caracteres"
+                    return "\(R.string.localizable.defaultPhoneValueMinimum()) \(count) \(R.string.localizable.defaultCharacter())" //FIZ MAS NAO CONCORDO
                 case .empty:
                     return nil //Doesn't show if it is empty
                 }
@@ -124,7 +125,7 @@ extension CreateAccountPresenter: CreateAccountPresenterInterface{
             if let firstError = fieldErrors.first{
                 switch firstError{
                 case .notValid:
-                    return "CPF inválido"
+                    return R.string.localizable.createAccountCpfInvalid()
                 case .empty:
                     return nil //Doesn't show if it is empty
                 }
@@ -143,7 +144,9 @@ extension CreateAccountPresenter: CreateAccountPresenterInterface{
             if let firstError = fieldErrors.first{
                 switch firstError{
                 case .minCharaters(let count):
-                    return "Senha deve ter no mínimo \(count) caracteres"
+//                    return "Senha deve ter no mínimo \(count) caracteres"\
+                    return "\(R.string.localizable.defaultPasswordValueMinimum()) \(count) \(R.string.localizable.defaultCharacter())" //FIZ MAS NAO CONCORDO
+
                 case .empty:
                     return nil //Doesn't show if it is empty
                 }
@@ -162,7 +165,8 @@ extension CreateAccountPresenter: CreateAccountPresenterInterface{
             if let firstError = fieldErrors.first{
                 switch firstError{
                 case .minCharaters(let count):
-                    return "Senha deve ter no mínimo \(count) caracteres"
+//                    return "Senha deve ter no mínimo \(count) caracteres"
+                    return "\(R.string.localizable.defaultPasswordValueMinimum()) \(count) \(R.string.localizable.defaultCharacter())" //FIZ MAS NAO CONCORDO
                 case .empty:
                     return nil //Doesn't show if it is empty
                 }
@@ -175,7 +179,7 @@ extension CreateAccountPresenter: CreateAccountPresenterInterface{
     var passwordDifferentErrorString: Observable<String?>{
         return Observable.combineLatest(interactorInterface.password.asObservable(), interactorInterface.passwordConfirm.asObservable(), resultSelector: { (password, confirmPassword) -> String? in
             if password != confirmPassword{
-                return "Senhas não conferem"
+                return R.string.localizable.createAccountPasswordNotEqual()
             }
             return nil
         })

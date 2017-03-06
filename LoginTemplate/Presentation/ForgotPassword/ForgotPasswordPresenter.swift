@@ -30,7 +30,7 @@ class ForgotPasswordPresenter: BasePresenter {
             if let firstError = fieldErrors.first{
                 switch firstError {
                 case .notValid:
-                    return "Email não válido"
+                    return R.string.localizable.defaultEmailNotValid()
                 case .empty:
                     return nil //Doesn't show if it is empty
                 }

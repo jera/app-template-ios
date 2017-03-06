@@ -50,7 +50,7 @@ extension RaisedButton{
             titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
             setBackgroundImage(UIImage.fromColor(color: .red), for: .disabled)
             setTitleColor(.white, for: .normal)
-            setTitleWithoutAnimation("FACEBOOK", for: .normal)
+            setTitleWithoutAnimation(R.string.localizable.loginFacebook(), for: .normal)
             setImage(#imageLiteral(resourceName: "ic_facebook"), for: .normal)
         case .google:
             pulseColor = .lightGray
@@ -59,7 +59,7 @@ extension RaisedButton{
             titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
             setBackgroundImage(UIImage.fromColor(color: .red), for: .disabled)
             setTitleColor(.gray, for: .normal)
-            setTitleWithoutAnimation("GOOGLE", for: .normal)
+            setTitleWithoutAnimation(R.string.localizable.loginGoogle(), for: .normal)
             setImage(#imageLiteral(resourceName: "ic_google"), for: .normal)
         case .main:
             pulseColor = .white

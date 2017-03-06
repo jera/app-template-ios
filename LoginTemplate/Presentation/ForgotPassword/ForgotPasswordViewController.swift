@@ -82,13 +82,13 @@ class ForgotPasswordViewController: BaseViewController {
                 case .new:
                     strongSelf.hideHud()
                 case .loading:
-                    strongSelf.showHudWith(title:  "Carregando...")
+                    strongSelf.showHudWith(title:  R.string.localizable.alertLoading())
                 case .failure(let error):
                     strongSelf.hideHud()
-                    strongSelf.showOKAlertWith(title: "Ops...", message: error.localizedDescription)
+                    strongSelf.showOKAlertWith(title: R.string.localizable.alertTitle(), message: error.localizedDescription)
                 case .success(let message):
                     strongSelf.hideHud()
-                    strongSelf.showOKAlertWith(title: "Verifique seu e-mail", message: message ?? "Você receberá um e-mail com instruções sobre como redefinir sua senha.")
+                    strongSelf.showOKAlertWith(title: R.string.localizable.forgotPasswordCheckYourEmail(), message: message ?? R.string.localizable.forgotPasswordMessage())
                 case .cancelled:
                     strongSelf.hideHud()
                 }

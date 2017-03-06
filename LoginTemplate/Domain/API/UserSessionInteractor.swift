@@ -72,7 +72,7 @@ class UserSessionInteractor: UserSessionInteractorInterface{
         let user: User?
         if let userAPI = userAPI{
             guard let _user = User(userAPI: userAPI) else {
-                throw UserSessionInteractor.error(description: "API retornou um usuário inválido: \(userAPI)")
+                throw UserSessionInteractor.error(description: "\(R.string.localizable.messageUserInvalid()) \(userAPI)")
             }
             
             user = _user
@@ -85,7 +85,7 @@ class UserSessionInteractor: UserSessionInteractorInterface{
                 repositoryInterface.createUserSession(uid: uid, client: client, accessToken: accessToken, currentUser: UserDB(name: user.name, email: user.email))
                 stateVariable.value = .logged(user: user)
             }else{
-                throw UserSessionInteractor.error(description: "Falha na tentativa de atualizar as credenciais: Não existe sessão de usuário")
+                throw UserSessionInteractor.error(description: R.string.localizable.messageErrorUpdateCredential())
             }
         }else{
             let userDB: UserDB?

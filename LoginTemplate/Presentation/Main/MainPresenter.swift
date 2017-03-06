@@ -43,7 +43,8 @@ class MainPresenter: BasePresenter, MainPresenterInterface {
                     strongSelf.router?.page = MainPage.login
                 case .authExpired:
                     strongSelf.router?.page = MainPage.login
-                    strongSelf.authExpiredMessageSubject.onNext("Sessão expirou. Por favor, faça o login novamente")
+                    strongSelf.authExpiredMessageSubject.onNext(R.string.localizable.messageExpiredSession())
+
                 }
             })
             .addDisposableTo(userSessionInteractorInterfaceDisposeBag)
