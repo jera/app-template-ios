@@ -50,7 +50,7 @@ class LoginViewController: BaseViewController {
     override func loadView() {
         super.loadView()
         
-        addBackgroundImageView(withImage: #imageLiteral(resourceName: "img_bg"))
+        addBackgroundImageView(withImage: Appearance.backgroundImage)
         
         guard let loginView = R.nib.loginView().instantiate(withOwner: self, options: nil).first as? UIView else {
             return
@@ -74,7 +74,7 @@ class LoginViewController: BaseViewController {
     }
     
     private func applyAppearance(){
-        logoImageView.image = #imageLiteral(resourceName: "ic_logo")
+        logoImageView.image = Appearance.logoImage
         
         doSignWithLabel.textColor = .white
         doSignWithLabel.font = UIFont.systemFont(ofSize: 14)

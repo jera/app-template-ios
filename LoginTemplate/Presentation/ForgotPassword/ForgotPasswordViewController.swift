@@ -9,8 +9,13 @@
 import UIKit
 import RxSwift
 import Cartography
+import Material
 
 class ForgotPasswordViewController: BaseViewController {
+    
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var emailTextField: TextField!
+    @IBOutlet weak var confirmButton: RaisedButton!
     
     private var presenterInterfaceBindDisposeBag: DisposeBag!
     var presenterInterface: ForgotPasswordPresenterInterface?{
@@ -19,29 +24,49 @@ class ForgotPasswordViewController: BaseViewController {
         }
     }
     
-    override func loadView() {
-        super.loadView()
-        
-        view.backgroundColor = .white
-        
-        addScrollView(withSubView: forgotPasswordView) { (forgotPasswordViewLayoutProxy, scrollViewLayoutProxy) in
-            forgotPasswordViewLayoutProxy.edges == scrollViewLayoutProxy.edges
-            forgotPasswordViewLayoutProxy.width == scrollViewLayoutProxy.width
-        }
-    }
-    
     override func viewDidLoad(){
         super.viewDidLoad()
-    
-        view.backgroundColor = UIColor.defaultViewBackground()
         
-        title = R.string.localizable.forgotPasswordTitleNavBar()
+        applyAppearance()
+        applyTexts()
         
         addCloseButton(image: UIImage(named: "ic_nav_back")!) { [weak self] () in
             self?.presenterInterface?.didTapCloseForgotPasswordView()
         }
         
         bind()
+    }
+    
+    override func loadView() {
+        super.loadView()
+        
+        view.backgroundColor = .white
+        guard let forgotPasswordView = R.nib.forgotPasswordView().instantiate(withOwner: self, options: nil).first as? UIView else {
+            return
+        }
+        addScrollView(withSubView: forgotPasswordView){ (forgotPasswordViewLayoutProxy, scrollViewLayoutProxy) in
+            forgotPasswordViewLayoutProxy.edges == scrollViewLayoutProxy.edges
+            forgotPasswordViewLayoutProxy.width == scrollViewLayoutProxy.width
+        }
+    }
+    
+    private func applyAppearance(){
+        titleLabel.font = UIFont.systemFont(ofSize: 12)
+        
+        emailTextField.applyAppearance(appearance: .white)
+        emailTextField.keyboardType = .emailAddress
+        emailTextField.autocorrectionType = .no
+        
+        confirmButton.applyAppearance(appearance: .main)
+        confirmButton.layer.cornerRadius = 5
+    }
+    
+    private func applyTexts(){
+        title = R.string.localizable.forgotPasswordTitleNavBar()
+        
+        titleLabel.text = R.string.localizable.forgotPasswordTitle()
+        emailTextField.placeholder = R.string.localizable.defaultEmail()
+        confirmButton.setTitleWithoutAnimation(R.string.localizable.forgotPasswordSend().uppercased(), for: .normal)
     }
     
     private func bind(){
@@ -53,10 +78,10 @@ class ForgotPasswordViewController: BaseViewController {
         
         presenterInterface.email
             .asObservable()
-            .bindTo(forgotPasswordView.emailTextField.rx.text)
+            .bindTo(emailTextField.rx.text)
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
-        forgotPasswordView.emailTextField.rx.text
+        emailTextField.rx.text
             .asObservable()
             .map { (text) -> String in
                 return text ?? ""
@@ -66,12 +91,12 @@ class ForgotPasswordViewController: BaseViewController {
         
         presenterInterface.emailErrorString
             .subscribe(onNext: { [weak self] (errorString) in
-                self?.forgotPasswordView.emailTextField.detail = errorString
+                self?.emailTextField.detail = errorString
             })
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         presenterInterface.forgotPasswordButtonEnabled
-            .bindTo(forgotPasswordView.confirmButton.rx.isEnabled)
+            .bindTo(confirmButton.rx.isEnabled)
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         presenterInterface.forgotPasswordRequestResponse
@@ -95,7 +120,7 @@ class ForgotPasswordViewController: BaseViewController {
             })
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
-        forgotPasswordView.confirmButton.rx.tap
+        confirmButton.rx.tap
             .subscribe { [weak self] (_) in
                 guard let strongSelf = self else { return }
                 
@@ -103,10 +128,5 @@ class ForgotPasswordViewController: BaseViewController {
             }
             .addDisposableTo(presenterInterfaceBindDisposeBag)
     }
-    
-    private lazy var forgotPasswordView: ForgotPasswordView = {
-        let forgotPasswordView = ForgotPasswordView.loadNibName()
-        return forgotPasswordView
-    }()
     
 }

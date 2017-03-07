@@ -61,8 +61,6 @@ class CreateAccountViewController: BaseViewController, UITextFieldDelegate {
     
     
     private func applyAppearance(){
-//        avatarImageView.image = UIImage(named: "avatar")
-        
         avatarImageView.layer.cornerRadius = avatarImageView.frame.size.width/2
         avatarImageView.clipsToBounds = true
         avatarImageView.layer.borderColor = UIColor(white: 190/255, alpha: 1).cgColor

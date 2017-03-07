@@ -63,7 +63,7 @@ extension RaisedButton{
             setImage(#imageLiteral(resourceName: "ic_google"), for: .normal)
         case .main:
             pulseColor = .white
-            backgroundColor = Appearance.mainColor
+            backgroundColor = Appearance.buttonColor
             imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 25)
             titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
             setTitleColor(.white, for: .normal)
@@ -144,7 +144,7 @@ extension TextField{
             
             dividerColor = UIColor.gray.withAlphaComponent(0.7)
             dividerNormalColor = UIColor.gray.withAlphaComponent(0.3)
-            dividerActiveColor = Appearance.mainColor
+            dividerActiveColor = Appearance.dividerTextFieldColor
             dividerContentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 6, right: 0)
             
             detailLabel.font = UIFont.systemFont(ofSize: 10)

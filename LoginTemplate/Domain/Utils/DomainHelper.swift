@@ -17,10 +17,6 @@ extension String {
 }
 
 extension UIColor {
-    static func defaultViewBackground() -> UIColor {
-        return white
-    }
-    
     static func defaultTitleLabel() -> UIColor {
         return gray
     }
