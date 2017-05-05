@@ -18,6 +18,7 @@
 		251B325A1E5E1FF100A6D93B /* CreateAccountView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 251B32591E5E1FF100A6D93B /* CreateAccountView.xib */; };
 		251B325D1E5E465900A6D93B /* BaseInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251B325C1E5E465900A6D93B /* BaseInteractor.swift */; };
 		251B32611E5E46E600A6D93B /* BaseRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251B32601E5E46E600A6D93B /* BaseRepository.swift */; };
+		254D13961EBCC58F001158BE /* LoginTemplateUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254D13951EBCC58F001158BE /* LoginTemplateUITests.swift */; };
 		25633DFB1E646467007F8490 /* MaskTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25633DFA1E646467007F8490 /* MaskTextField.swift */; };
 		25633DFD1E6465B3007F8490 /* FieldErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25633DFC1E6465B3007F8490 /* FieldErrors.swift */; };
 		257467291E560CA80068DC65 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257467281E560CA80068DC65 /* MainViewController.swift */; };
@@ -70,6 +71,16 @@
 		F0B4A2AC1E5B3BA400ADD56A /* ForgotPasswordView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F0B4A2AA1E5B3BA400ADD56A /* ForgotPasswordView.xib */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		254D13981EBCC58F001158BE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 25E2F6E91E52423800AA208E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 25E2F6F01E52423800AA208E;
+			remoteInfo = LoginTemplate;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		2249F5DE7F1971AEC8E22EE0 /* Pods_LoginTemplate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LoginTemplate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		251B323F1E5CD76E00A6D93B /* MaterialAppearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaterialAppearance.swift; sourceTree = "<group>"; };
@@ -84,6 +95,9 @@
 		251B32591E5E1FF100A6D93B /* CreateAccountView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CreateAccountView.xib; path = LoginTemplate/Data/CreateUser/CreateAccountView.xib; sourceTree = SOURCE_ROOT; };
 		251B325C1E5E465900A6D93B /* BaseInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseInteractor.swift; sourceTree = "<group>"; };
 		251B32601E5E46E600A6D93B /* BaseRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseRepository.swift; sourceTree = "<group>"; };
+		254D13931EBCC58F001158BE /* LoginTemplateUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LoginTemplateUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		254D13951EBCC58F001158BE /* LoginTemplateUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTemplateUITests.swift; sourceTree = "<group>"; };
+		254D13971EBCC58F001158BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		25633DFA1E646467007F8490 /* MaskTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaskTextField.swift; sourceTree = "<group>"; };
 		25633DFC1E6465B3007F8490 /* FieldErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FieldErrors.swift; sourceTree = "<group>"; };
 		257467281E560CA80068DC65 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -140,6 +154,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		254D13901EBCC58F001158BE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		25E2F6EE1E52423800AA208E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -182,6 +203,15 @@
 				251B32601E5E46E600A6D93B /* BaseRepository.swift */,
 			);
 			path = Base;
+			sourceTree = "<group>";
+		};
+		254D13941EBCC58F001158BE /* LoginTemplateUITests */ = {
+			isa = PBXGroup;
+			children = (
+				254D13951EBCC58F001158BE /* LoginTemplateUITests.swift */,
+				254D13971EBCC58F001158BE /* Info.plist */,
+			);
+			path = LoginTemplateUITests;
 			sourceTree = "<group>";
 		};
 		2574672C1E561CDF0068DC65 /* Dashboard */ = {
@@ -286,6 +316,7 @@
 			isa = PBXGroup;
 			children = (
 				25E2F6F31E52423800AA208E /* LoginTemplate */,
+				254D13941EBCC58F001158BE /* LoginTemplateUITests */,
 				25E2F6F21E52423800AA208E /* Products */,
 				C80ED70F62A155C6A4AE2BFA /* Pods */,
 				A76AFE8CE832C2C497CFE2E5 /* Frameworks */,
@@ -296,6 +327,7 @@
 			isa = PBXGroup;
 			children = (
 				25E2F6F11E52423800AA208E /* LoginTemplate.app */,
+				254D13931EBCC58F001158BE /* LoginTemplateUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -457,6 +489,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		254D13921EBCC58F001158BE /* LoginTemplateUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 254D139C1EBCC58F001158BE /* Build configuration list for PBXNativeTarget "LoginTemplateUITests" */;
+			buildPhases = (
+				254D138F1EBCC58F001158BE /* Sources */,
+				254D13901EBCC58F001158BE /* Frameworks */,
+				254D13911EBCC58F001158BE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				254D13991EBCC58F001158BE /* PBXTargetDependency */,
+			);
+			name = LoginTemplateUITests;
+			productName = LoginTemplateUITests;
+			productReference = 254D13931EBCC58F001158BE /* LoginTemplateUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		25E2F6F01E52423800AA208E /* LoginTemplate */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 25E2F7031E52423800AA208E /* Build configuration list for PBXNativeTarget "LoginTemplate" */;
@@ -484,10 +534,15 @@
 		25E2F6E91E52423800AA208E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0820;
+				LastSwiftUpdateCheck = 0830;
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = Jera;
 				TargetAttributes = {
+					254D13921EBCC58F001158BE = {
+						CreatedOnToolsVersion = 8.3.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 25E2F6F01E52423800AA208E;
+					};
 					25E2F6F01E52423800AA208E = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = E234QZ5Z6G;
@@ -510,11 +565,19 @@
 			projectRoot = "";
 			targets = (
 				25E2F6F01E52423800AA208E /* LoginTemplate */,
+				254D13921EBCC58F001158BE /* LoginTemplateUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		254D13911EBCC58F001158BE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		25E2F6EF1E52423800AA208E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -559,7 +622,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		DB048EF3B8762C19B4797E67 /* [CP] Copy Pods Resources */ = {
@@ -595,6 +658,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		254D138F1EBCC58F001158BE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				254D13961EBCC58F001158BE /* LoginTemplateUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		25E2F6ED1E52423800AA208E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -655,6 +726,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		254D13991EBCC58F001158BE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 25E2F6F01E52423800AA208E /* LoginTemplate */;
+			targetProxy = 254D13981EBCC58F001158BE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		251B32481E5DCB0000A6D93B /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
@@ -676,6 +755,36 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		254D139A1EBCC58F001158BE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				INFOPLIST_FILE = LoginTemplateUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.jera.LoginTemplateUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "7780eb52-6187-4c60-a5a9-972dadcf099c";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = LoginTemplate;
+			};
+			name = Debug;
+		};
+		254D139B1EBCC58F001158BE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				INFOPLIST_FILE = LoginTemplateUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.jera.LoginTemplateUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "7780eb52-6187-4c60-a5a9-972dadcf099c";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = LoginTemplate;
+			};
+			name = Release;
+		};
 		25E2F7011E52423800AA208E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -808,6 +917,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		254D139C1EBCC58F001158BE /* Build configuration list for PBXNativeTarget "LoginTemplateUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				254D139A1EBCC58F001158BE /* Debug */,
+				254D139B1EBCC58F001158BE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		25E2F6EC1E52423800AA208E /* Build configuration list for PBXProject "LoginTemplate" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

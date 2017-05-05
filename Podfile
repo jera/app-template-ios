@@ -6,16 +6,16 @@ target 'LoginTemplate' do
   use_frameworks!
 
   # Pods for LoginTemplate
-  pod 'Cartography', '~> 1.0'
-  pod 'Material', '~> 2.4'
+  pod 'Cartography', '~> 1.1'
+  pod 'Material', '~> 2.6'
   pod 'Moya-ObjectMapper/RxSwift', '~> 2.3'
   pod 'R.swift', '~> 3.2'
   pod 'TPKeyboardAvoiding', '~> 1.3'
-  pod 'RxCocoa', '~> 3.2.0'
+  pod 'RxCocoa', '~> 3.4'
 
   #ObjC
-  pod 'FBSDKLoginKit', '~> 4.19'
+  pod 'FBSDKLoginKit', '~> 4.22'
   pod 'Google/SignIn', '~> 3.0'
-  pod 'NSStringMask', :git => 'https://github.com/aleufms/NSStringMask', :commit => '13f13ce1eeb74985ea07f2950eb5925dc7f231c8'  #Remove warnings and bullshits
+  pod 'NSStringMask', '~> 1.2'
 
 end

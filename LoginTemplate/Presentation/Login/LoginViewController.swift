@@ -119,7 +119,7 @@ class LoginViewController: BaseViewController {
         
         presenterInterface.email
             .asObservable()
-            .bindTo(emailTextField.rx.text)
+            .bind(to: emailTextField.rx.text)
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         emailTextField.rx.text
@@ -127,7 +127,7 @@ class LoginViewController: BaseViewController {
             .map { (text) -> String in
                 return text ?? ""
             }
-            .bindTo(presenterInterface.email)
+            .bind(to: presenterInterface.email)
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         presenterInterface.emailErrorString
@@ -138,7 +138,7 @@ class LoginViewController: BaseViewController {
         
         presenterInterface.password
             .asObservable()
-            .bindTo(passwordTextField.rx.text)
+            .bind(to: passwordTextField.rx.text)
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         passwordTextField.rx.text
@@ -146,7 +146,7 @@ class LoginViewController: BaseViewController {
             .map { (text) -> String in
                 return text ?? ""
             }
-            .bindTo(presenterInterface.password)
+            .bind(to: presenterInterface.password)
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         presenterInterface.passwordErrorString
@@ -156,7 +156,7 @@ class LoginViewController: BaseViewController {
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         presenterInterface.loginButtonEnabled
-            .bindTo(loginButton.rx.isEnabled)
+            .bind(to: loginButton.rx.isEnabled)
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         presenterInterface.loginRequestResponse

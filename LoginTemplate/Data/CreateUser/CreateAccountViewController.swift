@@ -120,12 +120,12 @@ class CreateAccountViewController: BaseViewController, UITextFieldDelegate {
             .map { (userImage) -> UIImage in
                 return userImage ?? #imageLiteral(resourceName: "avatar")
             }
-            .bindTo(avatarImageView.rx.image)
+            .bind(to: avatarImageView.rx.image)
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         presenterInterface.name
             .asObservable()
-            .bindTo(nameTextField.rx.text)
+            .bind(to: nameTextField.rx.text)
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         nameTextField.rx.text
@@ -133,7 +133,7 @@ class CreateAccountViewController: BaseViewController, UITextFieldDelegate {
             .map { (text) -> String in
                 return text ?? ""
             }
-            .bindTo(presenterInterface.name)
+            .bind(to: presenterInterface.name)
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         presenterInterface.nameErrorString
@@ -144,7 +144,7 @@ class CreateAccountViewController: BaseViewController, UITextFieldDelegate {
         
         presenterInterface.email
             .asObservable()
-            .bindTo(emailTextField.rx.text)
+            .bind(to: emailTextField.rx.text)
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         emailTextField.rx.text
@@ -152,7 +152,7 @@ class CreateAccountViewController: BaseViewController, UITextFieldDelegate {
             .map { (text) -> String in
                 return text ?? ""
             }
-            .bindTo(presenterInterface.email)
+            .bind(to: presenterInterface.email)
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         presenterInterface.emailErrorString
@@ -163,11 +163,11 @@ class CreateAccountViewController: BaseViewController, UITextFieldDelegate {
         
         presenterInterface.phone
             .asObservable()
-            .bindTo(phoneTextField.rx.text)
+            .bind(to: phoneTextField.rx.text)
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         phoneTextField.rawTextObservable
-            .bindTo(presenterInterface.phone)
+            .bind(to: presenterInterface.phone)
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         presenterInterface.phoneErrorString
@@ -178,11 +178,11 @@ class CreateAccountViewController: BaseViewController, UITextFieldDelegate {
         
         presenterInterface.cpf
             .asObservable()
-            .bindTo(cpfTextField.rx.text)
+            .bind(to: cpfTextField.rx.text)
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         cpfTextField.rawTextObservable
-            .bindTo(presenterInterface.cpf)
+            .bind(to: presenterInterface.cpf)
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         presenterInterface.cpfErrorString
@@ -193,7 +193,7 @@ class CreateAccountViewController: BaseViewController, UITextFieldDelegate {
         
         presenterInterface.password
             .asObservable()
-            .bindTo(passwordTextField.rx.text)
+            .bind(to: passwordTextField.rx.text)
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         passwordTextField.rx.text
@@ -201,7 +201,7 @@ class CreateAccountViewController: BaseViewController, UITextFieldDelegate {
             .map { (text) -> String in
                 return text ?? ""
             }
-            .bindTo(presenterInterface.password)
+            .bind(to: presenterInterface.password)
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         presenterInterface.passwordErrorString
@@ -212,7 +212,7 @@ class CreateAccountViewController: BaseViewController, UITextFieldDelegate {
         
         presenterInterface.passwordConfirm
             .asObservable()
-            .bindTo(confirmPasswordTextField.rx.text)
+            .bind(to: confirmPasswordTextField.rx.text)
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         confirmPasswordTextField.rx.text
@@ -220,7 +220,7 @@ class CreateAccountViewController: BaseViewController, UITextFieldDelegate {
             .map { (text) -> String in
                 return text ?? ""
             }
-            .bindTo(presenterInterface.passwordConfirm)
+            .bind(to: presenterInterface.passwordConfirm)
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         presenterInterface.passwordConfirmErrorString
@@ -230,7 +230,7 @@ class CreateAccountViewController: BaseViewController, UITextFieldDelegate {
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         presenterInterface.createAccountButtonEnabled
-            .bindTo(createAccountButton.rx.isEnabled)
+            .bind(to: createAccountButton.rx.isEnabled)
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         presenterInterface.createAccountRequestResponse

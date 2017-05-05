@@ -78,7 +78,7 @@ class ForgotPasswordViewController: BaseViewController {
         
         presenterInterface.email
             .asObservable()
-            .bindTo(emailTextField.rx.text)
+            .bind(to: emailTextField.rx.text)
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         emailTextField.rx.text
@@ -86,7 +86,7 @@ class ForgotPasswordViewController: BaseViewController {
             .map { (text) -> String in
                 return text ?? ""
             }
-            .bindTo(presenterInterface.email)
+            .bind(to: presenterInterface.email)
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         presenterInterface.emailErrorString
@@ -96,7 +96,7 @@ class ForgotPasswordViewController: BaseViewController {
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         presenterInterface.forgotPasswordButtonEnabled
-            .bindTo(confirmButton.rx.isEnabled)
+            .bind(to: confirmButton.rx.isEnabled)
             .addDisposableTo(presenterInterfaceBindDisposeBag)
         
         presenterInterface.forgotPasswordRequestResponse
