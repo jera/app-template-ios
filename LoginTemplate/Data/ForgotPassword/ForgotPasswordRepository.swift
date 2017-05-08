@@ -8,14 +8,14 @@
 
 import RxSwift
 
-protocol ForgotPasswordRepositoryInterface{
+protocol ForgotPasswordRepositoryInterface {
     func sendNewPasswordTo(email: String) -> Observable<String?>
 }
 
 class ForgotPasswordRepository: BaseRepository, ForgotPasswordRepositoryInterface {
     let apiClientInterface: APIClientInterface
     
-    init(apiClientInterface: APIClientInterface){
+    init(apiClientInterface: APIClientInterface) {
         self.apiClientInterface = apiClientInterface
     }
     
@@ -24,4 +24,3 @@ class ForgotPasswordRepository: BaseRepository, ForgotPasswordRepositoryInterfac
             .forgotPasswordWith(email: email)
     }
 }
-

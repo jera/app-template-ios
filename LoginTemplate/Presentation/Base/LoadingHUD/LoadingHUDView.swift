@@ -10,10 +10,10 @@ import UIKit
 
 class LoadingHUDView: UIView {
     
-    static func loadFromNib(title: String? = nil) -> LoadingHUDView{
+    static func loadFromNib(title: String? = nil) -> LoadingHUDView {
         let loadingHUDView = Bundle.main.loadNibNamed("LoadingHUDView", owner: nil, options: nil)!.first! as! LoadingHUDView
         
-        if let title = title{
+        if let title = title {
             loadingHUDView.titleLabel.text = title
         }
         

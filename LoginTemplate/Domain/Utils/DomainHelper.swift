@@ -25,19 +25,19 @@ extension UIColor {
         return UIColor(red:85/255, green:124/255, blue:211/255, alpha:1)
     }
     
-    static func defaultBackgroundButton() -> UIColor{
+    static func defaultBackgroundButton() -> UIColor {
         return UIColor(red: 189/255, green: 39/255, blue: 89/255, alpha: 1)
     }
     
-    static func defaultTitleButton() -> UIColor{
+    static func defaultTitleButton() -> UIColor {
         return white
     }
     
-    class func primary() -> UIColor{
+    class func primary() -> UIColor {
         return UIColor(red: 189/255, green: 39/255, blue: 89/255, alpha: 1)
     }
     
-    class func textFielTint() -> UIColor{
+    class func textFielTint() -> UIColor {
         return UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1)
     }
 }

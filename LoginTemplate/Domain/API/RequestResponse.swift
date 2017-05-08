@@ -6,7 +6,7 @@
 //  Copyright © 2017 Jera. All rights reserved.
 //
 
-enum RequestResponse<T>{
+enum RequestResponse<T> {
     case new
     case loading
     case success(responseObject: T)

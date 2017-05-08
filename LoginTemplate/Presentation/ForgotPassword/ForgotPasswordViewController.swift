@@ -18,13 +18,13 @@ class ForgotPasswordViewController: BaseViewController {
     @IBOutlet weak var confirmButton: RaisedButton!
     
     private var presenterInterfaceBindDisposeBag: DisposeBag!
-    var presenterInterface: ForgotPasswordPresenterInterface?{
-        didSet{
+    var presenterInterface: ForgotPasswordPresenterInterface? {
+        didSet {
             bind()
         }
     }
     
-    override func viewDidLoad(){
+    override func viewDidLoad() {
         super.viewDidLoad()
         
         applyAppearance()
@@ -44,13 +44,13 @@ class ForgotPasswordViewController: BaseViewController {
         guard let forgotPasswordView = R.nib.forgotPasswordView().instantiate(withOwner: self, options: nil).first as? UIView else {
             return
         }
-        addScrollView(withSubView: forgotPasswordView){ (forgotPasswordViewLayoutProxy, scrollViewLayoutProxy) in
+        addScrollView(withSubView: forgotPasswordView) { (forgotPasswordViewLayoutProxy, scrollViewLayoutProxy) in
             forgotPasswordViewLayoutProxy.edges == scrollViewLayoutProxy.edges
             forgotPasswordViewLayoutProxy.width == scrollViewLayoutProxy.width
         }
     }
     
-    private func applyAppearance(){
+    private func applyAppearance() {
         titleLabel.font = UIFont.systemFont(ofSize: 12)
         
         emailTextField.applyAppearance(appearance: .white)
@@ -61,7 +61,7 @@ class ForgotPasswordViewController: BaseViewController {
         confirmButton.layer.cornerRadius = 5
     }
     
-    private func applyTexts(){
+    private func applyTexts() {
         title = R.string.localizable.forgotPasswordTitleNavBar()
         
         titleLabel.text = R.string.localizable.forgotPasswordTitle()
@@ -69,12 +69,12 @@ class ForgotPasswordViewController: BaseViewController {
         confirmButton.setTitleWithoutAnimation(R.string.localizable.forgotPasswordSend().uppercased(), for: .normal)
     }
     
-    private func bind(){
+    private func bind() {
         guard isLoaded else { return }
         
         presenterInterfaceBindDisposeBag = DisposeBag()
         
-        guard let presenterInterface = presenterInterface else{ return }
+        guard let presenterInterface = presenterInterface else { return }
         
         presenterInterface.email
             .asObservable()
@@ -103,7 +103,7 @@ class ForgotPasswordViewController: BaseViewController {
             .subscribe(onNext: { [weak self] (requestResponse) in
                 guard let strongSelf = self else { return }
                 
-                switch requestResponse{
+                switch requestResponse {
                 case .new:
                     strongSelf.hideHud()
                 case .loading:

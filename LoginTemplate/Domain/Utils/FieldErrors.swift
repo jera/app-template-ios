@@ -6,20 +6,20 @@
 //  Copyright © 2017 Jera. All rights reserved.
 //
 
-enum NameFieldError: Equatable{
+enum NameFieldError: Equatable {
     case empty
 }
 
-enum EmailFieldError: Equatable{
+enum EmailFieldError: Equatable {
     case empty
     case notValid
 }
 
-enum PhoneFieldError: Equatable{
+enum PhoneFieldError: Equatable {
     case empty
     case minCharaters(count: Int)
     
-    static func ==(lhs: PhoneFieldError, rhs: PhoneFieldError) -> Bool{
+    static func == (lhs: PhoneFieldError, rhs: PhoneFieldError) -> Bool {
         switch (lhs, rhs) {
         case (.empty, .empty):
             return true
@@ -31,16 +31,16 @@ enum PhoneFieldError: Equatable{
     }
 }
 
-enum CpfFieldError: Equatable{
+enum CpfFieldError: Equatable {
     case empty
     case notValid
 }
 
-enum PasswordFieldError: Equatable{
+enum PasswordFieldError: Equatable {
     case empty
     case minCharaters(count: Int)
     
-    static func ==(lhs: PasswordFieldError, rhs: PasswordFieldError) -> Bool{
+    static func == (lhs: PasswordFieldError, rhs: PasswordFieldError) -> Bool {
         switch (lhs, rhs) {
         case (.empty, .empty):
             return true
@@ -52,6 +52,6 @@ enum PasswordFieldError: Equatable{
     }
 }
 
-enum ConfirmPasswordFieldError: Equatable{
+enum ConfirmPasswordFieldError: Equatable {
     case confirmPasswordNotMatch
 }

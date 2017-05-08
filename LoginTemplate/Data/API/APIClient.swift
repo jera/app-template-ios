@@ -11,7 +11,7 @@ import Moya_ObjectMapper
 import ObjectMapper
 import RxSwift
 
-class APIClientHost{
+class APIClientHost {
     #if DEBUG
     static let baseURLString = "http://staging.agropocket.jera.com.br"
     #else
@@ -44,7 +44,7 @@ let provider = RxMoyaProvider<APITarget>( endpointClosure: { (target) -> Endpoin
     
     return endpoint
 }, plugins: [NetworkActivityPlugin { (change) in
-    switch change{
+    switch change {
     case .began:
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
     case .ended:
@@ -148,25 +148,25 @@ extension APITarget: TargetType {
             return[
                 "name": params.name,
                 "email": params.email,
-                "password": params.password,
+                "password": params.password
             ]
             
         case .EditAccount(let params):
-            var bodyParams = [String : Any]()
+            var bodyParams = [String: Any]()
             
-            if let name = params.name{
+            if let name = params.name {
                 bodyParams["name"] = name
             }
             
-            if let email = params.email{
+            if let email = params.email {
                 bodyParams["email"] = email
             }
             
-            if let password = params.password{
+            if let password = params.password {
                 bodyParams["password"] = password
             }
             
-            if let oldPassword = params.oldPassword{
+            if let oldPassword = params.oldPassword {
                 bodyParams["current_password"] = oldPassword
             }
             
@@ -174,8 +174,8 @@ extension APITarget: TargetType {
         }
     }
     
-    var parameterEncoding: ParameterEncoding{
-        switch self{
+    var parameterEncoding: ParameterEncoding {
+        switch self {
         default:
             return JSONEncoding()
         }
@@ -228,12 +228,12 @@ extension APITarget: TargetType {
         }
     }
     
-    var validate: Bool{
+    var validate: Bool {
         return false
     }
 }
 
-protocol APIClientInterface{
+protocol APIClientInterface {
     func loginWith(email: String, password: String) -> Observable<UserAPI>
     func loginWithFacebook(token: String) -> Observable<UserAPI>
     func loginWithGoogle(token: String) -> Observable<UserAPI>
@@ -273,21 +273,21 @@ struct APIClient: APIClientInterface {
             .mapServerMessage()
     }
     
-    func createNewAccount(name: String, email: String, cpf: String, password: String, image: UIImage? = nil) -> Observable<UserAPI>{
+    func createNewAccount(name: String, email: String, cpf: String, password: String, image: UIImage? = nil) -> Observable<UserAPI> {
         return provider
             .request(.CreateNewAccount(name: name, email: email, cpf: cpf, password: password, image: image))
             .processResponse(updateCurrentUser: true)
             .mapObject(UserAPI.self)
     }
     
-    func editCurrentUserWith(name: String? = nil, email: String? = nil, cpf: String? = nil, password: String? = nil, oldPassword: String? = nil, image: UIImage? = nil) -> Observable<UserAPI>{
+    func editCurrentUserWith(name: String? = nil, email: String? = nil, cpf: String? = nil, password: String? = nil, oldPassword: String? = nil, image: UIImage? = nil) -> Observable<UserAPI> {
         return provider
             .request(.EditAccount(name: name, email: email, cpf: cpf, password: password, oldPassword: oldPassword, image: image))
             .processResponse(updateCurrentUser: true)
             .mapObject(UserAPI.self)
     }
     
-    func getCurrentUser() -> Observable<UserAPI>{
+    func getCurrentUser() -> Observable<UserAPI> {
         return provider
             .request(.CurrentUser)
             .processResponse(updateCurrentUser: true)
@@ -304,9 +304,9 @@ struct APIClient: APIClientInterface {
     }
 }
 
-extension APIClient{
+extension APIClient {
     static let errorDomain = "APIClient"
-    static func error(description: String, code: Int = 0) -> NSError{
+    static func error(description: String, code: Int = 0) -> NSError {
         return NSError(domain: errorDomain, code: code, userInfo: [NSLocalizedDescriptionKey: description])
     }
 }

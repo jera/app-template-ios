@@ -60,12 +60,12 @@ class MainWireFrame: BaseWireFrame {
         configureDependencies()
     }
     
-    func presentOn(window: UIWindow){
+    func presentOn(window: UIWindow) {
         window.rootViewController = mainViewController
         window.makeKeyAndVisible()
     }
     
-    func configureDependencies()  {
+    func configureDependencies() {
         mainPresenter.router = self
         mainPresenter.userSessionInteractorInterface = UserSessionInteractor.shared
         mainViewController.presenterInterface = mainPresenter

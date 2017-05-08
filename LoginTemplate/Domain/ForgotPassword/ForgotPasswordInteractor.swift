@@ -31,7 +31,7 @@ class ForgotPasswordInteractor: BaseInteractor {
 }
 
 extension ForgotPasswordInteractor: ForgotPasswordInteractorInterface {
-    var forgotPasswordResponse: Observable<RequestResponse<String?>>{
+    var forgotPasswordResponse: Observable<RequestResponse<String?>> {
         return forgotPasswordResponseVariable.asObservable()
     }
     
@@ -45,7 +45,7 @@ extension ForgotPasswordInteractor: ForgotPasswordInteractorInterface {
             .subscribe { [weak self] (event) in
                 guard let strongSelf = self else { return }
                 
-                switch event{
+                switch event {
                 case .next(let message):
                     strongSelf.forgotPasswordResponseVariable.value = .success(responseObject: message)
                     
@@ -59,17 +59,17 @@ extension ForgotPasswordInteractor: ForgotPasswordInteractorInterface {
         
     }
     
-    var emailErrors: Observable<[EmailFieldError]>{
+    var emailErrors: Observable<[EmailFieldError]> {
         return self.email
             .asObservable()
             .map { (email) -> [EmailFieldError] in
                 var fieldErrors = [EmailFieldError]()
                 
-                if email.characters.count == 0 {
+                if email.characters.isEmpty {
                     fieldErrors.append(.empty)
                 }
                 
-                if !email.isValidEmail(){
+                if !email.isValidEmail() {
                     fieldErrors.append(.notValid)
                 }
                 
@@ -77,4 +77,3 @@ extension ForgotPasswordInteractor: ForgotPasswordInteractorInterface {
         }
     }
 }
-

@@ -52,12 +52,12 @@ class CreateAccountInteractor: BaseInteractor {
     }
 }
 
-extension CreateAccountInteractor: CreateAccountInteractorInterface{
-    var createAccountResponse: Observable<RequestResponse<User>>{
+extension CreateAccountInteractor: CreateAccountInteractorInterface {
+    var createAccountResponse: Observable<RequestResponse<User>> {
         return createAccountResponseVariable.asObservable()
     }
     
-    func createAccount(){
+    func createAccount() {
         createAccountDisposeBag = DisposeBag()
         
         createAccountResponseVariable.value = .loading
@@ -67,10 +67,10 @@ extension CreateAccountInteractor: CreateAccountInteractorInterface{
             .subscribe { [weak self] (event) in
                 guard let strongSelf = self else { return }
                 
-                switch event{
+                switch event {
                 case .next(let userAPI):
                     
-                    guard let user = User(userAPI: userAPI) else{
+                    guard let user = User(userAPI: userAPI) else {
                         strongSelf.createAccountResponseVariable.value = .failure(error: APIClient.error(description: "\(R.string.localizable.messageUserInvalid()) \(userAPI)"))
                         return
                     }
@@ -86,13 +86,13 @@ extension CreateAccountInteractor: CreateAccountInteractorInterface{
             .addDisposableTo(createAccountDisposeBag)
     }
     
-    var nameErrors: Observable<[NameFieldError]>{
+    var nameErrors: Observable<[NameFieldError]> {
         return self.name
             .asObservable()
             .map { (name) -> [NameFieldError] in
                 var fieldErrors = [NameFieldError]()
                 
-                if name.characters.count == 0 {
+                if name.characters.isEmpty {
                     fieldErrors.append(.empty)
                 }
                 
@@ -100,17 +100,17 @@ extension CreateAccountInteractor: CreateAccountInteractorInterface{
         }
     }
     
-    var emailErrors: Observable<[EmailFieldError]>{
+    var emailErrors: Observable<[EmailFieldError]> {
         return self.email
             .asObservable()
             .map { (email) -> [EmailFieldError] in
                 var fieldErrors = [EmailFieldError]()
                 
-                if email.characters.count == 0 {
+                if email.characters.isEmpty {
                     fieldErrors.append(.empty)
                 }
                 
-                if !email.isValidEmail(){
+                if !email.isValidEmail() {
                     fieldErrors.append(.notValid)
                 }
                 
@@ -118,17 +118,17 @@ extension CreateAccountInteractor: CreateAccountInteractorInterface{
         }
     }
     
-    var phoneErrors: Observable<[PhoneFieldError]>{
+    var phoneErrors: Observable<[PhoneFieldError]> {
         return self.phone
             .asObservable()
             .map { (phone) -> [PhoneFieldError] in
                 var fieldErrors = [PhoneFieldError]()
                 
-                if phone.characters.count == 0 {
+                if phone.characters.isEmpty {
                     fieldErrors.append(.empty)
                 }
                 
-                if phone.characters.count < 10{
+                if phone.characters.count < 10 {
                     fieldErrors.append(.minCharaters(count: 10))
                 }
                 
@@ -136,17 +136,17 @@ extension CreateAccountInteractor: CreateAccountInteractorInterface{
         }
     }
     
-    var cpfErrors: Observable<[CpfFieldError]>{
+    var cpfErrors: Observable<[CpfFieldError]> {
         return self.cpf
             .asObservable()
             .map { (cpf) -> [CpfFieldError] in
                 var fieldErrors = [CpfFieldError]()
                 
-                if cpf.characters.count == 0 {
+                if cpf.characters.isEmpty {
                     fieldErrors.append(.empty)
                 }
                 
-                if !CPF.validate(cpf: cpf){
+                if !CPF.validate(cpf: cpf) {
                     fieldErrors.append(.notValid)
                 }
                 
@@ -154,17 +154,17 @@ extension CreateAccountInteractor: CreateAccountInteractorInterface{
         }
     }
     
-    var passwordErrors: Observable<[PasswordFieldError]>{
+    var passwordErrors: Observable<[PasswordFieldError]> {
         return self.password
             .asObservable()
             .map { (password) -> [PasswordFieldError] in
                 var fieldErrors = [PasswordFieldError]()
                 
-                if password.characters.count == 0 {
+                if password.characters.isEmpty {
                     fieldErrors.append(.empty)
                 }
                 
-                if password.characters.count < 6{
+                if password.characters.count < 6 {
                     fieldErrors.append(.minCharaters(count: 6))
                 }
                 
@@ -172,11 +172,11 @@ extension CreateAccountInteractor: CreateAccountInteractorInterface{
         }
     }
     
-    var passwordConfirmErrors: Observable<[ConfirmPasswordFieldError]>{
+    var passwordConfirmErrors: Observable<[ConfirmPasswordFieldError]> {
         return Observable.combineLatest(password.asObservable(), passwordConfirm.asObservable(), resultSelector: { (password, passwordConfirm) -> [ConfirmPasswordFieldError] in
             var fieldErrors = [ConfirmPasswordFieldError]()
             
-            if password != passwordConfirm{
+            if password != passwordConfirm {
                 fieldErrors.append(.confirmPasswordNotMatch)
             }
             

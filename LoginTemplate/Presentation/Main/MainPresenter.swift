@@ -17,18 +17,18 @@ class MainPresenter: BasePresenter, MainPresenterInterface {
     weak var router: MainWireFrame?
     
     private let authExpiredMessageSubject = PublishSubject<String?>()
-    var authExpiredMessage: Observable<String?>{
+    var authExpiredMessage: Observable<String?> {
         return authExpiredMessageSubject.asObservable()
     }
     
     private var userSessionInteractorInterfaceDisposeBag: DisposeBag!
-    var userSessionInteractorInterface: UserSessionInteractorInterface?{
-        didSet{
+    var userSessionInteractorInterface: UserSessionInteractorInterface? {
+        didSet {
             bindUserSessionInteractor()
         }
     }
     
-    private func bindUserSessionInteractor(){
+    private func bindUserSessionInteractor() {
         
         userSessionInteractorInterfaceDisposeBag = DisposeBag()
         
@@ -36,7 +36,7 @@ class MainPresenter: BasePresenter, MainPresenterInterface {
             .subscribe(onNext: { [weak self] (userSessionState) in
                 guard let strongSelf = self else { return }
                 
-                switch userSessionState{
+                switch userSessionState {
                 case .logged:
                     strongSelf.router?.page = MainPage.dashboard
                 case .notLogged:

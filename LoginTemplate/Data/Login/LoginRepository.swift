@@ -8,7 +8,7 @@
 
 import RxSwift
 
-protocol LoginRepositoryInterface{
+protocol LoginRepositoryInterface {
     func authenticate(email: String, password: String) -> Observable<UserAPI>
     
     func facebookLogin(presenterViewController viewController: UIViewController) -> Observable<UserAPI>
@@ -20,13 +20,13 @@ class LoginRepository: BaseRepository, LoginRepositoryInterface {
     let facebookAPIInterface: FacebookAPIInterface
     let googleAPIInterface: GoogleAPIInterface
     
-    init(apiClientInterface: APIClientInterface, facebookAPIInterface: FacebookAPIInterface, googleAPIInterface: GoogleAPIInterface){
+    init(apiClientInterface: APIClientInterface, facebookAPIInterface: FacebookAPIInterface, googleAPIInterface: GoogleAPIInterface) {
         self.apiClientInterface = apiClientInterface
         self.facebookAPIInterface = facebookAPIInterface
         self.googleAPIInterface = googleAPIInterface
     }
     
-    func authenticate(email: String, password: String) -> Observable<UserAPI>{
+    func authenticate(email: String, password: String) -> Observable<UserAPI> {
         return apiClientInterface
             .loginWith(email: email, password: password)
 
@@ -36,7 +36,7 @@ class LoginRepository: BaseRepository, LoginRepositoryInterface {
         return facebookAPIInterface
             .signIn(fromViewController: viewController)
             .flatMapLatest { [weak self] (facebookToken) -> Observable<UserAPI> in
-                guard let strongSelf = self else{
+                guard let strongSelf = self else {
                     return Observable.empty()
                 }
                 return strongSelf.apiClientInterface.loginWithFacebook(token: facebookToken)
@@ -47,7 +47,7 @@ class LoginRepository: BaseRepository, LoginRepositoryInterface {
         return googleAPIInterface
             .signIn(presentViewController: viewController)
             .flatMapLatest { [weak self] (facebookToken) -> Observable<UserAPI> in
-                guard let strongSelf = self else{
+                guard let strongSelf = self else {
                     return Observable.empty()
                 }
                 return strongSelf.apiClientInterface.loginWithGoogle(token: facebookToken)

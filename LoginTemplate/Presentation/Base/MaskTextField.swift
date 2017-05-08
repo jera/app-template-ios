@@ -15,8 +15,8 @@ enum FieldMask {
     case cpf
     case phone
     
-    var placeholder: String{
-        switch self{
+    var placeholder: String {
+        switch self {
         case .cpf:
             return "_"
         case .phone:
@@ -24,8 +24,8 @@ enum FieldMask {
         }
     }
     
-    var mask: NSStringMask{
-        switch self{
+    var mask: NSStringMask {
+        switch self {
         case .cpf:
             return NSStringMask(pattern: "(\\d{3}).(\\d{3}).(\\d{3})-(\\d{2})", placeholder: placeholder)
         case .phone:
@@ -37,17 +37,17 @@ enum FieldMask {
 class MaskTextField: TextField {
 
     var fieldMask: FieldMask?
-    override var text: String!{
-        didSet{
-            if let fieldMask = fieldMask, let text = text{
-                if text.characters.count > 0{
+    override var text: String! {
+        didSet {
+            if let fieldMask = fieldMask, let text = text {
+                if !text.characters.isEmpty {
                     super.text = fieldMask.mask.format(text)
-                }else{
+                }else {
                     super.text = ""
                 }
                 
                 rawText.value = fieldMask.mask.validCharacters(for: text)
-            }else{
+            }else {
                 rawText.value = text
             }
         }
@@ -58,8 +58,8 @@ class MaskTextField: TextField {
         return self.rawText.asObservable().distinctUntilChanged()
     }()
     
-    var leftOffset: CGFloat = 0{
-        didSet{
+    var leftOffset: CGFloat = 0 {
+        didSet {
             leftView = UIView()
             leftViewOffset = -height + leftOffset
         }
@@ -73,14 +73,14 @@ class MaskTextField: TextField {
         _ = rx.text.takeUntil(self.rx.deallocated).subscribe(onNext: { [weak self] (text) in
             guard let strongSelf = self else { return }
             
-            guard let text = text else{
+            guard let text = text else {
                 strongSelf.rawText.value = ""
                 return
             }
             
-            if let fieldMask = strongSelf.fieldMask{
+            if let fieldMask = strongSelf.fieldMask {
                 strongSelf.rawText.value = fieldMask.mask.validCharacters(for: text)
-            }else{
+            }else {
                 strongSelf.rawText.value = text
             }
         })
@@ -90,21 +90,21 @@ class MaskTextField: TextField {
 
 extension MaskTextField: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if let fieldMask = fieldMask{
+        if let fieldMask = fieldMask {
             var _range = range
             
-            if string.characters.count == 0{
+            if string.characters.isEmpty {
                 //Deleting character(s)
                 let rawText = fieldMask.mask.validCharacters(for: textField.text)!
                 var formattedText = (textField.text! as NSString).replacingCharacters(in: _range, with: string)
                 var rawFormattedText = fieldMask.mask.validCharacters(for: formattedText)!
                 
-                while(rawFormattedText == rawText){
-                    guard _range.location - 1 >= 0 else{
+                while(rawFormattedText == rawText) {
+                    guard _range.location - 1 >= 0 else {
                         break
                     }
                     
-                    _range = NSMakeRange(_range.location - 1, 1)
+                    _range = NSRange(location: _range.location - 1, length: 1)
                     formattedText = (textField.text! as NSString).replacingCharacters(in: _range, with: string)
                     
                     rawFormattedText = fieldMask.mask.validCharacters(for: formattedText)!
@@ -112,14 +112,14 @@ extension MaskTextField: UITextFieldDelegate {
                 
                 textField.text = rawFormattedText
                 textField.selectedTextRange = _range.toStartTextRange(textInput: textField)
-            }else{
+            }else {
                 //Adding character(s)
                 let startFormattedText = (textField.text! as NSString).replacingCharacters(in: _range, with: string)
                 let rawText = fieldMask.mask.validCharacters(for: startFormattedText)
                 let formattedText = fieldMask.mask.format(rawText)!
 
                 var index = 0
-                for formattedCharacter in formattedText.characters{
+                for formattedCharacter in formattedText.characters {
                     if formattedCharacter == "_"{
                         break
                     }
@@ -129,7 +129,6 @@ extension MaskTextField: UITextFieldDelegate {
                 textField.text = rawText
 
                 textField.selectedTextRange = _range.toEndTextRange(textInput: textField, offset: index)
-
 
             }
             return false
@@ -141,14 +140,14 @@ extension MaskTextField: UITextFieldDelegate {
 extension NSRange {
     func toTextRange(textInput: UITextInput) -> UITextRange? {
         if let rangeStart = textInput.position(from: textInput.beginningOfDocument, offset: location),
-            let rangeEnd = textInput.position(from: rangeStart, offset: length){
+            let rangeEnd = textInput.position(from: rangeStart, offset: length) {
             return textInput.textRange(from: rangeStart, to: rangeEnd)
         }
         return nil
     }
     
     func toStartTextRange(textInput: UITextInput) -> UITextRange? {
-        if let rangeStart = textInput.position(from: textInput.beginningOfDocument, offset: location){
+        if let rangeStart = textInput.position(from: textInput.beginningOfDocument, offset: location) {
             return textInput.textRange(from: rangeStart, to: rangeStart)
         }
         return nil
@@ -156,7 +155,7 @@ extension NSRange {
     
     func toEndTextRange(textInput: UITextInput, offset: Int) -> UITextRange? {
         if let rangeStart = textInput.position(from: textInput.beginningOfDocument, offset: 0),
-            let rangeEnd = textInput.position(from: rangeStart, offset: offset){
+            let rangeEnd = textInput.position(from: rangeStart, offset: offset) {
             return textInput.textRange(from: rangeEnd, to: rangeEnd)
         }
         return nil

@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol LoginWireFrameInterface: class{
+protocol LoginWireFrameInterface: class {
     func goToForgotPassword()
     func goToCreateAccount()
 }
@@ -36,8 +36,8 @@ class LoginWireFrame: BaseWireFrame {
     
 }
 
-extension LoginWireFrame: LoginWireFrameInterface{
-    func goToForgotPassword(){
+extension LoginWireFrame: LoginWireFrameInterface {
+    func goToForgotPassword() {
         let forgotPasswordWireFrame = ForgotPasswordWireFrame()
         
         forgotPasswordWireFrame.presentOn(viewController: loginViewController, presenterWireFrame: self)
@@ -45,7 +45,7 @@ extension LoginWireFrame: LoginWireFrameInterface{
         self.presentedWireFrame = forgotPasswordWireFrame
     }
     
-    func goToCreateAccount(){
+    func goToCreateAccount() {
         let createAccountWireFrame = CreateAccountWireFrame()
         
         createAccountWireFrame.presentOn(viewController: loginViewController, presenterWireFrame: self)
@@ -54,6 +54,6 @@ extension LoginWireFrame: LoginWireFrameInterface{
     }
 }
 
-extension LoginWireFrame: ForgotPasswordPresenterWireFrameInterface, CreateAccountPresenterWireFrameInterface{
+extension LoginWireFrame: ForgotPasswordPresenterWireFrameInterface, CreateAccountPresenterWireFrameInterface {
     
 }

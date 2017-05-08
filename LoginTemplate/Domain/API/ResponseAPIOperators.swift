@@ -20,10 +20,16 @@ import Moya
 import ObjectMapper
 import Result
 
-extension Data{
-    var asJSON: Result<[String: Any], NSError>{
+struct SessionCredentials {
+    var uid: String
+    var client: String
+    var accessToken: String
+}
+
+extension Data {
+    var asJSON: Result<[String: Any], NSError> {
         do {
-            guard let JSONDict = try JSONSerialization.jsonObject(with: self, options: []) as? [String: Any] else{
+            guard let JSONDict = try JSONSerialization.jsonObject(with: self, options: []) as? [String: Any] else {
                 return Result.failure(APIClient.error(description: R.string.localizable.messageJsonInvalid()))
             }
             return Result.success(JSONDict)
@@ -33,14 +39,14 @@ extension Data{
     }
 }
 
-extension Moya.Response{
-    var sessionCredentails: (uid: String, client: String, accessToken: String)?{
-        if let httpURLResponse = response as? HTTPURLResponse{
+extension Moya.Response {
+    var sessionCredentails: SessionCredentials? {
+        if let httpURLResponse = response as? HTTPURLResponse {
             if let uid = httpURLResponse.allHeaderFields["uid"] as? String,
                 let client = httpURLResponse.allHeaderFields["client"] as? String,
-                let accessToken = httpURLResponse.allHeaderFields["access-token"] as? String{
+                let accessToken = httpURLResponse.allHeaderFields["access-token"] as? String {
                 
-                return (uid: uid, client: client, accessToken: accessToken)
+                return SessionCredentials(uid: uid, client: client, accessToken: accessToken)
             }
         }
         
@@ -53,56 +59,56 @@ extension ObservableType where E == Moya.Response {
     func processResponse(updateCurrentUser: Bool = false) -> Observable<Moya.Response> {
         return flatMapLatest({ response -> Observable<Moya.Response> in
             if response.statusCode >= 200 && response.statusCode <= 299 {
-                if updateCurrentUser{
+                if updateCurrentUser {
                     let jsonAPIObject = try JSONSerialization.jsonObject(with: response.data) as! [String: Any]
                     
-                    if let userAPI = UserAPI(JSON: jsonAPIObject){
-                        do{
-                            if let credentiails = response.sessionCredentails{
+                    if let userAPI = UserAPI(JSON: jsonAPIObject) {
+                        do {
+                            if let credentiails = response.sessionCredentails {
                                 try UserSessionInteractor.shared.userSessionUpdateWith(uid: credentiails.uid,
                                                                                 client: credentiails.client,
                                                                                 accessToken: credentiails.accessToken,
                                                                                 userAPI: userAPI)
                             }
-                        }catch(let error){
+                        }catch(let error) {
                             return Observable.error(error)
                         }
-                    }else{
+                    }else {
                         
                         return Observable.error(APIClient.error(description: R.string.localizable.messageUserJson("\(jsonAPIObject)")))
                     }
-                }else{
-                    do{
-                        if let credentiails = response.sessionCredentails{
+                }else {
+                    do {
+                        if let credentiails = response.sessionCredentails {
                             try UserSessionInteractor.shared.userSessionUpdateWith(uid: credentiails.uid,
                                                                             client: credentiails.client,
                                                                             accessToken: credentiails.accessToken,
                                                                             userAPI: nil)
                         }
-                    }catch(let error){
+                    }catch(let error) {
                         return Observable.error(error)
                     }
                 }
                 return Observable.just(response)
-            }else if response.statusCode == 401{
+            }else if response.statusCode == 401 {
                 UserSessionInteractor.shared.expire()
                 
-                switch response.data.asJSON{
+                switch response.data.asJSON {
                 case .success(let JSONDict):
-                    if let errorAPI = Mapper<ErrorAPI>().map(JSON: JSONDict){
+                    if let errorAPI = Mapper<ErrorAPI>().map(JSON: JSONDict) {
                         return Observable.error(APIClient.error(description: errorAPI.localizedDescription))
-                    }else{
+                    }else {
                         return Observable.error(APIClient.error(description: R.string.localizable.messageAuthenticationFailed()))
                     }
                 case .failure(let error):
                     return Observable.error(error)
                 }
             }else {
-                switch response.data.asJSON{
+                switch response.data.asJSON {
                 case .success(let JSONDict):
-                    if let errorAPI = Mapper<ErrorAPI>().map(JSON: JSONDict){
+                    if let errorAPI = Mapper<ErrorAPI>().map(JSON: JSONDict) {
                         return Observable.error(APIClient.error(description: errorAPI.localizedDescription))
-                    }else{
+                    }else {
                         return Observable.error(APIClient.error(description: R.string.localizable.messageJson("\(JSONDict)")))
                     }
                 case .failure(let error):
@@ -115,15 +121,15 @@ extension ObservableType where E == Moya.Response {
     func mapServerMessage() -> Observable<String?> {
         return flatMap { response -> Observable<String?> in
             
-            switch response.data.asJSON{
+            switch response.data.asJSON {
             case .success(let JSONDict):
-                if let errorAPI = Mapper<ErrorAPI>().map(JSON: JSONDict){
-                    if response.statusCode >= 200 && response.statusCode <= 299{
+                if let errorAPI = Mapper<ErrorAPI>().map(JSON: JSONDict) {
+                    if response.statusCode >= 200 && response.statusCode <= 299 {
                         return Observable.just(errorAPI.localizedDescription)
-                    }else{
+                    }else {
                         return Observable.error(APIClient.error(description: errorAPI.localizedDescription))
                     }
-                }else{
+                }else {
                     return Observable.error(APIClient.error(description: R.string.localizable.messageJson("\(JSONDict)")))
                 }
             case .failure(let error):

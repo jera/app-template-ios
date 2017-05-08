@@ -17,7 +17,7 @@ import GGLSignIn
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var mainWireFrame:MainWireFrame?
+    var mainWireFrame: MainWireFrame?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         GoogleAPI.configure()
@@ -65,7 +65,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
         //Facebook login api callback
-        if let _ = url.absoluteString.range(of: "^fb\\d+:\\/\\/", options: .regularExpression){
+        if let _ = url.absoluteString.range(of: "^fb\\d+:\\/\\/", options: .regularExpression) {
             return (FBSDKApplicationDelegate.sharedInstance().application(application,
                                                                           open: url as URL!,
                                                                           sourceApplication: sourceApplication,
@@ -73,7 +73,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
             
         //Google login api callback
-        else if let _ = url.absoluteString.range(of: "^com.googleusercontent.apps.", options: .regularExpression){
+        else if let _ = url.absoluteString.range(of: "^com.googleusercontent.apps.", options: .regularExpression) {
             return GIDSignIn.sharedInstance().handle(url,
                                                      sourceApplication: sourceApplication,
                                                      annotation: annotation)
@@ -81,4 +81,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 }
-

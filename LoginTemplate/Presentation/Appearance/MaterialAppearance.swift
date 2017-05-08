@@ -11,7 +11,7 @@ import Material
 import NSStringMask
 import RxSwift
 
-extension UIButton{
+extension UIButton {
     func setTitleWithoutAnimation(_ title: String?, for state: UIControlState) {
         UIView.performWithoutAnimation { [weak self] in
             self?.setTitle(title, for: state)
@@ -34,14 +34,14 @@ extension UIImage {
     }
 }
 
-enum RaisedButtonAppearance{
+enum RaisedButtonAppearance {
     case facebook
     case google
     case main
 }
 
-extension RaisedButton{
-    func applyAppearance(appearance: RaisedButtonAppearance){
+extension RaisedButton {
+    func applyAppearance(appearance: RaisedButtonAppearance) {
         switch appearance {
         case .facebook:
             pulseColor = .white
@@ -75,13 +75,13 @@ extension RaisedButton{
     }
 }
 
-enum FlatButtonAppearance{
+enum FlatButtonAppearance {
     case main
     case white
 }
 
-extension FlatButton{
-    func applyAppearance(appearance: FlatButtonAppearance){
+extension FlatButton {
+    func applyAppearance(appearance: FlatButtonAppearance) {
         switch appearance {
         case .main:
             pulseColor = .white
@@ -108,9 +108,8 @@ enum TextFieldAppearence {
     case white
 }
 
-
-extension TextField{
-    func applyAppearance(appearance: TextFieldAppearence){
+extension TextField {
+    func applyAppearance(appearance: TextFieldAppearence) {
         switch appearance {
         case .main:
             tintColor = UIColor.white

@@ -46,19 +46,19 @@ class LoginInteractor: BaseInteractor {
 
 extension LoginInteractor: LoginInteractorInterface {
     
-    var authenticateResponse: Observable<RequestResponse<User>>{
+    var authenticateResponse: Observable<RequestResponse<User>> {
         return authenticateResponseVariable.asObservable()
     }
     
-    var facebookLoginResponse: Observable<RequestResponse<User>>{
+    var facebookLoginResponse: Observable<RequestResponse<User>> {
         return facebookLoginResponseVariable.asObservable()
     }
     
-    var googleLoginResponse: Observable<RequestResponse<User>>{
+    var googleLoginResponse: Observable<RequestResponse<User>> {
         return googleLoginResponseVariable.asObservable()
     }
     
-    func authenticate(){
+    func authenticate() {
         authenticateDisposeBag = DisposeBag()
         
         authenticateResponseVariable.value = .loading
@@ -69,10 +69,10 @@ extension LoginInteractor: LoginInteractorInterface {
             .subscribe { [weak self] (event) in
                 guard let strongSelf = self else { return }
                 
-                switch event{
+                switch event {
                 case .next(let userAPI):
                     
-                    guard let user = User(userAPI: userAPI) else{
+                    guard let user = User(userAPI: userAPI) else {
                         strongSelf.authenticateResponseVariable.value = .failure(error: APIClient.error(description: "\(R.string.localizable.messageUserInvalid()) \(userAPI)"))
                         return
                     }
@@ -98,10 +98,10 @@ extension LoginInteractor: LoginInteractorInterface {
             .subscribe { [weak self] (event) in
                 guard let strongSelf = self else { return }
                 
-                switch event{
+                switch event {
                 case .next(let userAPI):
                     
-                    guard let user = User(userAPI: userAPI) else{
+                    guard let user = User(userAPI: userAPI) else {
                         strongSelf.facebookLoginResponseVariable.value = .failure(error: APIClient.error(description: "\(R.string.localizable.messageUserInvalid()) \(userAPI)"))
                         return
                     }
@@ -127,10 +127,10 @@ extension LoginInteractor: LoginInteractorInterface {
             .subscribe { [weak self] (event) in
                 guard let strongSelf = self else { return }
                 
-                switch event{
+                switch event {
                 case .next(let userAPI):
                     
-                    guard let user = User(userAPI: userAPI) else{
+                    guard let user = User(userAPI: userAPI) else {
                         strongSelf.googleLoginResponseVariable.value = .failure(error: APIClient.error(description: "\(R.string.localizable.messageUserInvalid()) \(userAPI)"))
                         return
                     }
@@ -146,17 +146,17 @@ extension LoginInteractor: LoginInteractorInterface {
             .addDisposableTo(googleLoginDisposeBag)
     }
     
-    var emailErrors: Observable<[EmailFieldError]>{
+    var emailErrors: Observable<[EmailFieldError]> {
         return self.email
             .asObservable()
             .map { (email) -> [EmailFieldError] in
                 var fieldErrors = [EmailFieldError]()
                 
-                if email.characters.count == 0 {
+                if email.characters.isEmpty {
                     fieldErrors.append(.empty)
                 }
                 
-                if !email.isValidEmail(){
+                if !email.isValidEmail() {
                     fieldErrors.append(.notValid)
                 }
                 
@@ -164,17 +164,17 @@ extension LoginInteractor: LoginInteractorInterface {
         }
     }
     
-    var passwordErrors: Observable<[PasswordFieldError]>{
+    var passwordErrors: Observable<[PasswordFieldError]> {
         return self.password
             .asObservable()
             .map { (password) -> [PasswordFieldError] in
                 var fieldErrors = [PasswordFieldError]()
                 
-                if password.characters.count == 0 {
+                if password.characters.isEmpty {
                     fieldErrors.append(.empty)
                 }
                 
-                if password.characters.count < 6{
+                if password.characters.count < 6 {
                     fieldErrors.append(.minCharaters(count: 6))
                 }
                 

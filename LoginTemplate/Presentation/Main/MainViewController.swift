@@ -13,16 +13,16 @@ import RxSwift
 class MainViewController: BaseViewController {
     
     private var presenterInterfaceDisposeBag: DisposeBag!
-    var presenterInterface: MainPresenterInterface?{
-        didSet{
+    var presenterInterface: MainPresenterInterface? {
+        didSet {
             bind()
         }
     }
     
-    private func bind(){
+    private func bind() {
         presenterInterfaceDisposeBag = DisposeBag()
         
-        if let presenterInterface = presenterInterface{
+        if let presenterInterface = presenterInterface {
             presenterInterface.authExpiredMessage.subscribe(onNext: { (authExpiredMessage) in
                 print("TODO: Toast auth expired message")
             }).addDisposableTo(presenterInterfaceDisposeBag)
@@ -82,8 +82,8 @@ class MainViewController: BaseViewController {
         currentViewController = viewController
     }
     
-    override var preferredStatusBarStyle: UIStatusBarStyle{
-        guard let currentViewController = currentViewController else{
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        guard let currentViewController = currentViewController else {
             return .default
         }
         

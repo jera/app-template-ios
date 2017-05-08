@@ -32,7 +32,7 @@ class LoginPresenter: BasePresenter {
     weak var routerInterface: LoginWireFrameInterface?
     let interactorInterface: LoginInteractorInterface
     
-    init(interactorInterface: LoginInteractorInterface){
+    init(interactorInterface: LoginInteractorInterface) {
         self.interactorInterface = interactorInterface
     }
 }
@@ -42,29 +42,29 @@ extension LoginPresenter: LoginPresenterInterface {
         interactorInterface.authenticate()
     }
     
-    func createAccountButtonPressed(){
+    func createAccountButtonPressed() {
         routerInterface?.goToCreateAccount()
     }
     
-    func forgotPasswordButtonPressed(){
+    func forgotPasswordButtonPressed() {
         routerInterface?.goToForgotPassword()
     }
     
-    func facebookLoginButtonPressed(presenterViewController viewController: UIViewController){
+    func facebookLoginButtonPressed(presenterViewController viewController: UIViewController) {
         interactorInterface.facebookLogin(presenterViewController: viewController)
     }
     
-    func googleLoginButtonPressed(presenterViewController viewController: UIViewController){
+    func googleLoginButtonPressed(presenterViewController viewController: UIViewController) {
         interactorInterface.googleLogin(presenterViewController: viewController)
     }
     
-    var email: Variable<String>{
+    var email: Variable<String> {
         return interactorInterface.email
     }
     
-    var emailErrorString: Observable<String?>{
+    var emailErrorString: Observable<String?> {
         return interactorInterface.emailErrors.map({ (fieldErrors) -> String? in
-            if let firstError = fieldErrors.first{
+            if let firstError = fieldErrors.first {
                 switch firstError {
                 case .notValid:
                     return R.string.localizable.defaultEmailNotValid()
@@ -77,14 +77,14 @@ extension LoginPresenter: LoginPresenterInterface {
         })
     }
     
-    var password: Variable<String>{
+    var password: Variable<String> {
         return interactorInterface.password
     }
     
-    var passwordErrorString: Observable<String?>{
+    var passwordErrorString: Observable<String?> {
         return interactorInterface.passwordErrors.map({ (fieldErrors) -> String? in
-            if let firstError = fieldErrors.first{
-                switch firstError{
+            if let firstError = fieldErrors.first {
+                switch firstError {
                 case .minCharaters(let count):
                     return R.string.localizable.defaultPasswordValueMinimum("\(count)")
                 case .empty:
@@ -96,21 +96,21 @@ extension LoginPresenter: LoginPresenterInterface {
         })
     }
     
-    var loginRequestResponse: Observable<RequestResponse<User>>{
+    var loginRequestResponse: Observable<RequestResponse<User>> {
         return interactorInterface.authenticateResponse
     }
     
-    var facebookRequestResponse: Observable<RequestResponse<User>>{
+    var facebookRequestResponse: Observable<RequestResponse<User>> {
         return interactorInterface.facebookLoginResponse
     }
     
-    var googleRequestResponse: Observable<RequestResponse<User>>{
+    var googleRequestResponse: Observable<RequestResponse<User>> {
         return interactorInterface.googleLoginResponse
     }
     
-    var loginButtonEnabled: Observable<Bool>{
+    var loginButtonEnabled: Observable<Bool> {
         return Observable.combineLatest(interactorInterface.emailErrors, interactorInterface.passwordErrors, resultSelector: { (emailErrors, passwordErrors) -> Bool in
-            return !(emailErrors.count > 0 || passwordErrors.count > 0)
+            return !(!emailErrors.isEmpty || !passwordErrors.isEmpty)
         })
     }
 }

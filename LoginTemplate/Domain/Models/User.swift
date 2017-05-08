@@ -10,14 +10,14 @@ class User {
     var name: String
     var email: String
     
-    init(name: String, email: String){
+    init(name: String, email: String) {
         self.name = name
         self.email = email
     }
     
     convenience init?(userAPI: UserAPI) {
         guard let name = userAPI.name,
-            let email = userAPI.email else{
+            let email = userAPI.email else {
                 return nil
         }
         
@@ -28,7 +28,7 @@ class User {
         self.init(name: userDB.name, email: userDB.email)
     }
     
-    func toUserDB() -> UserDB{
+    func toUserDB() -> UserDB {
         return UserDB(name: name, email: email)
     }
 }

@@ -13,9 +13,9 @@ extension UIStoryboard {
         let storyboard = UIStoryboard(name: name, bundle: Bundle.main)
         
         let viewController: UIViewController?
-        if let viewControllerIdentifier = viewControllerIdentifier{
+        if let viewControllerIdentifier = viewControllerIdentifier {
             viewController = storyboard.instantiateViewController(withIdentifier: viewControllerIdentifier)
-        }else{
+        }else {
             viewController = storyboard.instantiateInitialViewController()
         }
         

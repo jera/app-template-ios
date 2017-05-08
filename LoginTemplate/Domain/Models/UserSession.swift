@@ -8,13 +8,13 @@
 
 import Foundation
 
-class UserSession{
+class UserSession {
     private(set) var uid: String
     private(set) var client: String
     private(set) var accessToken: String
     private(set) var currentUser: User
     
-    init(uid: String, client: String, accessToken: String, currentUser: User){
+    init(uid: String, client: String, accessToken: String, currentUser: User) {
         self.uid = uid
         self.client = client
         self.accessToken = accessToken
@@ -27,7 +27,7 @@ class UserSession{
         self.init(uid: userSessionDB.uid, client: userSessionDB.client, accessToken: userSessionDB.accessToken, currentUser: user)
     }
     
-    var authHeaders: [String: String]?{
+    var authHeaders: [String: String]? {
         return [
             "access-token": accessToken,
             "uid": uid,

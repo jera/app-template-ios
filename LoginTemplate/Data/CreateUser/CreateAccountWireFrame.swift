@@ -9,13 +9,13 @@
 import UIKit
 import RxSwift
 
-protocol CreateAccountWireFrameInterface: class{
+protocol CreateAccountWireFrameInterface: class {
     func presentOn(viewController: UIViewController, presenterWireFrame: CreateAccountPresenterWireFrameInterface)
     func chooseUserImageButtonPressed(showDeleteCurrentImage: Bool)
     func dismiss()
 }
 
-protocol CreateAccountPresenterWireFrameInterface: PresenterWireFrameInterface{
+protocol CreateAccountPresenterWireFrameInterface: PresenterWireFrameInterface {
     
 }
 
@@ -44,7 +44,7 @@ class CreateAccountWireFrame: BaseWireFrame {
         createAccountPresenter.routerInterface = self
     }
     
-    fileprivate func goToChooseUserImageFromCamera(){
+    fileprivate func goToChooseUserImageFromCamera() {
         let imagePickerController = UIImagePickerController()
         imagePickerController.sourceType = .camera
         imagePickerController.delegate = self
@@ -57,7 +57,7 @@ class CreateAccountWireFrame: BaseWireFrame {
         chooseUserImagePickerController = imagePickerController
     }
     
-    fileprivate func goToChooseUserImageFromLibrary(){
+    fileprivate func goToChooseUserImageFromLibrary() {
         let imagePickerController = UIImagePickerController()
         imagePickerController.sourceType = .photoLibrary
         imagePickerController.delegate = self
@@ -69,21 +69,21 @@ class CreateAccountWireFrame: BaseWireFrame {
     }
 }
 
-extension CreateAccountWireFrame: CreateAccountWireFrameInterface{
+extension CreateAccountWireFrame: CreateAccountWireFrameInterface {
     func presentOn(viewController: UIViewController, presenterWireFrame: CreateAccountPresenterWireFrameInterface) {
         self.presenterWireFrame = presenterWireFrame
         viewController.present(navigationController, animated: true, completion: nil)
     }
     
-    func chooseUserImageButtonPressed(showDeleteCurrentImage: Bool){
-        if !UIImagePickerController.isSourceTypeAvailable(.camera) && !showDeleteCurrentImage{
+    func chooseUserImageButtonPressed(showDeleteCurrentImage: Bool) {
+        if !UIImagePickerController.isSourceTypeAvailable(.camera) && !showDeleteCurrentImage {
             goToChooseUserImageFromLibrary()
             return
         }
         
         let alertController = UIAlertController(title: "Imagem para o seu perfil", message: nil, preferredStyle: .actionSheet)
         
-        if UIImagePickerController.isSourceTypeAvailable(.camera){
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
             alertController.addAction(UIAlertAction(title: "Camera", style: .default, handler: { [weak self] (_) in
                 self?.goToChooseUserImageFromCamera()
             }))
@@ -93,7 +93,7 @@ extension CreateAccountWireFrame: CreateAccountWireFrameInterface{
             self?.goToChooseUserImageFromLibrary()
         }))
         
-        if showDeleteCurrentImage{
+        if showDeleteCurrentImage {
             alertController.addAction(UIAlertAction(title: "Apagar imagem atual", style: .destructive, handler: { [weak self] (_) in
                 self?.createAccountInteractor.userImage.value = nil
             }))
@@ -115,8 +115,8 @@ extension CreateAccountWireFrame: CreateAccountWireFrameInterface{
     }
 }
 
-extension CreateAccountWireFrame: UIImagePickerControllerDelegate, UINavigationControllerDelegate{
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]){
+extension CreateAccountWireFrame: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         let choosenImage = info[UIImagePickerControllerEditedImage] as! UIImage
         
         createAccountInteractor.userImage.value = choosenImage
@@ -124,7 +124,7 @@ extension CreateAccountWireFrame: UIImagePickerControllerDelegate, UINavigationC
         picker.dismiss(animated: true, completion: nil)
     }
     
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController){
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
     }
 }

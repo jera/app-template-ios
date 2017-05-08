@@ -12,7 +12,7 @@ public class CPF {
     
     public class func gerarCPFValido() -> String {
         
-        var cpf = [0, 0,0, 0,0, 0,0, 0,0, 0,0]
+        var cpf = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         var temp1 = 0, temp2 = 0
         
         for i in 0...8 {
@@ -35,8 +35,6 @@ public class CPF {
     public class func validate(cpf: String) -> Bool {
         
         if cpf.characters.count == 11 {
-            
-            
             
             let d1 = Int(cpf.substring(with: cpf.index(cpf.startIndex, offsetBy: 9)..<cpf.index(cpf.startIndex, offsetBy: 10)))!
             let d2 = Int(cpf.substring(with: cpf.index(cpf.startIndex, offsetBy: 10)..<cpf.index(cpf.startIndex, offsetBy: 11)))!

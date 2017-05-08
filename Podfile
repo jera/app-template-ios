@@ -12,6 +12,7 @@ target 'LoginTemplate' do
   pod 'R.swift', '~> 3.2'
   pod 'TPKeyboardAvoiding', '~> 1.3'
   pod 'RxCocoa', '~> 3.4'
+  pod 'SwiftLint', '~> 0.18'
 
   #ObjC
   pod 'FBSDKLoginKit', '~> 4.22'

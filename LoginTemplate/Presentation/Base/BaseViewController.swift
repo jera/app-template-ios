@@ -15,7 +15,7 @@ protocol BaseViewInterface: class {
     
 }
 
-class BaseViewController: UIViewController{
+class BaseViewController: UIViewController {
     
     private(set) var isLoaded = false
     
@@ -25,7 +25,7 @@ class BaseViewController: UIViewController{
         isLoaded = true
     }
     
-    func showOKAlertWith(title: String?, message: String){
+    func showOKAlertWith(title: String?, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: R.string.localizable.alertOk(), style: .default, handler: nil))
         present(alertController, animated: true, completion: nil)
@@ -34,7 +34,7 @@ class BaseViewController: UIViewController{
     //HUD VIEW
     private var loadingHUDView: LoadingHUDView?
     
-    func showHudWith(title: String){
+    func showHudWith(title: String) {
         hideHud()
         
         let loadingHUDView = LoadingHUDView.loadFromNib(title: title)
@@ -46,14 +46,13 @@ class BaseViewController: UIViewController{
         self.loadingHUDView = loadingHUDView
     }
     
-    func hideHud(){
+    func hideHud() {
         loadingHUDView?.removeFromSuperview()
     }
     
-    
     //SCROLL VIEW
     private(set) var scrollView: TPKeyboardAvoidingScrollView?
-    @discardableResult func addScrollView(layoutBlock: ((LayoutProxy, LayoutProxy) -> Void)? = nil) -> UIScrollView{
+    @discardableResult func addScrollView(layoutBlock: ((LayoutProxy, LayoutProxy) -> Void)? = nil) -> UIScrollView {
         self.scrollView?.removeFromSuperview()
         
         let scrollView = TPKeyboardAvoidingScrollView()
@@ -63,9 +62,9 @@ class BaseViewController: UIViewController{
         scrollView.keyboardDismissMode = .interactive
         scrollView.alwaysBounceVertical = true
         
-        if let layoutBlock = layoutBlock{
+        if let layoutBlock = layoutBlock {
             constrain(view, scrollView, block: layoutBlock)
-        }else{
+        }else {
             constrain(view, scrollView) { (view, scrollView) in
                 scrollView.top == view.top
                 scrollView.left == view.left
@@ -79,14 +78,14 @@ class BaseViewController: UIViewController{
         return scrollView
     }
     
-    func addScrollView(withSubView subView: UIView, scrollViewLayoutBlock: ((LayoutProxy, LayoutProxy) -> Void)? = nil, subViewLayoutBlock: ((LayoutProxy, LayoutProxy) -> Void)? = nil){
+    func addScrollView(withSubView subView: UIView, scrollViewLayoutBlock: ((LayoutProxy, LayoutProxy) -> Void)? = nil, subViewLayoutBlock: ((LayoutProxy, LayoutProxy) -> Void)? = nil) {
         let scrollView = addScrollView(layoutBlock: scrollViewLayoutBlock)
         
         scrollView.addSubview(subView)
         
-        if let subViewLayoutBlock = subViewLayoutBlock{
+        if let subViewLayoutBlock = subViewLayoutBlock {
             constrain(subView, scrollView, block: subViewLayoutBlock)
-        }else{
+        }else {
             constrain(subView, scrollView) { (subView, scrollView) in
                 subView.edges == scrollView.edges
                 
@@ -97,7 +96,7 @@ class BaseViewController: UIViewController{
     
     //BACKGROUND VIEW
     private(set) var backgroundImageView: UIImageView?
-    func addBackgroundImageView(withImage image: UIImage){
+    func addBackgroundImageView(withImage image: UIImage) {
         self.backgroundImageView?.removeFromSuperview()
         
         let backgroundImageView = UIImageView(image: image)

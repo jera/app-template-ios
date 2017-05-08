@@ -13,7 +13,7 @@ class Helper {
 }
 
 extension UIButton {
-    func setTitle(_ title: String?, for state: UIControlState, animated: Bool){
+    func setTitle(_ title: String?, for state: UIControlState, animated: Bool) {
         guard !animated else {
             setTitle(title, for: state)
             return
@@ -25,7 +25,7 @@ extension UIButton {
             layoutIfNeeded()
         }
     }
-    func setAttributedTitle(_ title: NSAttributedString?, for state: UIControlState, animated: Bool){
+    func setAttributedTitle(_ title: NSAttributedString?, for state: UIControlState, animated: Bool) {
         guard !animated else {
             setAttributedTitle(title, for: state)
             return

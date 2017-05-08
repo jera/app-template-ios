@@ -8,25 +8,25 @@
 
 import Foundation
 
-protocol UserSessionDataStoreInterface{
+protocol UserSessionDataStoreInterface {
     func createUserSession(uid: String, client: String, accessToken: String, currentUser: UserDB)
     func retrieveUserSession() -> UserSessionDB?
     func updateSession(uid: String?, client: String?, accessToken: String?, currentUser: UserDB?) -> Bool
     func deleteUserSession()
 }
 
-class UserSessionDataStore: UserSessionDataStoreInterface{
+class UserSessionDataStore: UserSessionDataStoreInterface {
     private static let currentSessionKey = "currentSessionKey"
     
-    func createUserSession(uid: String, client: String, accessToken: String, currentUser: UserDB){
+    func createUserSession(uid: String, client: String, accessToken: String, currentUser: UserDB) {
         let newUserSession = UserSessionDB(uid: uid, client: client, accessToken: accessToken, currentUser: currentUser)
         
         saveCurrentSessionWith(userSession: newUserSession)
     }
     
-    func retrieveUserSession() -> UserSessionDB?{
+    func retrieveUserSession() -> UserSessionDB? {
         if let data = UserDefaults.standard.object(forKey: UserSessionDataStore.currentSessionKey) as? Data,
-            let currentSession = NSKeyedUnarchiver.unarchiveObject(with: data as Data) as? UserSessionDB{
+            let currentSession = NSKeyedUnarchiver.unarchiveObject(with: data as Data) as? UserSessionDB {
             
             return currentSession
         }
@@ -34,7 +34,7 @@ class UserSessionDataStore: UserSessionDataStoreInterface{
         return nil
     }
     
-    @discardableResult func updateSession(uid: String? = nil, client: String? = nil, accessToken: String? = nil, currentUser: UserDB? = nil) -> Bool{
+    @discardableResult func updateSession(uid: String? = nil, client: String? = nil, accessToken: String? = nil, currentUser: UserDB? = nil) -> Bool {
         guard let userSession = retrieveUserSession() else { return false }
         
         let updatedUserSession = UserSessionDB(uid: uid ?? userSession.uid,
@@ -42,21 +42,20 @@ class UserSessionDataStore: UserSessionDataStoreInterface{
                                                            accessToken: accessToken ?? userSession.accessToken,
                                                            currentUser: currentUser ?? userSession.currentUser)
         
-        
         saveCurrentSessionWith(userSession: updatedUserSession)
         
         return true
     }
     
-    func deleteUserSession(){
+    func deleteUserSession() {
         saveCurrentSessionWith(userSession: nil)
     }
     
-    private func saveCurrentSessionWith(userSession: UserSessionDB?){
+    private func saveCurrentSessionWith(userSession: UserSessionDB?) {
         let data: Data?
-        if let userSession = userSession{
+        if let userSession = userSession {
             data = NSKeyedArchiver.archivedData(withRootObject: userSession) as Data?
-        }else{
+        }else {
             data = nil
         }
         

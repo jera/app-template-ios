@@ -16,22 +16,22 @@ class ErrorAPI: Mappable {
     var error: String?
     
     //TODO: remover para camada do interactor ou do presenter
-    var localizedDescription: String{
-        if let message = message{
+    var localizedDescription: String {
+        if let message = message {
             return message
         }
         
-        if let messages = messages{
+        if let messages = messages {
             return messages.map({ (error) -> String in
                 return "- \(error)"
             }).joined(separator: "\n")
         }
         
-        if let error = error{
+        if let error = error {
             return error
         }
         
-        if let errors = errors{
+        if let errors = errors {
             return errors.map({ (error) -> String in
                 return "- \(error)"
             }).joined(separator: "\n")

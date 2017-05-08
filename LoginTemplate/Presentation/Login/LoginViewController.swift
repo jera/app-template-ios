@@ -32,13 +32,13 @@ class LoginViewController: BaseViewController {
     @IBOutlet private weak var forgotPasswordButton: FlatButton!
     
     private var presenterInterfaceBindDisposeBag: DisposeBag!
-    var presenterInterface: LoginPresenterInterface?{
-        didSet{
+    var presenterInterface: LoginPresenterInterface? {
+        didSet {
             bind()
         }
     }
     
-    override func viewDidLoad(){
+    override func viewDidLoad() {
         super.viewDidLoad()
         
         applyAppearance()
@@ -61,7 +61,7 @@ class LoginViewController: BaseViewController {
             loginViewLayoutProxy.top == scrollViewLayoutProxy.top ~ 1
             loginViewLayoutProxy.bottom == scrollViewLayoutProxy.bottom ~ 1
             
-            if strongSelf.view.frame.height > loginView.frame.height{
+            if strongSelf.view.frame.height > loginView.frame.height {
                 loginViewLayoutProxy.centerY == scrollViewLayoutProxy.centerY
             }
             
@@ -73,7 +73,7 @@ class LoginViewController: BaseViewController {
 
     }
     
-    private func applyAppearance(){
+    private func applyAppearance() {
         logoImageView.image = Appearance.logoImage
         
         doSignWithLabel.textColor = .white
@@ -98,7 +98,7 @@ class LoginViewController: BaseViewController {
         passwordTextField.isSecureTextEntry = true
     }
     
-    private func applyTexts(){
+    private func applyTexts() {
         doSignWithLabel.text = R.string.localizable.loginSignInWith()
         orLabel.text = R.string.localizable.loginOr()
         
@@ -110,12 +110,12 @@ class LoginViewController: BaseViewController {
         forgotPasswordButton.setTitleWithoutAnimation(R.string.localizable.loginForgotPass(), for: .normal)
     }
     
-    private func bind(){
+    private func bind() {
         guard isLoaded else { return }
         
         presenterInterfaceBindDisposeBag = DisposeBag()
         
-        guard let presenterInterface = presenterInterface else{ return }
+        guard let presenterInterface = presenterInterface else { return }
         
         presenterInterface.email
             .asObservable()
@@ -163,7 +163,7 @@ class LoginViewController: BaseViewController {
             .subscribe(onNext: { [weak self] (requestResponse) in
                 guard let strongSelf = self else { return }
                 
-                switch requestResponse{
+                switch requestResponse {
                 case .new:
                     strongSelf.hideHud()
                 case .loading:
@@ -183,7 +183,7 @@ class LoginViewController: BaseViewController {
             .subscribe(onNext: { [weak self] (requestResponse) in
                 guard let strongSelf = self else { return }
                 
-                switch requestResponse{
+                switch requestResponse {
                 case .new:
                     strongSelf.hideHud()
                 case .loading:
@@ -204,7 +204,7 @@ class LoginViewController: BaseViewController {
             .subscribe(onNext: { [weak self] (requestResponse) in
                 guard let strongSelf = self else { return }
                 
-                switch requestResponse{
+                switch requestResponse {
                 case .new:
                     strongSelf.hideHud()
                 case .loading:
@@ -263,7 +263,7 @@ class LoginViewController: BaseViewController {
             .addDisposableTo(presenterInterfaceBindDisposeBag)
     }
     
-    override var preferredStatusBarStyle: UIStatusBarStyle{
+    override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
     

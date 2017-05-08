@@ -8,13 +8,12 @@
 
 import UIKit
 
-protocol ForgotPasswordWireFrameInterface: class{
+protocol ForgotPasswordWireFrameInterface: class {
     func presentOn(viewController: UIViewController, presenterWireFrame: ForgotPasswordPresenterWireFrameInterface)
     func dismiss()
 }
 
-protocol ForgotPasswordPresenterWireFrameInterface: PresenterWireFrameInterface{
-
+protocol ForgotPasswordPresenterWireFrameInterface: PresenterWireFrameInterface {
 }
 
 class ForgotPasswordWireFrame: BaseWireFrame {
@@ -43,7 +42,7 @@ class ForgotPasswordWireFrame: BaseWireFrame {
     }
     
 }
-extension ForgotPasswordWireFrame: ForgotPasswordWireFrameInterface{
+extension ForgotPasswordWireFrame: ForgotPasswordWireFrameInterface {
     func presentOn(viewController: UIViewController, presenterWireFrame: ForgotPasswordPresenterWireFrameInterface) {
         self.presenterWireFrame = presenterWireFrame
         viewController.present(navigationController, animated: true, completion: nil)

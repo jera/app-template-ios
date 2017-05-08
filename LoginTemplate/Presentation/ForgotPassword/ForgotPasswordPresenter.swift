@@ -22,12 +22,12 @@ class ForgotPasswordPresenter: BasePresenter {
     weak var router: ForgotPasswordWireFrame?
     var interactorInterface: ForgotPasswordInteractorInterface
     
-    var email: Variable<String>{
+    var email: Variable<String> {
         return interactorInterface.email
     }
-    var emailErrorString: Observable<String?>{
+    var emailErrorString: Observable<String?> {
         return interactorInterface.emailErrors.map({ (fieldErrors) -> String? in
-            if let firstError = fieldErrors.first{
+            if let firstError = fieldErrors.first {
                 switch firstError {
                 case .notValid:
                     return R.string.localizable.defaultEmailNotValid()
@@ -40,25 +40,25 @@ class ForgotPasswordPresenter: BasePresenter {
         })
     }
     
-    private var isEmailEmpty: Observable<Bool>{
+    private var isEmailEmpty: Observable<Bool> {
         return self.email
             .asObservable()
             .map { (email) -> Bool in
-                return email.characters.count == 0
+                return email.characters.isEmpty
         }
     }
     
-    var forgotPasswordRequestResponse: Observable<RequestResponse<String?>>{
+    var forgotPasswordRequestResponse: Observable<RequestResponse<String?>> {
         return interactorInterface.forgotPasswordResponse
     }
     
-    var forgotPasswordButtonEnabled: Observable<Bool>{
+    var forgotPasswordButtonEnabled: Observable<Bool> {
         return Observable.combineLatest(isEmailEmpty, emailErrorString, resultSelector: { (isEmailEmpty, emailErrorString) -> Bool in
             return !(isEmailEmpty || emailErrorString != nil)
         })
     }
 
-    init(interactorInterface: ForgotPasswordInteractorInterface){
+    init(interactorInterface: ForgotPasswordInteractorInterface) {
         self.interactorInterface = interactorInterface
     }
 }

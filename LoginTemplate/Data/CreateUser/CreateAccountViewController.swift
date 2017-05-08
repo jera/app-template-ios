@@ -26,13 +26,13 @@ class CreateAccountViewController: BaseViewController, UITextFieldDelegate {
     @IBOutlet weak var createAccountButton: RaisedButton!
     
     private var presenterInterfaceBindDisposeBag: DisposeBag!
-    var presenterInterface: CreateAccountPresenterInterface?{
-        didSet{
+    var presenterInterface: CreateAccountPresenterInterface? {
+        didSet {
             bind()
         }
     }
     
-    override func viewDidLoad(){
+    override func viewDidLoad() {
         super.viewDidLoad()
         
         applyAppearance()
@@ -53,14 +53,13 @@ class CreateAccountViewController: BaseViewController, UITextFieldDelegate {
         guard let createAccountView = R.nib.createAccountView().instantiate(withOwner: self, options: nil).first as? UIView else {
             return
         }
-        addScrollView(withSubView: createAccountView){ (createAccountViewLayoutProxy, scrollViewLayoutProxy) in
+        addScrollView(withSubView: createAccountView) { (createAccountViewLayoutProxy, scrollViewLayoutProxy) in
             createAccountViewLayoutProxy.edges == scrollViewLayoutProxy.edges
             createAccountViewLayoutProxy.width == scrollViewLayoutProxy.width
         }
     }
     
-    
-    private func applyAppearance(){
+    private func applyAppearance() {
         avatarImageView.layer.cornerRadius = avatarImageView.frame.size.width/2
         avatarImageView.clipsToBounds = true
         avatarImageView.layer.borderColor = UIColor(white: 190/255, alpha: 1).cgColor
@@ -95,7 +94,7 @@ class CreateAccountViewController: BaseViewController, UITextFieldDelegate {
         createAccountButton.layer.cornerRadius = 5
     }
 
-    private func applyTexts(){
+    private func applyTexts() {
         title = R.string.localizable.createAccountTitle()
         
         nameTextField.placeholder = R.string.localizable.createAccountName()
@@ -109,12 +108,12 @@ class CreateAccountViewController: BaseViewController, UITextFieldDelegate {
         createAccountButton.setTitleWithoutAnimation(R.string.localizable.createAccountFinishRegister(), for: .normal)
     }
     
-    private func bind(){
+    private func bind() {
         guard isLoaded else { return }
         
         presenterInterfaceBindDisposeBag = DisposeBag()
         
-        guard let presenterInterface = presenterInterface else{ return }
+        guard let presenterInterface = presenterInterface else { return }
         
         presenterInterface.userImage
             .map { (userImage) -> UIImage in
@@ -237,7 +236,7 @@ class CreateAccountViewController: BaseViewController, UITextFieldDelegate {
             .subscribe(onNext: { [weak self] (requestResponse) in
                 guard let strongSelf = self else { return }
                 
-                switch requestResponse{
+                switch requestResponse {
                 case .new:
                     strongSelf.hideHud()
                 case .loading:

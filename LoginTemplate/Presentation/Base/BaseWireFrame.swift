@@ -8,11 +8,11 @@
 
 import UIKit
 
-protocol PresentedWireFrameInterface{
+protocol PresentedWireFrameInterface {
     
 }
 
-protocol PresenterWireFrameInterface: class{
+protocol PresenterWireFrameInterface: class {
     func  wireframeDidDismiss()
 }
 
@@ -25,12 +25,12 @@ class BaseWireFrame: NSObject {
     }
 }
 
-extension BaseWireFrame: PresenterWireFrameInterface{
+extension BaseWireFrame: PresenterWireFrameInterface {
     func wireframeDidDismiss() {
         presentedWireFrame = nil
     }
 }
 
-extension BaseWireFrame: PresentedWireFrameInterface{
+extension BaseWireFrame: PresentedWireFrameInterface {
     
 }

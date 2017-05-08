@@ -8,7 +8,7 @@
 
 import RxSwift
 
-protocol CreateAccountPresenterInterface{
+protocol CreateAccountPresenterInterface {
     func createButtonPressed()
     func chooseUserImageButtonPressed()
     func closeButtonPressed()
@@ -42,36 +42,36 @@ class CreateAccountPresenter: BasePresenter {
     weak var routerInterface: CreateAccountWireFrameInterface?
     let interactorInterface: CreateAccountInteractorInterface
 
-    init(interactorInterface: CreateAccountInteractorInterface){
+    init(interactorInterface: CreateAccountInteractorInterface) {
         self.interactorInterface = interactorInterface
     }
 }
 
-extension CreateAccountPresenter: CreateAccountPresenterInterface{
+extension CreateAccountPresenter: CreateAccountPresenterInterface {
     func createButtonPressed() {
         interactorInterface.createAccount()
     }
     
-    func chooseUserImageButtonPressed(){
+    func chooseUserImageButtonPressed() {
         routerInterface?.chooseUserImageButtonPressed(showDeleteCurrentImage: interactorInterface.userImage.value != nil)
     }
     
-    func closeButtonPressed(){
+    func closeButtonPressed() {
         routerInterface?.dismiss()
     }
     
-    var userImage: Observable<UIImage?>{
+    var userImage: Observable<UIImage?> {
         return interactorInterface.userImage.asObservable()
     }
     
-    var name: Variable<String>{
+    var name: Variable<String> {
         return interactorInterface.name
     }
     
-    var nameErrorString: Observable<String?>{
+    var nameErrorString: Observable<String?> {
         return interactorInterface.nameErrors.map({ (fieldErrors) -> String? in
-            if let firstError = fieldErrors.first{
-                switch firstError{
+            if let firstError = fieldErrors.first {
+                switch firstError {
                 case .empty:
                     return nil //Doesn't show if it is empty
                 }
@@ -81,13 +81,13 @@ extension CreateAccountPresenter: CreateAccountPresenterInterface{
         })
     }
     
-    var email: Variable<String>{
+    var email: Variable<String> {
         return interactorInterface.email
     }
     
-    var emailErrorString: Observable<String?>{
+    var emailErrorString: Observable<String?> {
         return interactorInterface.emailErrors.map({ (fieldErrors) -> String? in
-            if let firstError = fieldErrors.first{
+            if let firstError = fieldErrors.first {
                 switch firstError {
                 case .notValid:
                     return R.string.localizable.defaultEmailNotValid()
@@ -100,14 +100,14 @@ extension CreateAccountPresenter: CreateAccountPresenterInterface{
         })
     }
     
-    var phone: Variable<String>{
+    var phone: Variable<String> {
         return interactorInterface.phone
     }
     
-    var phoneErrorString: Observable<String?>{
+    var phoneErrorString: Observable<String?> {
         return interactorInterface.phoneErrors.map({ (fieldErrors) -> String? in
-            if let firstError = fieldErrors.first{
-                switch firstError{
+            if let firstError = fieldErrors.first {
+                switch firstError {
                 case .minCharaters(let count):
                     return R.string.localizable.defaultPhoneValueMinimum("\(count)")
                 case .empty:
@@ -119,14 +119,14 @@ extension CreateAccountPresenter: CreateAccountPresenterInterface{
         })
     }
     
-    var cpf: Variable<String>{
+    var cpf: Variable<String> {
         return interactorInterface.cpf
     }
     
-    var cpfErrorString: Observable<String?>{
+    var cpfErrorString: Observable<String?> {
         return interactorInterface.cpfErrors.map({ (fieldErrors) -> String? in
-            if let firstError = fieldErrors.first{
-                switch firstError{
+            if let firstError = fieldErrors.first {
+                switch firstError {
                 case .notValid:
                     return R.string.localizable.createAccountCpfInvalid()
                 case .empty:
@@ -138,14 +138,14 @@ extension CreateAccountPresenter: CreateAccountPresenterInterface{
         })
     }
     
-    var password: Variable<String>{
+    var password: Variable<String> {
         return interactorInterface.password
     }
     
-    var passwordErrorString: Observable<String?>{
+    var passwordErrorString: Observable<String?> {
         return interactorInterface.passwordErrors.map({ (fieldErrors) -> String? in
-            if let firstError = fieldErrors.first{
-                switch firstError{
+            if let firstError = fieldErrors.first {
+                switch firstError {
                 case .minCharaters(let count):
                     return R.string.localizable.defaultPasswordValueMinimum("\(count)")
 
@@ -158,14 +158,14 @@ extension CreateAccountPresenter: CreateAccountPresenterInterface{
         })
     }
     
-    var passwordConfirm: Variable<String>{
+    var passwordConfirm: Variable<String> {
         return interactorInterface.passwordConfirm
     }
     
-    var passwordConfirmErrorString: Observable<String?>{
+    var passwordConfirmErrorString: Observable<String?> {
         return interactorInterface.passwordConfirmErrors.map({ (fieldErrors) -> String? in
-            if let firstError = fieldErrors.first{
-                switch firstError{
+            if let firstError = fieldErrors.first {
+                switch firstError {
                 case .confirmPasswordNotMatch:
                     return R.string.localizable.createAccountPasswordNotEqual()
                 }
@@ -175,13 +175,13 @@ extension CreateAccountPresenter: CreateAccountPresenterInterface{
         })
     }
 
-    var createAccountButtonEnabled: Observable<Bool>{
-        return Observable.combineLatest(interactorInterface.nameErrors , interactorInterface.emailErrors, interactorInterface.phoneErrors, interactorInterface.cpfErrors , interactorInterface.passwordErrors, interactorInterface.passwordConfirmErrors, interactorInterface.password.asObservable(), interactorInterface.passwordConfirm.asObservable(), resultSelector: { (nameErrors, emailErrors, phoneErrors, cpfErrors, passwordErrors, passwordConfirmErrors, password, confirmPassword) -> Bool in
-            return !(nameErrors.count > 0 || emailErrors.count > 0 || phoneErrors.count > 0 || cpfErrors.count > 0 || passwordErrors.count > 0 || passwordConfirmErrors.count > 0 || password != confirmPassword )
+    var createAccountButtonEnabled: Observable<Bool> {
+        return Observable.combineLatest(interactorInterface.nameErrors, interactorInterface.emailErrors, interactorInterface.phoneErrors, interactorInterface.cpfErrors, interactorInterface.passwordErrors, interactorInterface.passwordConfirmErrors, interactorInterface.password.asObservable(), interactorInterface.passwordConfirm.asObservable(), resultSelector: { (nameErrors, emailErrors, phoneErrors, cpfErrors, passwordErrors, passwordConfirmErrors, password, confirmPassword) -> Bool in
+            return !(!nameErrors.isEmpty || !emailErrors.isEmpty || !phoneErrors.isEmpty || !cpfErrors.isEmpty || !passwordErrors.isEmpty || !passwordConfirmErrors.isEmpty || password != confirmPassword )
         })
     }
     
-    var createAccountRequestResponse: Observable<RequestResponse<User>>{
+    var createAccountRequestResponse: Observable<RequestResponse<User>> {
         return interactorInterface.createAccountResponse
     }
 }
