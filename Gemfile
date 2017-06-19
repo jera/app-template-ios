@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
 
-gem 'fastlane', '~> 2.18.3'
-gem 'cocoapods', '~> 1.2.0'
-gem 'badge'
+gem 'fastlane', '~> 2.39.1'
+gem 'cocoapods', '= 1.2.1'
+gem 'badge', '= 0.8.4'

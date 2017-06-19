@@ -9,14 +9,14 @@ target 'LoginTemplate' do
   pod 'Cartography', '~> 1.1'
   pod 'Material', '~> 2.6'
   pod 'Moya-ObjectMapper/RxSwift', '~> 2.3'
-  pod 'R.swift', '~> 3.2'
+  pod 'R.swift', '~> 3.3'
   pod 'TPKeyboardAvoiding', '~> 1.3'
-  pod 'RxCocoa', '~> 3.4'
-  pod 'SwiftLint', '~> 0.18'
+  pod 'RxCocoa', '~> 3.5'
+  pod 'SwiftLint', '~> 0.20'
 
   #ObjC
-  pod 'FBSDKLoginKit', '~> 4.22'
-  pod 'Google/SignIn', '~> 3.0'
+  pod 'FBSDKLoginKit', '~> 4.23'
+  pod 'Google/SignIn', '~> 3.1'
   pod 'NSStringMask', '~> 1.2'
 
 end
