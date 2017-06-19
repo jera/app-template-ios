@@ -17,7 +17,8 @@ target 'LoginTemplate' do
 
   #ObjC
   pod 'FBSDKLoginKit', '~> 4.23'
-  pod 'Google/SignIn', '~> 3.1'
+  pod 'Google/SignIn'
+  pod 'Google/Analytics'
   pod 'NSStringMask', '~> 1.2'
 
 end
