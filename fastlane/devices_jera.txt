@@ -1,7 +1,8 @@
-Device ID	Device Name
-b5fca511b1d28ad3fdd40fa02cda8cb21de44236	iPad mini de Jera
-ce1f8dce97fbf433cce0d5c6cbd912d7676ab7e5	iPod Touch de Jera
-3074344cd50d780b646a225b1b8373d3657343b1	iPhone 5C de Jera
-f26eb963ab9d5ee5a8378db79c5846a9f51789f8	new iPhone 5 de Alessandro
-df59c011686149db693d2f3db24626f3ecc0b244	iPhone 5S Junio
-7886b15ae1da6901ca3853ae7d1248d7ba989323	iPhone 7 de Rafa
+Device ID Device Name
+b5fca511b1d28ad3fdd40fa02cda8cb21de44236  iPad mini de Jera
+ce1f8dce97fbf433cce0d5c6cbd912d7676ab7e5  iPod Touch de Jera
+3074344cd50d780b646a225b1b8373d3657343b1  iPhone 5C de Jera
+f26eb963ab9d5ee5a8378db79c5846a9f51789f8  new iPhone 5 de Alessandro
+df59c011686149db693d2f3db24626f3ecc0b244  iPhone 5S Junio
+7886b15ae1da6901ca3853ae7d1248d7ba989323  iPhone 7 de Rafa
+bb23be6e38b0c5f6f99dcdcc615cf2b68d994367  iPhone 7 de Renan

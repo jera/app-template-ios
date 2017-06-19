@@ -12,13 +12,13 @@
 # This is the minimum version number required.
 # Update this, if you use features of a newer version
 
-fastlane_version "2.18.3"
+fastlane_version "2.35"
 
 default_platform :ios
 
 platform :ios do
-  before_all do
-    apply_variables
+  before_all do |lane, options|
+    apply_variables options
   end
 
   lane :refresh_dsyms do
@@ -33,9 +33,11 @@ platform :ios do
     )
   end
 
-  private_lane :apply_variables do
-    if getVariablesName!= nil
-      import "./Variables-#{getVariablesName}.env"
+  private_lane :apply_variables do |options|
+    if options[:variables_name] != nil
+      import "./Variables-#{options[:variables_name]}.env"
+    elsif getVariablesNameFromBranch!= nil
+      import "./Variables-#{getVariablesNameFromBranch}.env"
     else
       import "./Variables.env"
     end
@@ -51,7 +53,8 @@ platform :ios do
     end
   end
 
-  def getVariablesName
+  #release/<nome do schema>/1.3.4
+  def getVariablesNameFromBranch
     branch = git_branch
     match = branch.match /^release\/(?:(.*)\/)?v?/
     if match != nil
@@ -75,7 +78,7 @@ platform :ios do
     branch_release_version = getBranchReleaseVersion
     if branch_release_version != nil
       increment_version_number(
-        version_number: getBranchReleaseVersion # Set a specific version number
+        version_number: branch_release_version # Set a specific version number
       )
     end
   end
@@ -171,7 +174,7 @@ platform :ios do
     pilot(skip_waiting_for_build_processing: true)
     # resign(
     #   signing_identity: ENV["CODE_SIGN_IDENTITY"],
-    #   provisioning_profile: ENV["SIGH_ADHOC_PROFILE_PATH"]
+    #   provisioning_profile: ENV["BITRISE_ADHOC_PROVISION_URL"]
     # )
     # refresh_dsyms
     # commit_version_bump(message: 'Version Bump')
@@ -286,6 +289,18 @@ platform :ios do
       },
       success: false
     )
+  end
+
+  # command to add plugin: $fastlane add_plugin appicon
+  # https://github.com/KrauseFx/fastlane-plugin-appicon
+  # It will overwrite the app icon asset. Backup it if needed
+  lane :generate_icon do
+    if ENV["APP_ICON_PATH"] != nil
+      appicon(appicon_image_file: ENV["APP_ICON_PATH"],
+        appicon_devices: [:ipad, :iphone],
+        appicon_path: ENV["ASSETS_PATH"] # output path
+    )
+    end
   end
 
   # You can define as many lanes as you want
