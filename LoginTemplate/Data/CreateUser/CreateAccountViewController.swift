@@ -1,6 +1,6 @@
 //
 //  CreateAccountViewController.swift
-//  LoginTemplate
+//  Yoseph
 //
 //  Created by Alessandro Nakamuta on 22/02/17.
 //  Copyright © 2017 Jera. All rights reserved.
@@ -10,17 +10,53 @@ import UIKit
 import RxSwift
 import Material
 import Cartography
+import TZStackView
 
 class CreateAccountViewController: BaseViewController, UITextFieldDelegate {
     
     @IBOutlet weak var avatarImageView: UIImageView!
     
-    @IBOutlet weak var nameTextField: TextField!
-    @IBOutlet weak var emailTextField: TextField!
-    @IBOutlet weak var phoneTextField: MaskTextField!
-    @IBOutlet weak var cpfTextField: MaskTextField!
-    @IBOutlet weak var passwordTextField: TextField!
-    @IBOutlet weak var confirmPasswordTextField: TextField!
+    @IBOutlet weak var stackContainerView: UIView!
+    private lazy var formStackView: TZStackView = {
+        let stackView = TZStackView()
+        
+        stackView.axis = .vertical
+        stackView.distribution = .equalSpacing
+        stackView.alignment = .fill
+        stackView.backgroundColor = UIColor.clear
+        
+        return stackView
+    }()
+    
+    private var nameTextField: TextField!
+    private lazy var nameTextFieldFormView: TextFieldFormView = {
+        return TextFieldFormView.instantiateFromNib()
+    }()
+    
+    private var emailTextField: TextField!
+    private lazy var emailTextFieldFormView: TextFieldFormView = {
+        return TextFieldFormView.instantiateFromNib()
+    }()
+    
+    private var phoneTextField: MaskTextField!
+    private lazy var phoneTextFieldFormView: MaskTextFieldFormView = {
+        return MaskTextFieldFormView.instantiateFromNib()
+    }()
+    
+    private var cpfTextField: MaskTextField!
+    private lazy var cpfTextFieldFormView: MaskTextFieldFormView = {
+        return MaskTextFieldFormView.instantiateFromNib()
+    }()
+    
+    private var passwordTextField: TextField!
+    private lazy var passwordTextFieldFormView: TextFieldFormView = {
+        return TextFieldFormView.instantiateFromNib()
+    }()
+    
+    private var confirmPasswordTextField: TextField!
+    private lazy var confirmPasswordTextFieldFormView: TextFieldFormView = {
+        return TextFieldFormView.instantiateFromNib()
+    }()
     
     @IBOutlet weak var changePhotoButton: FlatButton!
     @IBOutlet weak var createAccountButton: RaisedButton!
@@ -35,6 +71,7 @@ class CreateAccountViewController: BaseViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureForm()
         applyAppearance()
         applyTexts()
         
@@ -49,7 +86,7 @@ class CreateAccountViewController: BaseViewController, UITextFieldDelegate {
         super.loadView()
         
         view.backgroundColor = .white
-
+        
         guard let createAccountView = R.nib.createAccountView().instantiate(withOwner: self, options: nil).first as? UIView else {
             return
         }
@@ -57,6 +94,32 @@ class CreateAccountViewController: BaseViewController, UITextFieldDelegate {
             createAccountViewLayoutProxy.edges == scrollViewLayoutProxy.edges
             createAccountViewLayoutProxy.width == scrollViewLayoutProxy.width
         }
+    }
+    
+    private func configureForm() {
+        nameTextField = nameTextFieldFormView.textField
+        formStackView.addArrangedSubview(nameTextFieldFormView)
+        
+        emailTextField = emailTextFieldFormView.textField
+        formStackView.addArrangedSubview(emailTextFieldFormView)
+        
+        phoneTextField = phoneTextFieldFormView.textField
+        formStackView.addArrangedSubview(phoneTextFieldFormView)
+        
+        cpfTextField = cpfTextFieldFormView.textField
+        formStackView.addArrangedSubview(cpfTextFieldFormView)
+        
+        passwordTextField = passwordTextFieldFormView.textField
+        formStackView.addArrangedSubview(passwordTextFieldFormView)
+        
+        confirmPasswordTextField = confirmPasswordTextFieldFormView.textField
+        formStackView.addArrangedSubview(confirmPasswordTextFieldFormView)
+        
+        stackContainerView.addSubview(formStackView)
+        constrain(stackContainerView, formStackView) { (stackContainerView, formStackView) in
+            formStackView.edges == stackContainerView.edges
+        }
+        
     }
     
     private func applyAppearance() {
@@ -90,10 +153,8 @@ class CreateAccountViewController: BaseViewController, UITextFieldDelegate {
         changePhotoButton.applyAppearance(appearance: .white)
         
         createAccountButton.applyAppearance(appearance: .main)
-        createAccountButton.backgroundColor = UIColor.defaultBackgroundButton()
-        createAccountButton.layer.cornerRadius = 5
     }
-
+    
     private func applyTexts() {
         title = R.string.localizable.createAccountTitle()
         

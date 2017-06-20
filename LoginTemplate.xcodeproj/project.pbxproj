@@ -38,12 +38,16 @@
 		2590719B1E53AC33008E1B52 /* UserSessionInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2590719A1E53AC33008E1B52 /* UserSessionInteractor.swift */; };
 		2597E7F81E5B35F1002B499F /* FacebookAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2597E7F71E5B35F1002B499F /* FacebookAPI.swift */; };
 		2597E7FB1E5B7D2E002B499F /* LoginRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2597E7FA1E5B7D2E002B499F /* LoginRepository.swift */; };
-		2597E7FD1E5B86F5002B499F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2597E7FC1E5B86F5002B499F /* GoogleService-Info.plist */; };
 		2597E8001E5B8993002B499F /* GoogleAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2597E7FF1E5B8993002B499F /* GoogleAPI.swift */; };
 		2597E8031E5BA378002B499F /* LoadingHUDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2597E8021E5BA378002B499F /* LoadingHUDView.swift */; };
 		2597E8051E5BA383002B499F /* LoadingHUDView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2597E8041E5BA383002B499F /* LoadingHUDView.xib */; };
 		2597E8071E5C775C002B499F /* UserSessionRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2597E8061E5C775C002B499F /* UserSessionRepository.swift */; };
 		2597E80B1E5C82C3002B499F /* UserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2597E80A1E5C82C3002B499F /* UserSession.swift */; };
+		25B076BF1EF9824200B66985 /* MaskTextFieldFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B076BB1EF9824200B66985 /* MaskTextFieldFormView.swift */; };
+		25B076C01EF9824200B66985 /* MaskTextFieldFormView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25B076BC1EF9824200B66985 /* MaskTextFieldFormView.xib */; };
+		25B076C11EF9824200B66985 /* TextFieldFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B076BD1EF9824200B66985 /* TextFieldFormView.swift */; };
+		25B076C21EF9824200B66985 /* TextFieldFormView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25B076BE1EF9824200B66985 /* TextFieldFormView.xib */; };
+		25B076C41EF984C900B66985 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 25B076C31EF984C900B66985 /* GoogleService-Info.plist */; };
 		25B563D91E5256FC0051F559 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B563D81E5256FC0051F559 /* R.generated.swift */; };
 		25D4C8DE1E549C0600E3AF4A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D4C8DD1E549C0600E3AF4A /* User.swift */; };
 		25D4C8E01E54BBFE00E3AF4A /* UserDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D4C8DF1E54BBFE00E3AF4A /* UserDB.swift */; };
@@ -117,12 +121,16 @@
 		2590719A1E53AC33008E1B52 /* UserSessionInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSessionInteractor.swift; sourceTree = "<group>"; };
 		2597E7F71E5B35F1002B499F /* FacebookAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacebookAPI.swift; sourceTree = "<group>"; };
 		2597E7FA1E5B7D2E002B499F /* LoginRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginRepository.swift; sourceTree = "<group>"; };
-		2597E7FC1E5B86F5002B499F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2597E7FF1E5B8993002B499F /* GoogleAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleAPI.swift; sourceTree = "<group>"; };
 		2597E8021E5BA378002B499F /* LoadingHUDView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingHUDView.swift; sourceTree = "<group>"; };
 		2597E8041E5BA383002B499F /* LoadingHUDView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingHUDView.xib; sourceTree = "<group>"; };
 		2597E8061E5C775C002B499F /* UserSessionRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSessionRepository.swift; sourceTree = "<group>"; };
 		2597E80A1E5C82C3002B499F /* UserSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSession.swift; sourceTree = "<group>"; };
+		25B076BB1EF9824200B66985 /* MaskTextFieldFormView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaskTextFieldFormView.swift; sourceTree = "<group>"; };
+		25B076BC1EF9824200B66985 /* MaskTextFieldFormView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MaskTextFieldFormView.xib; sourceTree = "<group>"; };
+		25B076BD1EF9824200B66985 /* TextFieldFormView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldFormView.swift; sourceTree = "<group>"; };
+		25B076BE1EF9824200B66985 /* TextFieldFormView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextFieldFormView.xib; sourceTree = "<group>"; };
+		25B076C31EF984C900B66985 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		25B563D81E5256FC0051F559 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = SOURCE_ROOT; };
 		25D4C8DD1E549C0600E3AF4A /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		25D4C8DF1E54BBFE00E3AF4A /* UserDB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDB.swift; sourceTree = "<group>"; };
@@ -285,6 +293,17 @@
 			path = LoadingHUD;
 			sourceTree = "<group>";
 		};
+		25B076BA1EF9823400B66985 /* Form */ = {
+			isa = PBXGroup;
+			children = (
+				25B076BB1EF9824200B66985 /* MaskTextFieldFormView.swift */,
+				25B076BC1EF9824200B66985 /* MaskTextFieldFormView.xib */,
+				25B076BD1EF9824200B66985 /* TextFieldFormView.swift */,
+				25B076BE1EF9824200B66985 /* TextFieldFormView.xib */,
+			);
+			path = Form;
+			sourceTree = "<group>";
+		};
 		25D4C8DC1E549BEC00E3AF4A /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -307,6 +326,7 @@
 		25D4C8E61E56094C00E3AF4A /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				25B076BA1EF9823400B66985 /* Form */,
 				25D4C8E71E56096100E3AF4A /* PresentationHelper.swift */,
 			);
 			path = Utils;
@@ -342,7 +362,7 @@
 				25E2F6FB1E52423800AA208E /* Assets.xcassets */,
 				25E2F6FD1E52423800AA208E /* LaunchScreen.storyboard */,
 				25E2F7001E52423800AA208E /* Info.plist */,
-				2597E7FC1E5B86F5002B499F /* GoogleService-Info.plist */,
+				25B076C31EF984C900B66985 /* GoogleService-Info.plist */,
 				25B563D81E5256FC0051F559 /* R.generated.swift */,
 				251B32481E5DCB0000A6D93B /* Localizable.strings */,
 			);
@@ -583,13 +603,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				25B076C21EF9824200B66985 /* TextFieldFormView.xib in Resources */,
+				25B076C01EF9824200B66985 /* MaskTextFieldFormView.xib in Resources */,
 				257467381E5650F70068DC65 /* LoginView.xib in Resources */,
 				25E2F6FF1E52423800AA208E /* LaunchScreen.storyboard in Resources */,
 				251B325A1E5E1FF100A6D93B /* CreateAccountView.xib in Resources */,
-				2597E7FD1E5B86F5002B499F /* GoogleService-Info.plist in Resources */,
 				251B32461E5DCB0000A6D93B /* Localizable.strings in Resources */,
 				2597E8051E5BA383002B499F /* LoadingHUDView.xib in Resources */,
 				257467341E561E480068DC65 /* DashboardViewController.xib in Resources */,
+				25B076C41EF984C900B66985 /* GoogleService-Info.plist in Resources */,
 				F0B4A2AC1E5B3BA400ADD56A /* ForgotPasswordView.xib in Resources */,
 				25E2F6FC1E52423800AA208E /* Assets.xcassets in Resources */,
 			);
@@ -718,6 +740,7 @@
 				F021B1E01E5380580092DA41 /* ForgotPasswordViewController.swift in Sources */,
 				2574672B1E560FF30068DC65 /* MainPresenter.swift in Sources */,
 				F021B1C61E5348DD0092DA41 /* ForgotPasswordWireFrame.swift in Sources */,
+				25B076BF1EF9824200B66985 /* MaskTextFieldFormView.swift in Sources */,
 				251B325D1E5E465900A6D93B /* BaseInteractor.swift in Sources */,
 				251B32611E5E46E600A6D93B /* BaseRepository.swift in Sources */,
 				25633DFD1E6465B3007F8490 /* FieldErrors.swift in Sources */,
@@ -734,6 +757,7 @@
 				257467291E560CA80068DC65 /* MainViewController.swift in Sources */,
 				F006BBD71E6078EE0006D1C8 /* CPF.swift in Sources */,
 				2590718C1E525AF4008E1B52 /* APIClient.swift in Sources */,
+				25B076C11EF9824200B66985 /* TextFieldFormView.swift in Sources */,
 				259071991E53ABFE008E1B52 /* UserSessionDB.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

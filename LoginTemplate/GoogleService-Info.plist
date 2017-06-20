@@ -2,20 +2,22 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>TRACKING_ID</key>
+	<string>UA-77057900-5</string>
 	<key>CLIENT_ID</key>
-	<string>5697950858-4tj5pdefpqjm6cdfje30008rkqka7rbb.apps.googleusercontent.com</string>
+	<string>147259873880-7mju52i2ki5gp7dqde7jbnftfupvum71.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.5697950858-4tj5pdefpqjm6cdfje30008rkqka7rbb</string>
+	<string>com.googleusercontent.apps.147259873880-7mju52i2ki5gp7dqde7jbnftfupvum71</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>br.com.jera.loginTemplate</string>
 	<key>PROJECT_ID</key>
-	<string>logintemplate-5e16a</string>
+	<string>logintemplate-3df4b</string>
 	<key>IS_ADS_ENABLED</key>
 	<false/>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false/>
+	<true/>
 	<key>IS_APPINVITE_ENABLED</key>
 	<false/>
 	<key>IS_GCM_ENABLED</key>
@@ -23,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true/>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:5697950858:ios:aafb33a9dde0c889</string>
+	<string>1:147259873880:ios:aafb33a9dde0c889</string>
 </dict>
 </plist>
