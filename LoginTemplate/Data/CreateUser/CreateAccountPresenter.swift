@@ -8,7 +8,7 @@
 
 import RxSwift
 
-protocol CreateAccountPresenterInterface {
+protocol CreateAccountPresenterProtocol {
     func createButtonPressed()
     func chooseUserImageButtonPressed()
     func closeButtonPressed()
@@ -39,37 +39,37 @@ protocol CreateAccountPresenterInterface {
 }
 
 class CreateAccountPresenter: BasePresenter {
-    weak var routerInterface: CreateAccountWireFrameInterface?
-    let interactorInterface: CreateAccountInteractorInterface
+    weak var router: CreateAccountWireFrameProtocol?
+    let interactor: CreateAccountInteractorProtocol
 
-    init(interactorInterface: CreateAccountInteractorInterface) {
-        self.interactorInterface = interactorInterface
+    init(interactor: CreateAccountInteractorProtocol) {
+        self.interactor = interactor
     }
 }
 
-extension CreateAccountPresenter: CreateAccountPresenterInterface {
+extension CreateAccountPresenter: CreateAccountPresenterProtocol {
     func createButtonPressed() {
-        interactorInterface.createAccount()
+        interactor.createAccount()
     }
     
     func chooseUserImageButtonPressed() {
-        routerInterface?.chooseUserImageButtonPressed(showDeleteCurrentImage: interactorInterface.userImage.value != nil)
+        router?.chooseUserImageButtonPressed(showDeleteCurrentImage: interactor.userImage.value != nil)
     }
     
     func closeButtonPressed() {
-        routerInterface?.dismiss()
+        router?.dismiss()
     }
     
     var userImage: Observable<UIImage?> {
-        return interactorInterface.userImage.asObservable()
+        return interactor.userImage.asObservable()
     }
     
     var name: Variable<String> {
-        return interactorInterface.name
+        return interactor.name
     }
     
     var nameErrorString: Observable<String?> {
-        return interactorInterface.nameErrors.map({ (fieldErrors) -> String? in
+        return interactor.nameErrors.map({ (fieldErrors) -> String? in
             if let firstError = fieldErrors.first {
                 switch firstError {
                 case .empty:
@@ -82,11 +82,11 @@ extension CreateAccountPresenter: CreateAccountPresenterInterface {
     }
     
     var email: Variable<String> {
-        return interactorInterface.email
+        return interactor.email
     }
     
     var emailErrorString: Observable<String?> {
-        return interactorInterface.emailErrors.map({ (fieldErrors) -> String? in
+        return interactor.emailErrors.map({ (fieldErrors) -> String? in
             if let firstError = fieldErrors.first {
                 switch firstError {
                 case .notValid:
@@ -101,11 +101,11 @@ extension CreateAccountPresenter: CreateAccountPresenterInterface {
     }
     
     var phone: Variable<String> {
-        return interactorInterface.phone
+        return interactor.phone
     }
     
     var phoneErrorString: Observable<String?> {
-        return interactorInterface.phoneErrors.map({ (fieldErrors) -> String? in
+        return interactor.phoneErrors.map({ (fieldErrors) -> String? in
             if let firstError = fieldErrors.first {
                 switch firstError {
                 case .minCharaters(let count):
@@ -120,11 +120,11 @@ extension CreateAccountPresenter: CreateAccountPresenterInterface {
     }
     
     var cpf: Variable<String> {
-        return interactorInterface.cpf
+        return interactor.cpf
     }
     
     var cpfErrorString: Observable<String?> {
-        return interactorInterface.cpfErrors.map({ (fieldErrors) -> String? in
+        return interactor.cpfErrors.map({ (fieldErrors) -> String? in
             if let firstError = fieldErrors.first {
                 switch firstError {
                 case .notValid:
@@ -139,11 +139,11 @@ extension CreateAccountPresenter: CreateAccountPresenterInterface {
     }
     
     var password: Variable<String> {
-        return interactorInterface.password
+        return interactor.password
     }
     
     var passwordErrorString: Observable<String?> {
-        return interactorInterface.passwordErrors.map({ (fieldErrors) -> String? in
+        return interactor.passwordErrors.map({ (fieldErrors) -> String? in
             if let firstError = fieldErrors.first {
                 switch firstError {
                 case .minCharaters(let count):
@@ -159,11 +159,11 @@ extension CreateAccountPresenter: CreateAccountPresenterInterface {
     }
     
     var passwordConfirm: Variable<String> {
-        return interactorInterface.passwordConfirm
+        return interactor.passwordConfirm
     }
     
     var passwordConfirmErrorString: Observable<String?> {
-        return interactorInterface.passwordConfirmErrors.map({ (fieldErrors) -> String? in
+        return interactor.passwordConfirmErrors.map({ (fieldErrors) -> String? in
             if let firstError = fieldErrors.first {
                 switch firstError {
                 case .confirmPasswordNotMatch:
@@ -176,12 +176,12 @@ extension CreateAccountPresenter: CreateAccountPresenterInterface {
     }
 
     var createAccountButtonEnabled: Observable<Bool> {
-        return Observable.combineLatest(interactorInterface.nameErrors, interactorInterface.emailErrors, interactorInterface.phoneErrors, interactorInterface.cpfErrors, interactorInterface.passwordErrors, interactorInterface.passwordConfirmErrors, interactorInterface.password.asObservable(), interactorInterface.passwordConfirm.asObservable(), resultSelector: { (nameErrors, emailErrors, phoneErrors, cpfErrors, passwordErrors, passwordConfirmErrors, password, confirmPassword) -> Bool in
+        return Observable.combineLatest(interactor.nameErrors, interactor.emailErrors, interactor.phoneErrors, interactor.cpfErrors, interactor.passwordErrors, interactor.passwordConfirmErrors, interactor.password.asObservable(), interactor.passwordConfirm.asObservable(), resultSelector: { (nameErrors, emailErrors, phoneErrors, cpfErrors, passwordErrors, passwordConfirmErrors, password, confirmPassword) -> Bool in
             return !(!nameErrors.isEmpty || !emailErrors.isEmpty || !phoneErrors.isEmpty || !cpfErrors.isEmpty || !passwordErrors.isEmpty || !passwordConfirmErrors.isEmpty || password != confirmPassword )
         })
     }
     
     var createAccountRequestResponse: Observable<RequestResponse<User>> {
-        return interactorInterface.createAccountResponse
+        return interactor.createAccountResponse
     }
 }

@@ -7,7 +7,7 @@
 //
 import RxSwift
 
-protocol ForgotPasswordInteractorInterface {
+protocol ForgotPasswordInteractorProtocol {
     func sendNewPasswordToEmail()
     
     var forgotPasswordResponse: Observable<RequestResponse<String?>> { get }
@@ -17,7 +17,7 @@ protocol ForgotPasswordInteractorInterface {
 }
 
 class ForgotPasswordInteractor: BaseInteractor {
-    let repositoryInterface: ForgotPasswordRepositoryInterface
+    let repository: ForgotPasswordRepositoryProtocol
     
     let forgotPasswordResponseVariable = Variable<RequestResponse<String?>>(.new)
     
@@ -25,12 +25,12 @@ class ForgotPasswordInteractor: BaseInteractor {
     
     fileprivate var forgotPasswordDisposeBag: DisposeBag!
     
-    init(repositoryInterface: ForgotPasswordRepositoryInterface) {
-        self.repositoryInterface = repositoryInterface
+    init(repository: ForgotPasswordRepositoryProtocol) {
+        self.repository = repository
     }
 }
 
-extension ForgotPasswordInteractor: ForgotPasswordInteractorInterface {
+extension ForgotPasswordInteractor: ForgotPasswordInteractorProtocol {
     var forgotPasswordResponse: Observable<RequestResponse<String?>> {
         return forgotPasswordResponseVariable.asObservable()
     }
@@ -40,7 +40,7 @@ extension ForgotPasswordInteractor: ForgotPasswordInteractorInterface {
         
         forgotPasswordResponseVariable.value = .loading
         
-        repositoryInterface
+        repository
             .sendNewPasswordTo(email: email.value)
             .subscribe { [weak self] (event) in
                 guard let strongSelf = self else { return }

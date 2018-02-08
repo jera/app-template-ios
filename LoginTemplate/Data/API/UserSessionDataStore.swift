@@ -8,14 +8,14 @@
 
 import Foundation
 
-protocol UserSessionDataStoreInterface {
+protocol UserSessionDataStoreProtocol {
     func createUserSession(uid: String, client: String, accessToken: String, currentUser: UserDB)
     func retrieveUserSession() -> UserSessionDB?
     func updateSession(uid: String?, client: String?, accessToken: String?, currentUser: UserDB?) -> Bool
     func deleteUserSession()
 }
 
-class UserSessionDataStore: UserSessionDataStoreInterface {
+class UserSessionDataStore: UserSessionDataStoreProtocol {
     private static let currentSessionKey = "currentSessionKey"
     
     func createUserSession(uid: String, client: String, accessToken: String, currentUser: UserDB) {

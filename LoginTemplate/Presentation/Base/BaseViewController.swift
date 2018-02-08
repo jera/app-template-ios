@@ -11,7 +11,7 @@ import RxCocoa
 import Cartography
 import TPKeyboardAvoiding
 
-protocol BaseViewInterface: class {
+protocol BaseViewProtocol: class {
     
 }
 

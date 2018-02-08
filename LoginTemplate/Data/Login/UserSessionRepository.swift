@@ -8,20 +8,20 @@
 
 import UIKit
 
-protocol UserSessionRepositoryInterface {
+protocol UserSessionRepositoryProtocol {
     func createUserSession(uid: String, client: String, accessToken: String, currentUser: UserDB)
     func retrieveUserSession() -> UserSessionDB?
     @discardableResult func updateSession(uid: String?, client: String?, accessToken: String?, currentUser: UserDB?) -> Bool
     func deleteUserSession()
 }
 
-class UserSessionRepository: BaseRepository, UserSessionRepositoryInterface {
+class UserSessionRepository: BaseRepository, UserSessionRepositoryProtocol {
 //    static var shared = UserSessionRepository(dataStore: UserSessionDataStore())
     
     private var cachedUserSession: UserSessionDB?
-    let dataStore: UserSessionDataStoreInterface
+    let dataStore: UserSessionDataStoreProtocol
     
-    init(dataStore: UserSessionDataStoreInterface) {
+    init(dataStore: UserSessionDataStoreProtocol) {
         self.dataStore = dataStore
     }
     

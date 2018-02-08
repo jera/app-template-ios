@@ -8,12 +8,12 @@
 
 import UIKit
 
-protocol ForgotPasswordWireFrameInterface: class {
-    func presentOn(viewController: UIViewController, presenterWireFrame: ForgotPasswordPresenterWireFrameInterface)
+protocol ForgotPasswordWireFrameProtocol: class {
+    func presentOn(viewController: UIViewController, presenterWireFrame: ForgotPasswordPresenterWireFrameProtocol)
     func dismiss()
 }
 
-protocol ForgotPasswordPresenterWireFrameInterface: PresenterWireFrameInterface {
+protocol ForgotPasswordPresenterWireFrameProtocol: PresenterWireFrameProtocol {
 }
 
 class ForgotPasswordWireFrame: BaseWireFrame {
@@ -23,16 +23,14 @@ class ForgotPasswordWireFrame: BaseWireFrame {
     let forgotPasswordPresenter: ForgotPasswordPresenter
     let forgotPasswordInteractor: ForgotPasswordInteractor
     let forgotPasswordViewController = ForgotPasswordViewController()
-    let apiClientInterface: APIClientInterface = APIClient()
-    
-//    weak var presenterWireFrame: ForgotPasswordPresenterWireFrameInterface?
+    let apiClient: APIClientProtocol = APIClient()
     
     override init() {
-        forgotPasswordInteractor = ForgotPasswordInteractor(repositoryInterface: ForgotPasswordRepository(apiClientInterface: apiClientInterface))
-        let forgotPasswordPresenter = ForgotPasswordPresenter(interactorInterface: forgotPasswordInteractor)
+        forgotPasswordInteractor = ForgotPasswordInteractor(repository: ForgotPasswordRepository(apiClient: apiClient))
+        let forgotPasswordPresenter = ForgotPasswordPresenter(interactor: forgotPasswordInteractor)
         self.forgotPasswordPresenter = forgotPasswordPresenter
         
-        forgotPasswordViewController.presenterInterface = forgotPasswordPresenter
+        forgotPasswordViewController.presenter = forgotPasswordPresenter
         
         navigationController = BaseNavigationController(rootViewController: forgotPasswordViewController)
         
@@ -42,8 +40,8 @@ class ForgotPasswordWireFrame: BaseWireFrame {
     }
     
 }
-extension ForgotPasswordWireFrame: ForgotPasswordWireFrameInterface {
-    func presentOn(viewController: UIViewController, presenterWireFrame: ForgotPasswordPresenterWireFrameInterface) {
+extension ForgotPasswordWireFrame: ForgotPasswordWireFrameProtocol {
+    func presentOn(viewController: UIViewController, presenterWireFrame: ForgotPasswordPresenterWireFrameProtocol) {
         self.presenterWireFrame = presenterWireFrame
         viewController.present(navigationController, animated: true, completion: nil)
     }

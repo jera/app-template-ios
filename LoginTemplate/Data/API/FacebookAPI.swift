@@ -9,12 +9,12 @@
 import RxSwift
 import FBSDKLoginKit
 
-protocol FacebookAPIInterface {
+protocol FacebookAPIProtocol {
     func signIn(fromViewController: UIViewController) -> Observable<String>
     func signOut()
 }
 
-class FacebookAPI: FacebookAPIInterface {
+class FacebookAPI: FacebookAPIProtocol {
     private static let facebookPermissions = ["public_profile", "email"]
     
     private let loginManager = FBSDKLoginManager()

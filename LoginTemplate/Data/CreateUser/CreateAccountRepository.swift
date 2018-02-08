@@ -9,19 +9,19 @@
 import UIKit
 import RxSwift
 
-protocol CreateAccountRepositoryInterface {
+protocol CreateAccountRepositoryProtocol {
     func createWith(name: String, email: String, phone: String, cpf: String, password: String, image: UIImage?) -> Observable<UserAPI>
 }
 
-class CreateAccountRepository: BaseRepository, CreateAccountRepositoryInterface {
-    let apiClientInterface: APIClientInterface
+class CreateAccountRepository: BaseRepository, CreateAccountRepositoryProtocol {
+    let apiClient: APIClientProtocol
     
-    init(apiClientInterface: APIClientInterface) {
-        self.apiClientInterface = apiClientInterface
+    init(apiClient: APIClientProtocol) {
+        self.apiClient = apiClient
     }
     
     func createWith(name: String, email: String, phone: String, cpf: String, password: String, image: UIImage?) -> Observable<UserAPI> {
-        return apiClientInterface
+        return apiClient
             .createNewAccount(name: name, email: email, cpf: cpf, password: password, image: image)
     }
 }

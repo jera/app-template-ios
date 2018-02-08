@@ -25,8 +25,8 @@ class CreateAccountViewController: BaseViewController, UITextFieldDelegate {
     @IBOutlet weak var changePhotoButton: FlatButton!
     @IBOutlet weak var createAccountButton: RaisedButton!
     
-    private var presenterInterfaceBindDisposeBag: DisposeBag!
-    var presenterInterface: CreateAccountPresenterInterface? {
+    private var presenterBindDisposeBag: DisposeBag!
+    var presenter: CreateAccountPresenterProtocol? {
         didSet {
             bind()
         }
@@ -39,7 +39,7 @@ class CreateAccountViewController: BaseViewController, UITextFieldDelegate {
         applyTexts()
         
         addCloseButton(image: UIImage(named: "ic_nav_back")!) { [weak self] () in
-            self?.presenterInterface?.closeButtonPressed()
+            self?.presenter?.closeButtonPressed()
         }
         
         bind()
@@ -111,128 +111,128 @@ class CreateAccountViewController: BaseViewController, UITextFieldDelegate {
     private func bind() {
         guard isLoaded else { return }
         
-        presenterInterfaceBindDisposeBag = DisposeBag()
+        presenterBindDisposeBag = DisposeBag()
         
-        guard let presenterInterface = presenterInterface else { return }
+        guard let presenter = presenter else { return }
         
-        presenterInterface.userImage
+        presenter.userImage
             .map { (userImage) -> UIImage in
                 return userImage ?? #imageLiteral(resourceName: "avatar")
             }
             .bind(to: avatarImageView.rx.image)
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .addDisposableTo(presenterBindDisposeBag)
         
-        presenterInterface.name
+        presenter.name
             .asObservable()
             .bind(to: nameTextField.rx.text)
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .addDisposableTo(presenterBindDisposeBag)
         
         nameTextField.rx.text
             .asObservable()
             .map { (text) -> String in
                 return text ?? ""
             }
-            .bind(to: presenterInterface.name)
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .bind(to: presenter.name)
+            .addDisposableTo(presenterBindDisposeBag)
         
-        presenterInterface.nameErrorString
+        presenter.nameErrorString
             .subscribe(onNext: { [weak self] (errorString) in
                 self?.nameTextField.detail = errorString
             })
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .addDisposableTo(presenterBindDisposeBag)
         
-        presenterInterface.email
+        presenter.email
             .asObservable()
             .bind(to: emailTextField.rx.text)
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .addDisposableTo(presenterBindDisposeBag)
         
         emailTextField.rx.text
             .asObservable()
             .map { (text) -> String in
                 return text ?? ""
             }
-            .bind(to: presenterInterface.email)
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .bind(to: presenter.email)
+            .addDisposableTo(presenterBindDisposeBag)
         
-        presenterInterface.emailErrorString
+        presenter.emailErrorString
             .subscribe(onNext: { [weak self] (errorString) in
                 self?.emailTextField.detail = errorString
             })
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .addDisposableTo(presenterBindDisposeBag)
         
-        presenterInterface.phone
+        presenter.phone
             .asObservable()
             .bind(to: phoneTextField.rx.text)
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .addDisposableTo(presenterBindDisposeBag)
         
         phoneTextField.rawTextObservable
-            .bind(to: presenterInterface.phone)
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .bind(to: presenter.phone)
+            .addDisposableTo(presenterBindDisposeBag)
         
-        presenterInterface.phoneErrorString
+        presenter.phoneErrorString
             .subscribe(onNext: { [weak self] (errorString) in
                 self?.phoneTextField.detail = errorString
             })
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .addDisposableTo(presenterBindDisposeBag)
         
-        presenterInterface.cpf
+        presenter.cpf
             .asObservable()
             .bind(to: cpfTextField.rx.text)
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .addDisposableTo(presenterBindDisposeBag)
         
         cpfTextField.rawTextObservable
-            .bind(to: presenterInterface.cpf)
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .bind(to: presenter.cpf)
+            .addDisposableTo(presenterBindDisposeBag)
         
-        presenterInterface.cpfErrorString
+        presenter.cpfErrorString
             .subscribe(onNext: { [weak self] (errorString) in
                 self?.cpfTextField.detail = errorString
             })
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .addDisposableTo(presenterBindDisposeBag)
         
-        presenterInterface.password
+        presenter.password
             .asObservable()
             .bind(to: passwordTextField.rx.text)
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .addDisposableTo(presenterBindDisposeBag)
         
         passwordTextField.rx.text
             .asObservable()
             .map { (text) -> String in
                 return text ?? ""
             }
-            .bind(to: presenterInterface.password)
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .bind(to: presenter.password)
+            .addDisposableTo(presenterBindDisposeBag)
         
-        presenterInterface.passwordErrorString
+        presenter.passwordErrorString
             .subscribe(onNext: { [weak self] (errorString) in
                 self?.passwordTextField.detail = errorString
             })
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .addDisposableTo(presenterBindDisposeBag)
         
-        presenterInterface.passwordConfirm
+        presenter.passwordConfirm
             .asObservable()
             .bind(to: confirmPasswordTextField.rx.text)
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .addDisposableTo(presenterBindDisposeBag)
         
         confirmPasswordTextField.rx.text
             .asObservable()
             .map { (text) -> String in
                 return text ?? ""
             }
-            .bind(to: presenterInterface.passwordConfirm)
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .bind(to: presenter.passwordConfirm)
+            .addDisposableTo(presenterBindDisposeBag)
         
-        presenterInterface.passwordConfirmErrorString
+        presenter.passwordConfirmErrorString
             .subscribe(onNext: { [weak self] (errorString) in
                 self?.confirmPasswordTextField.detail = errorString
             })
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .addDisposableTo(presenterBindDisposeBag)
         
-        presenterInterface.createAccountButtonEnabled
+        presenter.createAccountButtonEnabled
             .bind(to: createAccountButton.rx.isEnabled)
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .addDisposableTo(presenterBindDisposeBag)
         
-        presenterInterface.createAccountRequestResponse
+        presenter.createAccountRequestResponse
             .subscribe(onNext: { [weak self] (requestResponse) in
                 guard let strongSelf = self else { return }
                 
@@ -250,22 +250,22 @@ class CreateAccountViewController: BaseViewController, UITextFieldDelegate {
                     strongSelf.hideHud()
                 }
             })
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .addDisposableTo(presenterBindDisposeBag)
         
         changePhotoButton.rx.tap
             .subscribe { [weak self] (_) in
                 guard let strongSelf = self else { return }
                 
-                strongSelf.presenterInterface?.chooseUserImageButtonPressed()
+                strongSelf.presenter?.chooseUserImageButtonPressed()
             }
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .addDisposableTo(presenterBindDisposeBag)
         
         createAccountButton.rx.tap
             .subscribe { [weak self] (_) in
                 guard let strongSelf = self else { return }
                 
-                strongSelf.presenterInterface?.createButtonPressed()
+                strongSelf.presenter?.createButtonPressed()
             }
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .addDisposableTo(presenterBindDisposeBag)
     }
 }

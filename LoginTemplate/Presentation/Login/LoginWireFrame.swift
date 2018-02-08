@@ -8,35 +8,35 @@
 
 import UIKit
 
-protocol LoginWireFrameInterface: class {
+protocol LoginWireFrameProtocol: class {
     func goToForgotPassword()
     func goToCreateAccount()
 }
 
 class LoginWireFrame: BaseWireFrame {
     
-    let loginPresenter: LoginPresenterInterface
-    let loginInteractor: LoginInteractorInterface
+    let loginPresenter: LoginPresenterProtocol
+    let loginInteractor: LoginInteractorProtocol
     let loginViewController = LoginViewController()
-    let apiClientInterface: APIClientInterface = APIClient()
-    let facebookAPI: FacebookAPIInterface = FacebookAPI()
-    let googleAPI: GoogleAPIInterface = GoogleAPI.shared
+    let apiClient: APIClientProtocol = APIClient()
+    let facebookAPI: FacebookAPIProtocol = FacebookAPI()
+    let googleAPI: GoogleAPIProtocol = GoogleAPI.shared
     
     override init() {
-        loginInteractor = LoginInteractor(repositoryInterface: LoginRepository(apiClientInterface: apiClientInterface, facebookAPIInterface: facebookAPI, googleAPIInterface: googleAPI))
-        let loginPresenter = LoginPresenter(interactorInterface: loginInteractor)
+        loginInteractor = LoginInteractor(repository: LoginRepository(apiClient: apiClient, facebookAPI: facebookAPI, googleAPI: googleAPI))
+        let loginPresenter = LoginPresenter(interactor: loginInteractor)
         self.loginPresenter = loginPresenter
         
-        loginViewController.presenterInterface = loginPresenter
+        loginViewController.presenter = loginPresenter
         
         super.init()
         
-        loginPresenter.routerInterface = self
+        loginPresenter.router = self
     }
     
 }
 
-extension LoginWireFrame: LoginWireFrameInterface {
+extension LoginWireFrame: LoginWireFrameProtocol {
     func goToForgotPassword() {
         let forgotPasswordWireFrame = ForgotPasswordWireFrame()
         
@@ -54,6 +54,6 @@ extension LoginWireFrame: LoginWireFrameInterface {
     }
 }
 
-extension LoginWireFrame: ForgotPasswordPresenterWireFrameInterface, CreateAccountPresenterWireFrameInterface {
+extension LoginWireFrame: ForgotPasswordPresenterWireFrameProtocol, CreateAccountPresenterWireFrameProtocol {
     
 }

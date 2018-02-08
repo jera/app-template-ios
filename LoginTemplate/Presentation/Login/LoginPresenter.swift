@@ -8,7 +8,7 @@
 
 import RxSwift
 
-protocol LoginPresenterInterface {
+protocol LoginPresenterProtocol {
     func loginButtonPressed()
     func createAccountButtonPressed()
     func forgotPasswordButtonPressed()
@@ -29,41 +29,41 @@ protocol LoginPresenterInterface {
 }
 
 class LoginPresenter: BasePresenter {
-    weak var routerInterface: LoginWireFrameInterface?
-    let interactorInterface: LoginInteractorInterface
+    weak var router: LoginWireFrameProtocol?
+    let interactor: LoginInteractorProtocol
     
-    init(interactorInterface: LoginInteractorInterface) {
-        self.interactorInterface = interactorInterface
+    init(interactor: LoginInteractorProtocol) {
+        self.interactor = interactor
     }
 }
 
-extension LoginPresenter: LoginPresenterInterface {
+extension LoginPresenter: LoginPresenterProtocol {
     func loginButtonPressed() {
-        interactorInterface.authenticate()
+        interactor.authenticate()
     }
     
     func createAccountButtonPressed() {
-        routerInterface?.goToCreateAccount()
+        router?.goToCreateAccount()
     }
     
     func forgotPasswordButtonPressed() {
-        routerInterface?.goToForgotPassword()
+        router?.goToForgotPassword()
     }
     
     func facebookLoginButtonPressed(presenterViewController viewController: UIViewController) {
-        interactorInterface.facebookLogin(presenterViewController: viewController)
+        interactor.facebookLogin(presenterViewController: viewController)
     }
     
     func googleLoginButtonPressed(presenterViewController viewController: UIViewController) {
-        interactorInterface.googleLogin(presenterViewController: viewController)
+        interactor.googleLogin(presenterViewController: viewController)
     }
     
     var email: Variable<String> {
-        return interactorInterface.email
+        return interactor.email
     }
     
     var emailErrorString: Observable<String?> {
-        return interactorInterface.emailErrors.map({ (fieldErrors) -> String? in
+        return interactor.emailErrors.map({ (fieldErrors) -> String? in
             if let firstError = fieldErrors.first {
                 switch firstError {
                 case .notValid:
@@ -78,11 +78,11 @@ extension LoginPresenter: LoginPresenterInterface {
     }
     
     var password: Variable<String> {
-        return interactorInterface.password
+        return interactor.password
     }
     
     var passwordErrorString: Observable<String?> {
-        return interactorInterface.passwordErrors.map({ (fieldErrors) -> String? in
+        return interactor.passwordErrors.map({ (fieldErrors) -> String? in
             if let firstError = fieldErrors.first {
                 switch firstError {
                 case .minCharaters(let count):
@@ -97,19 +97,19 @@ extension LoginPresenter: LoginPresenterInterface {
     }
     
     var loginRequestResponse: Observable<RequestResponse<User>> {
-        return interactorInterface.authenticateResponse
+        return interactor.authenticateResponse
     }
     
     var facebookRequestResponse: Observable<RequestResponse<User>> {
-        return interactorInterface.facebookLoginResponse
+        return interactor.facebookLoginResponse
     }
     
     var googleRequestResponse: Observable<RequestResponse<User>> {
-        return interactorInterface.googleLoginResponse
+        return interactor.googleLoginResponse
     }
     
     var loginButtonEnabled: Observable<Bool> {
-        return Observable.combineLatest(interactorInterface.emailErrors, interactorInterface.passwordErrors, resultSelector: { (emailErrors, passwordErrors) -> Bool in
+        return Observable.combineLatest(interactor.emailErrors, interactor.passwordErrors, resultSelector: { (emailErrors, passwordErrors) -> Bool in
             return !(!emailErrors.isEmpty || !passwordErrors.isEmpty)
         })
     }

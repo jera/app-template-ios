@@ -8,7 +8,7 @@
 
 import RxSwift
 
-protocol ForgotPasswordPresenterInterface {
+protocol ForgotPasswordPresenterProtocol {
     func forgotPasswordPressed()
     func didTapCloseForgotPasswordView()
     
@@ -20,13 +20,13 @@ protocol ForgotPasswordPresenterInterface {
 
 class ForgotPasswordPresenter: BasePresenter {
     weak var router: ForgotPasswordWireFrame?
-    var interactorInterface: ForgotPasswordInteractorInterface
+    var interactor: ForgotPasswordInteractorProtocol
     
     var email: Variable<String> {
-        return interactorInterface.email
+        return interactor.email
     }
     var emailErrorString: Observable<String?> {
-        return interactorInterface.emailErrors.map({ (fieldErrors) -> String? in
+        return interactor.emailErrors.map({ (fieldErrors) -> String? in
             if let firstError = fieldErrors.first {
                 switch firstError {
                 case .notValid:
@@ -49,7 +49,7 @@ class ForgotPasswordPresenter: BasePresenter {
     }
     
     var forgotPasswordRequestResponse: Observable<RequestResponse<String?>> {
-        return interactorInterface.forgotPasswordResponse
+        return interactor.forgotPasswordResponse
     }
     
     var forgotPasswordButtonEnabled: Observable<Bool> {
@@ -58,14 +58,14 @@ class ForgotPasswordPresenter: BasePresenter {
         })
     }
 
-    init(interactorInterface: ForgotPasswordInteractorInterface) {
-        self.interactorInterface = interactorInterface
+    init(interactor: ForgotPasswordInteractorProtocol) {
+        self.interactor = interactor
     }
 }
 
-extension ForgotPasswordPresenter: ForgotPasswordPresenterInterface {
+extension ForgotPasswordPresenter: ForgotPasswordPresenterProtocol {
     func forgotPasswordPressed() {
-        interactorInterface.sendNewPasswordToEmail()
+        interactor.sendNewPasswordToEmail()
     }
     
     func didTapCloseForgotPasswordView() {

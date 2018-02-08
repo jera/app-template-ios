@@ -233,7 +233,7 @@ extension APITarget: TargetType {
     }
 }
 
-protocol APIClientInterface {
+protocol APIClientProtocol {
     func loginWith(email: String, password: String) -> Observable<UserAPI>
     func loginWithFacebook(token: String) -> Observable<UserAPI>
     func loginWithGoogle(token: String) -> Observable<UserAPI>
@@ -244,7 +244,7 @@ protocol APIClientInterface {
     func logoutUser() -> Observable<Void>
 }
 
-struct APIClient: APIClientInterface {
+struct APIClient: APIClientProtocol {
     func loginWith(email: String, password: String) -> Observable<UserAPI> {
         return provider
             .request(.Login(email: email, password: password))

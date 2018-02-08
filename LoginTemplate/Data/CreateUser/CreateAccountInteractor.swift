@@ -8,7 +8,7 @@
 
 import RxSwift
 
-protocol CreateAccountInteractorInterface {
+protocol CreateAccountInteractorProtocol {
     func createAccount()
     var createAccountResponse: Observable<RequestResponse<User>> { get }
     
@@ -34,7 +34,7 @@ protocol CreateAccountInteractorInterface {
 }
 
 class CreateAccountInteractor: BaseInteractor {
-    let repositoryInterface: CreateAccountRepositoryInterface
+    let repository: CreateAccountRepositoryProtocol
     
     fileprivate var createAccountDisposeBag: DisposeBag!
     let createAccountResponseVariable = Variable<RequestResponse<User>>(.new)
@@ -47,12 +47,12 @@ class CreateAccountInteractor: BaseInteractor {
     let password = Variable("")
     let passwordConfirm = Variable("")
     
-    init(repositoryInterface: CreateAccountRepositoryInterface) {
-        self.repositoryInterface = repositoryInterface
+    init(repository: CreateAccountRepositoryProtocol) {
+        self.repository = repository
     }
 }
 
-extension CreateAccountInteractor: CreateAccountInteractorInterface {
+extension CreateAccountInteractor: CreateAccountInteractorProtocol {
     var createAccountResponse: Observable<RequestResponse<User>> {
         return createAccountResponseVariable.asObservable()
     }
@@ -62,7 +62,7 @@ extension CreateAccountInteractor: CreateAccountInteractorInterface {
         
         createAccountResponseVariable.value = .loading
         
-        repositoryInterface
+        repository
             .createWith(name: name.value, email: email.value, phone: phone.value, cpf: cpf.value, password: password.value, image: userImage.value)
             .subscribe { [weak self] (event) in
                 guard let strongSelf = self else { return }

@@ -10,7 +10,7 @@ import Foundation
 import Moya
 import RxSwift
 
-protocol UserSessionInteractorInterface {
+protocol UserSessionInteractorProtocol {
     var state: UserSessionState {get}
     var stateObservable: Observable<UserSessionState> {get}
     var currentUser: User? { get }
@@ -27,17 +27,17 @@ enum UserSessionState {
     case authExpired
 }
 
-class UserSessionInteractor: UserSessionInteractorInterface {
-    static var shared: UserSessionInteractorInterface = UserSessionInteractor(repositoryInterface: UserSessionRepository(dataStore: UserSessionDataStore()))
+class UserSessionInteractor: UserSessionInteractorProtocol {
+    static var shared: UserSessionInteractorProtocol = UserSessionInteractor(repository: UserSessionRepository(dataStore: UserSessionDataStore()))
     
-    var repositoryInterface: UserSessionRepositoryInterface
+    var repository: UserSessionRepositoryProtocol
     
-    init(repositoryInterface: UserSessionRepositoryInterface) {
-        self.repositoryInterface = repositoryInterface
+    init(repository: UserSessionRepositoryProtocol) {
+        self.repository = repository
     }
     
     private lazy var stateVariable: Variable<UserSessionState> = {
-        if let userDB = self.repositoryInterface.retrieveUserSession()?.currentUser {
+        if let userDB = self.repository.retrieveUserSession()?.currentUser {
             return Variable<UserSessionState>(.logged(user: User(name: userDB.name, email: userDB.email)))
         }else {
             return Variable<UserSessionState>(.notLogged)
@@ -62,7 +62,7 @@ class UserSessionInteractor: UserSessionInteractorInterface {
     }
     
     var userSession: UserSession? {
-        guard let userSessionDB = repositoryInterface.retrieveUserSession() else {
+        guard let userSessionDB = repository.retrieveUserSession() else {
             return nil
         }
         return UserSession(userSessionDB: userSessionDB)
@@ -80,9 +80,9 @@ class UserSessionInteractor: UserSessionInteractorInterface {
             user = nil
         }
         
-        if repositoryInterface.retrieveUserSession() == nil {
+        if repository.retrieveUserSession() == nil {
             if let user = user {
-                repositoryInterface.createUserSession(uid: uid, client: client, accessToken: accessToken, currentUser: UserDB(name: user.name, email: user.email))
+                repository.createUserSession(uid: uid, client: client, accessToken: accessToken, currentUser: UserDB(name: user.name, email: user.email))
                 stateVariable.value = .logged(user: user)
             }else {
                 throw UserSessionInteractor.error(description: R.string.localizable.messageErrorUpdateCredential())
@@ -95,7 +95,7 @@ class UserSessionInteractor: UserSessionInteractorInterface {
                 userDB = nil
             }
             
-            repositoryInterface.updateSession(uid: uid, client: client, accessToken: accessToken, currentUser: userDB)
+            repository.updateSession(uid: uid, client: client, accessToken: accessToken, currentUser: userDB)
             
             if let user = user {
                 stateVariable.value = .logged(user: user)
@@ -104,12 +104,12 @@ class UserSessionInteractor: UserSessionInteractorInterface {
     }
     
     func logout() {
-        repositoryInterface.deleteUserSession()
+        repository.deleteUserSession()
         stateVariable.value = .notLogged
     }
     
     func expire() {
-        repositoryInterface.deleteUserSession()
+        repository.deleteUserSession()
         
         switch stateVariable.value {
         case .logged:

@@ -31,8 +31,8 @@ class LoginViewController: BaseViewController {
     @IBOutlet private weak var createAccountButton: FlatButton!
     @IBOutlet private weak var forgotPasswordButton: FlatButton!
     
-    private var presenterInterfaceBindDisposeBag: DisposeBag!
-    var presenterInterface: LoginPresenterInterface? {
+    private var disposeBag: DisposeBag!
+    var presenter: LoginPresenterProtocol? {
         didSet {
             bind()
         }
@@ -113,53 +113,53 @@ class LoginViewController: BaseViewController {
     private func bind() {
         guard isLoaded else { return }
         
-        presenterInterfaceBindDisposeBag = DisposeBag()
+        disposeBag = DisposeBag()
         
-        guard let presenterInterface = presenterInterface else { return }
+        guard let presenter = presenter else { return }
         
-        presenterInterface.email
+        presenter.email
             .asObservable()
             .bind(to: emailTextField.rx.text)
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .addDisposableTo(disposeBag)
         
         emailTextField.rx.text
             .asObservable()
             .map { (text) -> String in
                 return text ?? ""
             }
-            .bind(to: presenterInterface.email)
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .bind(to: presenter.email)
+            .addDisposableTo(disposeBag)
         
-        presenterInterface.emailErrorString
+        presenter.emailErrorString
             .subscribe(onNext: { [weak self] (errorString) in
                 self?.emailTextField.detail = errorString
             })
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .addDisposableTo(disposeBag)
         
-        presenterInterface.password
+        presenter.password
             .asObservable()
             .bind(to: passwordTextField.rx.text)
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .addDisposableTo(disposeBag)
         
         passwordTextField.rx.text
             .asObservable()
             .map { (text) -> String in
                 return text ?? ""
             }
-            .bind(to: presenterInterface.password)
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .bind(to: presenter.password)
+            .addDisposableTo(disposeBag)
         
-        presenterInterface.passwordErrorString
+        presenter.passwordErrorString
             .subscribe(onNext: { [weak self] (errorString) in
                 self?.passwordTextField.detail = errorString
             })
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .addDisposableTo(disposeBag)
         
-        presenterInterface.loginButtonEnabled
+        presenter.loginButtonEnabled
             .bind(to: loginButton.rx.isEnabled)
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .addDisposableTo(disposeBag)
         
-        presenterInterface.loginRequestResponse
+        presenter.loginRequestResponse
             .subscribe(onNext: { [weak self] (requestResponse) in
                 guard let strongSelf = self else { return }
                 
@@ -177,9 +177,9 @@ class LoginViewController: BaseViewController {
                     strongSelf.hideHud()
                 }
             })
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .addDisposableTo(disposeBag)
         
-        presenterInterface.facebookRequestResponse
+        presenter.facebookRequestResponse
             .subscribe(onNext: { [weak self] (requestResponse) in
                 guard let strongSelf = self else { return }
                 
@@ -198,9 +198,9 @@ class LoginViewController: BaseViewController {
                     strongSelf.hideHud()
                 }
             })
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .addDisposableTo(disposeBag)
         
-        presenterInterface.googleRequestResponse
+        presenter.googleRequestResponse
             .subscribe(onNext: { [weak self] (requestResponse) in
                 guard let strongSelf = self else { return }
                 
@@ -219,48 +219,48 @@ class LoginViewController: BaseViewController {
                     strongSelf.hideHud()
                 }
             })
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .addDisposableTo(disposeBag)
         
         //Buttons Action
         loginButton.rx.tap
             .subscribe { [weak self] (_) in
                 guard let strongSelf = self else { return }
                 
-                strongSelf.presenterInterface?.loginButtonPressed()
+                strongSelf.presenter?.loginButtonPressed()
             }
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .addDisposableTo(disposeBag)
         
         facebookButton.rx.tap
             .subscribe { [weak self] (_) in
                 guard let strongSelf = self else { return }
                 
-                strongSelf.presenterInterface?.facebookLoginButtonPressed(presenterViewController: strongSelf)
+                strongSelf.presenter?.facebookLoginButtonPressed(presenterViewController: strongSelf)
             }
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .addDisposableTo(disposeBag)
         
         googleButton.rx.tap
             .subscribe { [weak self] (_) in
                 guard let strongSelf = self else { return }
                 
-                strongSelf.presenterInterface?.googleLoginButtonPressed(presenterViewController: strongSelf)
+                strongSelf.presenter?.googleLoginButtonPressed(presenterViewController: strongSelf)
             }
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .addDisposableTo(disposeBag)
         
         forgotPasswordButton.rx.tap
             .subscribe { [weak self] (_) in
                 guard let strongSelf = self else { return }
                 
-                strongSelf.presenterInterface?.forgotPasswordButtonPressed()
+                strongSelf.presenter?.forgotPasswordButtonPressed()
             }
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .addDisposableTo(disposeBag)
                 
         createAccountButton.rx.tap
             .subscribe { [weak self] (_) in
                 guard let strongSelf = self else { return }
                 
-                strongSelf.presenterInterface?.createAccountButtonPressed()
+                strongSelf.presenter?.createAccountButtonPressed()
             }
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .addDisposableTo(disposeBag)
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {

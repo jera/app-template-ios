@@ -8,49 +8,49 @@
 
 import RxSwift
 
-protocol LoginRepositoryInterface {
+protocol LoginRepositoryProtocol {
     func authenticate(email: String, password: String) -> Observable<UserAPI>
     
     func facebookLogin(presenterViewController viewController: UIViewController) -> Observable<UserAPI>
     func googleLogin(presenterViewController viewController: UIViewController) -> Observable<UserAPI>
 }
 
-class LoginRepository: BaseRepository, LoginRepositoryInterface {
-    let apiClientInterface: APIClientInterface
-    let facebookAPIInterface: FacebookAPIInterface
-    let googleAPIInterface: GoogleAPIInterface
+class LoginRepository: BaseRepository, LoginRepositoryProtocol {
+    let apiClient: APIClientProtocol
+    let facebookAPI: FacebookAPIProtocol
+    let googleAPI: GoogleAPIProtocol
     
-    init(apiClientInterface: APIClientInterface, facebookAPIInterface: FacebookAPIInterface, googleAPIInterface: GoogleAPIInterface) {
-        self.apiClientInterface = apiClientInterface
-        self.facebookAPIInterface = facebookAPIInterface
-        self.googleAPIInterface = googleAPIInterface
+    init(apiClient: APIClientProtocol, facebookAPI: FacebookAPIProtocol, googleAPI: GoogleAPIProtocol) {
+        self.apiClient = apiClient
+        self.facebookAPI = facebookAPI
+        self.googleAPI = googleAPI
     }
     
     func authenticate(email: String, password: String) -> Observable<UserAPI> {
-        return apiClientInterface
+        return apiClient
             .loginWith(email: email, password: password)
 
     }
     
     func facebookLogin(presenterViewController viewController: UIViewController) -> Observable<UserAPI> {
-        return facebookAPIInterface
+        return facebookAPI
             .signIn(fromViewController: viewController)
             .flatMapLatest { [weak self] (facebookToken) -> Observable<UserAPI> in
                 guard let strongSelf = self else {
                     return Observable.empty()
                 }
-                return strongSelf.apiClientInterface.loginWithFacebook(token: facebookToken)
+                return strongSelf.apiClient.loginWithFacebook(token: facebookToken)
             }
     }
     
     func googleLogin(presenterViewController viewController: UIViewController) -> Observable<UserAPI> {
-        return googleAPIInterface
+        return googleAPI
             .signIn(presentViewController: viewController)
             .flatMapLatest { [weak self] (facebookToken) -> Observable<UserAPI> in
                 guard let strongSelf = self else {
                     return Observable.empty()
                 }
-                return strongSelf.apiClientInterface.loginWithGoogle(token: facebookToken)
+                return strongSelf.apiClient.loginWithGoogle(token: facebookToken)
         }
     }
 }

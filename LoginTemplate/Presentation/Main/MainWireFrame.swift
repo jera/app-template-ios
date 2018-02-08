@@ -67,8 +67,8 @@ class MainWireFrame: BaseWireFrame {
     
     func configureDependencies() {
         mainPresenter.router = self
-        mainPresenter.userSessionInteractorInterface = UserSessionInteractor.shared
-        mainViewController.presenterInterface = mainPresenter
+        mainPresenter.userSessionInteractor = UserSessionInteractor.shared
+        mainViewController.presenter = mainPresenter
     }
 
 }

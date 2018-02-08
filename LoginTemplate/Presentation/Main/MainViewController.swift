@@ -12,20 +12,20 @@ import RxSwift
 
 class MainViewController: BaseViewController {
     
-    private var presenterInterfaceDisposeBag: DisposeBag!
-    var presenterInterface: MainPresenterInterface? {
+    private var disposeBag: DisposeBag!
+    var presenter: MainPresenterProtocol? {
         didSet {
             bind()
         }
     }
     
     private func bind() {
-        presenterInterfaceDisposeBag = DisposeBag()
+        disposeBag = DisposeBag()
         
-        if let presenterInterface = presenterInterface {
-            presenterInterface.authExpiredMessage.subscribe(onNext: { (authExpiredMessage) in
+        if let presenter = presenter {
+            presenter.authExpiredMessage.subscribe(onNext: { (authExpiredMessage) in
                 print("TODO: Toast auth expired message")
-            }).addDisposableTo(presenterInterfaceDisposeBag)
+            }).addDisposableTo(disposeBag)
         }
         
     }

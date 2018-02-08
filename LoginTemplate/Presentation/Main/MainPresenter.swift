@@ -9,11 +9,11 @@
 import RxSwift
 import RxCocoa
 
-protocol MainPresenterInterface {
+protocol MainPresenterProtocol {
     var authExpiredMessage: Observable<String?> { get }
 }
 
-class MainPresenter: BasePresenter, MainPresenterInterface {
+class MainPresenter: BasePresenter, MainPresenterProtocol {
     weak var router: MainWireFrame?
     
     private let authExpiredMessageSubject = PublishSubject<String?>()
@@ -21,8 +21,8 @@ class MainPresenter: BasePresenter, MainPresenterInterface {
         return authExpiredMessageSubject.asObservable()
     }
     
-    private var userSessionInteractorInterfaceDisposeBag: DisposeBag!
-    var userSessionInteractorInterface: UserSessionInteractorInterface? {
+    private var userSessionInteractorDisposeBag: DisposeBag!
+    var userSessionInteractor: UserSessionInteractorProtocol? {
         didSet {
             bindUserSessionInteractor()
         }
@@ -30,9 +30,9 @@ class MainPresenter: BasePresenter, MainPresenterInterface {
     
     private func bindUserSessionInteractor() {
         
-        userSessionInteractorInterfaceDisposeBag = DisposeBag()
+        userSessionInteractorDisposeBag = DisposeBag()
         
-        userSessionInteractorInterface?.stateObservable
+        userSessionInteractor?.stateObservable
             .subscribe(onNext: { [weak self] (userSessionState) in
                 guard let strongSelf = self else { return }
                 
@@ -47,7 +47,7 @@ class MainPresenter: BasePresenter, MainPresenterInterface {
 
                 }
             })
-            .addDisposableTo(userSessionInteractorInterfaceDisposeBag)
+            .addDisposableTo(userSessionInteractorDisposeBag)
     }
     
 }

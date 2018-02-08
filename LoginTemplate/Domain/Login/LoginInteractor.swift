@@ -8,7 +8,7 @@
 
 import RxSwift
 
-protocol LoginInteractorInterface {
+protocol LoginInteractorProtocol {
     func authenticate()
     var authenticateResponse: Observable<RequestResponse<User>> { get }
     
@@ -26,7 +26,7 @@ protocol LoginInteractorInterface {
 }
 
 class LoginInteractor: BaseInteractor {
-    let repositoryInterface: LoginRepositoryInterface
+    let repository: LoginRepositoryProtocol
     
     let authenticateResponseVariable = Variable<RequestResponse<User>>(.new)
     let facebookLoginResponseVariable = Variable<RequestResponse<User>>(.new)
@@ -39,8 +39,8 @@ class LoginInteractor: BaseInteractor {
     fileprivate var facebookLoginDisposeBag: DisposeBag!
     fileprivate var googleLoginDisposeBag: DisposeBag!
     
-    init(repositoryInterface: LoginRepositoryInterface) {
-        self.repositoryInterface = repositoryInterface
+    init(repository: LoginRepositoryProtocol) {
+        self.repository = repository
         super.init()
         
         #if DEBUG
@@ -50,7 +50,7 @@ class LoginInteractor: BaseInteractor {
     }
 }
 
-extension LoginInteractor: LoginInteractorInterface {
+extension LoginInteractor: LoginInteractorProtocol {
     
     var authenticateResponse: Observable<RequestResponse<User>> {
         return authenticateResponseVariable.asObservable()
@@ -70,7 +70,7 @@ extension LoginInteractor: LoginInteractorInterface {
         authenticateResponseVariable.value = .loading
         
         //TODO: fazer o subscribe no repository
-        repositoryInterface
+        repository
             .authenticate(email: email.value, password: password.value)
             .subscribe { [weak self] (event) in
                 guard let strongSelf = self else { return }
@@ -99,7 +99,7 @@ extension LoginInteractor: LoginInteractorInterface {
         
         facebookLoginResponseVariable.value = .loading
         
-        repositoryInterface
+        repository
             .facebookLogin(presenterViewController: viewController)
             .subscribe { [weak self] (event) in
                 guard let strongSelf = self else { return }
@@ -128,7 +128,7 @@ extension LoginInteractor: LoginInteractorInterface {
         
         googleLoginResponseVariable.value = .loading
         
-        repositoryInterface
+        repository
             .googleLogin(presenterViewController: viewController)
             .subscribe { [weak self] (event) in
                 guard let strongSelf = self else { return }

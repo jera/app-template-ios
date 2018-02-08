@@ -10,13 +10,13 @@ import GoogleSignIn
 import GGLSignIn
 import RxSwift
 
-protocol GoogleAPIInterface {
+protocol GoogleAPIProtocol {
     func signIn(presentViewController: UIViewController) -> Observable<String>
     func signOut() -> Observable<Void>
 }
 
 class GoogleAPI: NSObject {
-    static var shared: GoogleAPIInterface = {
+    static var shared: GoogleAPIProtocol = {
         let googleAPI = GoogleAPI()
         
         GIDSignIn.sharedInstance().delegate = googleAPI
@@ -52,7 +52,7 @@ extension GoogleAPI: GIDSignInUIDelegate {
     }
 }
 
-extension GoogleAPI: GoogleAPIInterface {
+extension GoogleAPI: GoogleAPIProtocol {
     func signIn(presentViewController: UIViewController) -> Observable<String> {
         self.presentViewController = presentViewController
         

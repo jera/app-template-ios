@@ -17,11 +17,9 @@ class ForgotPasswordViewController: BaseViewController {
     @IBOutlet weak var emailTextField: TextField!
     @IBOutlet weak var confirmButton: RaisedButton!
     
-    private var presenterInterfaceBindDisposeBag: DisposeBag!
-    var presenterInterface: ForgotPasswordPresenterInterface? {
-        didSet {
-            bind()
-        }
+    private var disposeBag: DisposeBag!
+    var presenter: ForgotPasswordPresenterProtocol? {
+        didSet { bind() }
     }
     
     override func viewDidLoad() {
@@ -31,7 +29,7 @@ class ForgotPasswordViewController: BaseViewController {
         applyTexts()
         
         addCloseButton(image: UIImage(named: "ic_nav_back")!) { [weak self] () in
-            self?.presenterInterface?.didTapCloseForgotPasswordView()
+            self?.presenter?.didTapCloseForgotPasswordView()
         }
         
         bind()
@@ -72,34 +70,34 @@ class ForgotPasswordViewController: BaseViewController {
     private func bind() {
         guard isLoaded else { return }
         
-        presenterInterfaceBindDisposeBag = DisposeBag()
+        disposeBag = DisposeBag()
         
-        guard let presenterInterface = presenterInterface else { return }
+        guard let presenter = presenter else { return }
         
-        presenterInterface.email
+        presenter.email
             .asObservable()
             .bind(to: emailTextField.rx.text)
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .addDisposableTo(disposeBag)
         
         emailTextField.rx.text
             .asObservable()
             .map { (text) -> String in
                 return text ?? ""
             }
-            .bind(to: presenterInterface.email)
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .bind(to: presenter.email)
+            .addDisposableTo(disposeBag)
         
-        presenterInterface.emailErrorString
+        presenter.emailErrorString
             .subscribe(onNext: { [weak self] (errorString) in
                 self?.emailTextField.detail = errorString
             })
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .addDisposableTo(disposeBag)
         
-        presenterInterface.forgotPasswordButtonEnabled
+        presenter.forgotPasswordButtonEnabled
             .bind(to: confirmButton.rx.isEnabled)
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .addDisposableTo(disposeBag)
         
-        presenterInterface.forgotPasswordRequestResponse
+        presenter.forgotPasswordRequestResponse
             .subscribe(onNext: { [weak self] (requestResponse) in
                 guard let strongSelf = self else { return }
                 
@@ -118,15 +116,15 @@ class ForgotPasswordViewController: BaseViewController {
                     strongSelf.hideHud()
                 }
             })
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .addDisposableTo(disposeBag)
         
         confirmButton.rx.tap
             .subscribe { [weak self] (_) in
                 guard let strongSelf = self else { return }
                 
-                strongSelf.presenterInterface?.forgotPasswordPressed()
+                strongSelf.presenter?.forgotPasswordPressed()
             }
-            .addDisposableTo(presenterInterfaceBindDisposeBag)
+            .addDisposableTo(disposeBag)
     }
     
 }

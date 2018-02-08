@@ -8,19 +8,19 @@
 
 import RxSwift
 
-protocol ForgotPasswordRepositoryInterface {
+protocol ForgotPasswordRepositoryProtocol {
     func sendNewPasswordTo(email: String) -> Observable<String?>
 }
 
-class ForgotPasswordRepository: BaseRepository, ForgotPasswordRepositoryInterface {
-    let apiClientInterface: APIClientInterface
+class ForgotPasswordRepository: BaseRepository, ForgotPasswordRepositoryProtocol {
+    let apiClient: APIClientProtocol
     
-    init(apiClientInterface: APIClientInterface) {
-        self.apiClientInterface = apiClientInterface
+    init(apiClient: APIClientProtocol) {
+        self.apiClient = apiClient
     }
     
     func sendNewPasswordTo(email: String) -> Observable<String?> {
-        return apiClientInterface
+        return apiClient
             .forgotPasswordWith(email: email)
     }
 }

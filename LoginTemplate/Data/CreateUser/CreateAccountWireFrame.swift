@@ -9,39 +9,39 @@
 import UIKit
 import RxSwift
 
-protocol CreateAccountWireFrameInterface: class {
-    func presentOn(viewController: UIViewController, presenterWireFrame: CreateAccountPresenterWireFrameInterface)
+protocol CreateAccountWireFrameProtocol: class {
+    func presentOn(viewController: UIViewController, presenterWireFrame: CreateAccountPresenterWireFrameProtocol)
     func chooseUserImageButtonPressed(showDeleteCurrentImage: Bool)
     func dismiss()
 }
 
-protocol CreateAccountPresenterWireFrameInterface: PresenterWireFrameInterface {
+protocol CreateAccountPresenterWireFrameProtocol: PresenterWireFrameProtocol {
     
 }
 
 class CreateAccountWireFrame: BaseWireFrame {
     let navigationController: UINavigationController
     
-    let createAccountPresenter: CreateAccountPresenterInterface
-    let createAccountInteractor: CreateAccountInteractorInterface
+    let createAccountPresenter: CreateAccountPresenterProtocol
+    let createAccountInteractor: CreateAccountInteractorProtocol
     let createAccountViewController = CreateAccountViewController()
-    let apiClientInterface: APIClientInterface = APIClient()
+    let apiClient: APIClientProtocol = APIClient()
     
     var chooseUserImageAlertController: UIAlertController?
     var chooseUserImagePickerController: UIImagePickerController?
     
     override init() {
-        createAccountInteractor = CreateAccountInteractor(repositoryInterface: CreateAccountRepository(apiClientInterface: apiClientInterface))
-        let createAccountPresenter = CreateAccountPresenter(interactorInterface: createAccountInteractor)
+        createAccountInteractor = CreateAccountInteractor(repository: CreateAccountRepository(apiClient: apiClient))
+        let createAccountPresenter = CreateAccountPresenter(interactor: createAccountInteractor)
         self.createAccountPresenter = createAccountPresenter
         
-        createAccountViewController.presenterInterface = createAccountPresenter
+        createAccountViewController.presenter = createAccountPresenter
         
         navigationController = BaseNavigationController(rootViewController: createAccountViewController)
         
         super.init()
         
-        createAccountPresenter.routerInterface = self
+        createAccountPresenter.router = self
     }
     
     fileprivate func goToChooseUserImageFromCamera() {
@@ -69,8 +69,8 @@ class CreateAccountWireFrame: BaseWireFrame {
     }
 }
 
-extension CreateAccountWireFrame: CreateAccountWireFrameInterface {
-    func presentOn(viewController: UIViewController, presenterWireFrame: CreateAccountPresenterWireFrameInterface) {
+extension CreateAccountWireFrame: CreateAccountWireFrameProtocol {
+    func presentOn(viewController: UIViewController, presenterWireFrame: CreateAccountPresenterWireFrameProtocol) {
         self.presenterWireFrame = presenterWireFrame
         viewController.present(navigationController, animated: true, completion: nil)
     }
