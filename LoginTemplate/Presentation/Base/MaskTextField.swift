@@ -40,7 +40,7 @@ class MaskTextField: TextField {
     override var text: String! {
         didSet {
             if let fieldMask = fieldMask, let text = text {
-                if !text.characters.isEmpty {
+                if !text.isEmpty {
                     super.text = fieldMask.mask.format(text)
                 }else {
                     super.text = ""
@@ -93,7 +93,7 @@ extension MaskTextField: UITextFieldDelegate {
         if let fieldMask = fieldMask {
             var _range = range
             
-            if string.characters.isEmpty {
+            if string.isEmpty {
                 //Deleting character(s)
                 let rawText = fieldMask.mask.validCharacters(for: textField.text)!
                 var formattedText = (textField.text! as NSString).replacingCharacters(in: _range, with: string)
@@ -119,7 +119,7 @@ extension MaskTextField: UITextFieldDelegate {
                 let formattedText = fieldMask.mask.format(rawText)!
 
                 var index = 0
-                for formattedCharacter in formattedText.characters {
+                for formattedCharacter in formattedText {
                     if formattedCharacter == "_"{
                         break
                     }

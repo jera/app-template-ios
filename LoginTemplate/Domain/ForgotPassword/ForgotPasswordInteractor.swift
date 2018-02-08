@@ -65,7 +65,7 @@ extension ForgotPasswordInteractor: ForgotPasswordInteractorInterface {
             .map { (email) -> [EmailFieldError] in
                 var fieldErrors = [EmailFieldError]()
                 
-                if email.characters.isEmpty {
+                if email.isEmpty {
                     fieldErrors.append(.empty)
                 }
                 

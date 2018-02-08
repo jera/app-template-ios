@@ -92,7 +92,7 @@ extension CreateAccountInteractor: CreateAccountInteractorInterface {
             .map { (name) -> [NameFieldError] in
                 var fieldErrors = [NameFieldError]()
                 
-                if name.characters.isEmpty {
+                if name.isEmpty {
                     fieldErrors.append(.empty)
                 }
                 
@@ -106,7 +106,7 @@ extension CreateAccountInteractor: CreateAccountInteractorInterface {
             .map { (email) -> [EmailFieldError] in
                 var fieldErrors = [EmailFieldError]()
                 
-                if email.characters.isEmpty {
+                if email.isEmpty {
                     fieldErrors.append(.empty)
                 }
                 
@@ -124,11 +124,11 @@ extension CreateAccountInteractor: CreateAccountInteractorInterface {
             .map { (phone) -> [PhoneFieldError] in
                 var fieldErrors = [PhoneFieldError]()
                 
-                if phone.characters.isEmpty {
+                if phone.isEmpty {
                     fieldErrors.append(.empty)
                 }
                 
-                if phone.characters.count < 10 {
+                if phone.count < 10 {
                     fieldErrors.append(.minCharaters(count: 10))
                 }
                 
@@ -142,7 +142,7 @@ extension CreateAccountInteractor: CreateAccountInteractorInterface {
             .map { (cpf) -> [CpfFieldError] in
                 var fieldErrors = [CpfFieldError]()
                 
-                if cpf.characters.isEmpty {
+                if cpf.isEmpty {
                     fieldErrors.append(.empty)
                 }
                 
@@ -160,11 +160,11 @@ extension CreateAccountInteractor: CreateAccountInteractorInterface {
             .map { (password) -> [PasswordFieldError] in
                 var fieldErrors = [PasswordFieldError]()
                 
-                if password.characters.isEmpty {
+                if password.isEmpty {
                     fieldErrors.append(.empty)
                 }
                 
-                if password.characters.count < 6 {
+                if password.count < 6 {
                     fieldErrors.append(.minCharaters(count: 6))
                 }
                 

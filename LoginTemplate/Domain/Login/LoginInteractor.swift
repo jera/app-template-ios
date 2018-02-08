@@ -41,6 +41,12 @@ class LoginInteractor: BaseInteractor {
     
     init(repositoryInterface: LoginRepositoryInterface) {
         self.repositoryInterface = repositoryInterface
+        super.init()
+        
+        #if DEBUG
+            email.value = "moquiuti@jera.com.br"
+            password.value = "123456"
+        #endif
     }
 }
 
@@ -152,7 +158,7 @@ extension LoginInteractor: LoginInteractorInterface {
             .map { (email) -> [EmailFieldError] in
                 var fieldErrors = [EmailFieldError]()
                 
-                if email.characters.isEmpty {
+                if email.isEmpty {
                     fieldErrors.append(.empty)
                 }
                 
@@ -170,11 +176,11 @@ extension LoginInteractor: LoginInteractorInterface {
             .map { (password) -> [PasswordFieldError] in
                 var fieldErrors = [PasswordFieldError]()
                 
-                if password.characters.isEmpty {
+                if password.isEmpty {
                     fieldErrors.append(.empty)
                 }
                 
-                if password.characters.count < 6 {
+                if password.count < 6 {
                     fieldErrors.append(.minCharaters(count: 6))
                 }
                 

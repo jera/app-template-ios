@@ -44,7 +44,7 @@ class ForgotPasswordPresenter: BasePresenter {
         return self.email
             .asObservable()
             .map { (email) -> Bool in
-                return email.characters.isEmpty
+                return email.isEmpty
         }
     }
     

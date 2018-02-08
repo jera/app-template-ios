@@ -541,12 +541,14 @@
 				TargetAttributes = {
 					254D13921EBCC58F001158BE = {
 						CreatedOnToolsVersion = 8.3.2;
+						LastSwiftMigration = 0910;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 25E2F6F01E52423800AA208E;
 					};
 					25E2F6F01E52423800AA208E = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = E234QZ5Z6G;
+						LastSwiftMigration = 0910;
 						ProvisioningStyle = Manual;
 					};
 				};
@@ -779,7 +781,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = br.com.jera.LoginTemplateUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7780eb52-6187-4c60-a5a9-972dadcf099c";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TEST_TARGET_NAME = LoginTemplate;
 			};
 			name = Debug;
@@ -794,7 +797,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = br.com.jera.LoginTemplateUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7780eb52-6187-4c60-a5a9-972dadcf099c";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TEST_TARGET_NAME = LoginTemplate;
 			};
 			name = Release;
@@ -912,13 +916,14 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = E234QZ5Z6G;
 				INFOPLIST_FILE = LoginTemplate/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = br.com.jera.LoginTemplate;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "6df51f6a-76b6-476c-b281-36f965541d48";
 				PROVISIONING_PROFILE_SPECIFIER = "br.com.jera.LoginTemplate Development";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -930,13 +935,14 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEVELOPMENT_TEAM = E234QZ5Z6G;
 				INFOPLIST_FILE = LoginTemplate/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = br.com.jera.LoginTemplate;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7780eb52-6187-4c60-a5a9-972dadcf099c";
 				PROVISIONING_PROFILE_SPECIFIER = "br.com.jera.LoginTemplate AppStore";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
