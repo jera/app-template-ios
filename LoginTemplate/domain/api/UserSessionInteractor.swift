@@ -28,7 +28,7 @@ enum UserSessionState {
 }
 
 class UserSessionInteractor: UserSessionInteractorProtocol {
-    static var shared: UserSessionInteractorProtocol = UserSessionInteractor(repository: UserSessionRepository(dataStore: UserSessionDataStore()))
+    static var shared: UserSessionInteractorProtocol = UserSessionInteractor(repository: UserSessionRepository(apiClient: APIClient(), dataStore: UserSessionDataStore()))
     
     var repository: UserSessionRepositoryProtocol
     

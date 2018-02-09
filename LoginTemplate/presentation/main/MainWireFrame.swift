@@ -15,8 +15,20 @@ enum MainPage {
 
 class MainWireFrame: BaseWireFrame {
     
-    private let mainPresenter = MainPresenter()
-    private let mainViewController = MainViewController()
+    private let mainPresenter: MainPresenter
+    private let mainViewController: MainViewController
+    
+    override init() {
+        let mainPresenter = MainPresenter()
+        let mainViewController = MainViewController(presenter: mainPresenter)
+        
+        self.mainPresenter = mainPresenter
+        self.mainViewController = mainViewController
+        
+        super.init()
+        
+        configureDependencies()
+    }
     
     var loginWireFrame: LoginWireFrame? {
         didSet {
@@ -50,12 +62,6 @@ class MainWireFrame: BaseWireFrame {
                 }
             }
         }
-    }
-    
-    override init() {
-        super.init()
-        
-        configureDependencies()
     }
     
     func presentOn(window: UIWindow) {

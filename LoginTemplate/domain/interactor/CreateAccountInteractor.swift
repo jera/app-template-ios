@@ -58,32 +58,30 @@ extension CreateAccountInteractor: CreateAccountInteractorProtocol {
     }
     
     func createAccount() {
-//        disposeBag = DisposeBag()
-//        
-//        createAccountResponseVariable.value = .loading
-//        
-//        repository
-//            .createWith(name: name.value, email: email.value, phone: phone.value, cpf: cpf.value, password: password.value, image: userImage.value)
-//            .subscribe { [weak self] (event) in
-//                guard let strongSelf = self else { return }
-//                
-//                switch event {
-//                case .next(let userAPI):
-//                    
-//                    guard let user = User(userAPI: userAPI) else {
-//                        strongSelf.createAccountResponseVariable.value = .failure(error: APIClient.error(description: "\(R.string.localizable.messageUserInvalid()) \(userAPI)"))
-//                        return
-//                    }
-//                    
-//                    strongSelf.createAccountResponseVariable.value = .success(responseObject: user)
-//                    
-//                case .error(let error):
-//                    strongSelf.createAccountResponseVariable.value = .failure(error: error)
-//                case .completed:
-//                    break
-//                }
-//            }
-//            .disposed(by: disposeBag)
+        disposeBag = DisposeBag()
+        
+        createAccountResponseVariable.value = .loading
+        
+        repository
+            .createWith(name: name.value, email: email.value, phone: phone.value, cpf: cpf.value, password: password.value, image: userImage.value)
+            .subscribe { [weak self] (event) in
+                guard let strongSelf = self else { return }
+                
+                switch event {
+                case .success(let userAPI):
+                    
+                    guard let user = User(userAPI: userAPI) else {
+                        strongSelf.createAccountResponseVariable.value = .failure(error: APIClient.error(description: "\(R.string.localizable.messageUserInvalid()) \(userAPI)"))
+                        return
+                    }
+                    
+                    strongSelf.createAccountResponseVariable.value = .success(responseObject: user)
+                    
+                case .error(let error):
+                    strongSelf.createAccountResponseVariable.value = .failure(error: error)
+                }
+            }
+            .disposed(by: disposeBag)
     }
     
     var nameErrors: Observable<[NameFieldError]> {

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RxSwift
 import RxCocoa
 import Cartography
 
@@ -16,36 +17,67 @@ protocol BaseViewProtocol: class {
 
 class BaseViewController: UIViewController {
     
+    internal let basePresenter: BasePresenterProtocol
+    internal var viewControllerDisposeBag: DisposeBag!
+    
     private var loadingHUDView: LoadingHUDView?
     private var backgroundImageView: UIImageView?
-    private(set) var isLoaded = false
+    private var placeholderView: UIView?
+    
+    init(presenter: BasePresenterProtocol, nibName: String?) {
+        basePresenter = presenter
+        super.init(nibName: nibName, bundle: nil)
+    }
+    
+    init(presenter: BasePresenterProtocol) {
+        basePresenter = presenter
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        isLoaded = true
+        bind()
     }
     
-    func showOKAlertWith(title: String?, message: String) {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: R.string.localizable.alertOk(), style: .default, handler: nil))
-        present(alertController, animated: true, completion: nil)
+    override func loadView() {
+        super.loadView()
+        view.backgroundColor = .white
     }
     
-    func showHudWith(title: String) {
-        hideHud()
+    private func bind() {
+        viewControllerDisposeBag = DisposeBag()
         
-        let loadingHUDView = LoadingHUDView.loadFromNib(title: title)
-        view.addSubview(loadingHUDView)
-        constrain(view, loadingHUDView) { (view, loadingHUDView) in
-            loadingHUDView.edges == view.edges
-        }
+        basePresenter.viewState
+            .bind {[weak self] (state) in
+                guard let strongSelf = self else { return }
+                switch state {
+                    
+                case .normal:
+                    strongSelf.removePlaceholder()
+                    
+                case .failure(let viewModel):
+                    strongSelf.showPlaceholderWith(viewModel: viewModel, type: .error)
+                    
+                case .loading(let viewModel):
+                    strongSelf.showPlaceholderWith(viewModel: viewModel, type: .loading)
+                    
+                }
+            }
+            .disposed(by: viewControllerDisposeBag)
         
-        self.loadingHUDView = loadingHUDView
+        basePresenter.alert
+            .bind {[weak self] (alertViewModel) in
+                guard let strongSelf = self else { return }
+                strongSelf.buidlAlertWith(viewModel: alertViewModel)
+            }
+            .disposed(by: viewControllerDisposeBag)
     }
     
-    func hideHud() {
-        loadingHUDView?.removeFromSuperview()
-    }
+    
     
     func addBackgroundImage(_ image: UIImage) {
         backgroundImageView?.removeFromSuperview()
@@ -74,5 +106,73 @@ class BaseViewController: UIViewController {
     
     deinit {
         print("dealloc ---> \(String(describing: type(of: self)))")
+    }
+}
+
+extension BaseViewController {
+    
+    private func removePlaceholder() {
+        placeholderView?.removeFromSuperview()
+    }
+    
+    private func showPlaceholderWith(viewModel: PlaceholderViewModel, type: PlaceholderType) {
+        view.endEditing(true)
+        
+        switch type {
+        case .loading:
+            showLoading(viewModel: viewModel)
+            
+        case .error:
+            showError(viewModel: viewModel)
+        }
+    }
+    
+    private func showLoading(viewModel: PlaceholderViewModel) {
+        removePlaceholder()
+        
+        let loadingView = LoadingView()
+        loadingView.presentOn(parentView: self.view, with: viewModel)
+        self.placeholderView = loadingView
+    }
+    
+    private func showError(viewModel: PlaceholderViewModel) {
+        removePlaceholder()
+        
+        let errorView = ErrorView()
+        errorView.presentOn(parentView: self.view, with: viewModel)
+        self.placeholderView = errorView
+    }
+    
+    func showOKAlertWith(title: String?, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: R.string.localizable.alertOk(), style: .default, handler: nil))
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    func showHudWith(title: String) {
+        hideHud()
+        
+        let loadingHUDView = LoadingHUDView.loadFromNib(title: title)
+        view.addSubview(loadingHUDView)
+        constrain(view, loadingHUDView) { (view, loadingHUDView) in
+            loadingHUDView.edges == view.edges
+        }
+        
+        self.loadingHUDView = loadingHUDView
+    }
+    
+    func hideHud() {
+        loadingHUDView?.removeFromSuperview()
+    }
+}
+
+extension BaseViewController {
+    
+    private func buidlAlertWith(viewModel: AlertViewModel) {
+        let alert = UIAlertController(title: viewModel.title, message: viewModel.message, preferredStyle: .alert)
+        viewModel.alertActions.forEach { (alertActionViewModel) in
+            alert.addAction(alertActionViewModel.transform())
+        }
+        present(alert, animated: true)
     }
 }

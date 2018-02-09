@@ -17,8 +17,34 @@ class LoginPresenter: BasePresenter {
     weak var router: LoginWireFrameProtocol?
     let interactor: LoginInteractorProtocol
     
+    private var disposeBag = DisposeBag()
+    
     init(interactor: LoginInteractorProtocol) {
         self.interactor = interactor
+        super.init()
+    }
+    
+    private func bind() {
+        
+        interactor.authenticateResponse
+            .subscribe(onNext: {[weak self] (response) in
+                guard let _ = self else { return }
+                
+//                switch response {
+//                case .loading:
+//                    strongSelf.viewStateVariable.value = .loading(PlaceholderViewModel(text: R.string.localizable.alertLoading()))
+//
+//                case .failure:
+//                    strongSelf.viewStateVariable.value = .normal
+//
+//                case .success:
+//                    strongSelf.viewStateVariable.value = .normal
+//                default:
+//                    strongSelf.viewStateVariable.value = .normal
+//
+//                }
+            })
+            .disposed(by: disposeBag)
     }
 }
 

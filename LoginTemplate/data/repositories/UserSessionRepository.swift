@@ -21,8 +21,9 @@ class UserSessionRepository: BaseRepository, UserSessionRepositoryProtocol {
     private var cachedUserSession: UserSessionDB?
     let dataStore: UserSessionDataStoreProtocol
     
-    init(dataStore: UserSessionDataStoreProtocol) {
+    init(apiClient: APIClient, dataStore: UserSessionDataStoreProtocol) {
         self.dataStore = dataStore
+        super.init(apiClient: apiClient)
     }
     
     func createUserSession(uid: String, client: String, accessToken: String, currentUser: UserDB) {

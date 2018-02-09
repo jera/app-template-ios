@@ -6,7 +6,16 @@
 //  Copyright © 2017 Jera. All rights reserved.
 //
 
+import UIKit
+
 class BaseRepository {
+    
+    internal let apiClient: APIClientProtocol
+    
+    init(apiClient: APIClientProtocol) {
+        self.apiClient = apiClient
+    }
+    
     deinit {
         print("dealloc ---> \(String(describing: type(of: self)))")
     }

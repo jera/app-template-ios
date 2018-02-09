@@ -27,6 +27,11 @@
 "default.emailNotValid" = "Email não válido";
 "default.passwordValueMinimum" = "Senha deve ter no mínimo %@ caracteres";
 "default.phoneValueMinimum" = "Telefone deve ter no mínimo %@ caracteres";
+"default.try.again" = "Try Again";
+"default.ok" = "OK";
+"default.cancel" = "Cancel";
+"default.yes" = "Yes";
+"default.no" = "No";
 
 //Login
 "login.signInWith" = "Faça login com";

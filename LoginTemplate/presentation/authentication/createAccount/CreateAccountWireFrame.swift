@@ -24,15 +24,16 @@ class CreateAccountWireFrame: BaseWireFrame {
     
     let presenter: CreateAccountPresenterProtocol
     let interactor: CreateAccountInteractorProtocol
-    let viewController = CreateAccountViewController()
-//    let apiClient: APIClientProtocol = APIClient()
+    let viewController: CreateAccountViewController
     
     var chooseUserImageAlertController: UIAlertController?
     var chooseUserImagePickerController: UIImagePickerController?
     
     override init() {
-        interactor = CreateAccountInteractor(repository: CreateAccountRepository())
+        interactor = CreateAccountInteractor(repository: CreateAccountRepository(apiClient: APIClient()))
         let presenter = CreateAccountPresenter(interactor: interactor)
+        
+        self.viewController = CreateAccountViewController(presenter: presenter)
         self.presenter = presenter
         
         viewController.presenter = presenter

@@ -65,33 +65,31 @@ extension LoginInteractor: LoginInteractorProtocol {
     }
     
     func authenticate() {
-//        authenticateDisposeBag = DisposeBag()
-//
-//        authenticateResponseVariable.value = .loading
-//
-//        //TODO: fazer o subscribe no repository
-//        repository
-//            .authenticate(email: email.value, password: password.value)
-//            .subscribe { [weak self] (event) in
-//                guard let strongSelf = self else { return }
-//
-//                switch event {
-//                case .next(let userAPI):
-//
-//                    guard let user = User(userAPI: userAPI) else {
-//                        strongSelf.authenticateResponseVariable.value = .failure(error: APIClient.error(description: "\(R.string.localizable.messageUserInvalid()) \(userAPI)"))
-//                        return
-//                    }
-//
-//                    strongSelf.authenticateResponseVariable.value = .success(responseObject: user)
-//
-//                case .error(let error):
-//                    strongSelf.authenticateResponseVariable.value = .failure(error: error)
-//                case .completed:
-//                    break
-//                }
-//            }
-//            .disposed(by: authenticateDisposeBag)
+        authenticateDisposeBag = DisposeBag()
+
+        authenticateResponseVariable.value = .loading
+
+        //TODO: fazer o subscribe no repository
+        repository
+            .authenticate(email: email.value, password: password.value)
+            .subscribe({[weak self] (event) in
+                guard let strongSelf = self else { return }
+                
+                switch event {
+                case .success(let userAPI):
+                    
+                    guard let user = User(userAPI: userAPI) else {
+                        strongSelf.authenticateResponseVariable.value = .failure(error: APIClient.error(description: "\(R.string.localizable.messageUserInvalid()) \(userAPI)"))
+                        return
+                    }
+                    
+                    strongSelf.authenticateResponseVariable.value = .success(responseObject: user)
+                    
+                case .error(let error):
+                    strongSelf.authenticateResponseVariable.value = .failure(error: error)
+                }
+            })
+            .disposed(by: authenticateDisposeBag)
     }
     
     func facebookLogin(presenterViewController viewController: UIViewController) {

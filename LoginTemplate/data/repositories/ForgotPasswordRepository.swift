@@ -6,21 +6,17 @@
 //  Copyright © 2017 Jera. All rights reserved.
 //
 
+import UIKit
 import RxSwift
 
 protocol ForgotPasswordRepositoryProtocol {
-//    func sendNewPasswordTo(email: String) -> Observable<String?>
+    func sendNewPasswordTo(email: String) -> Single<String?>
 }
 
 class ForgotPasswordRepository: BaseRepository, ForgotPasswordRepositoryProtocol {
-//    let apiClient: APIClientProtocol
-//
-//    init(apiClient: APIClientProtocol) {
-//        self.apiClient = apiClient
-//    }
-//
-//    func sendNewPasswordTo(email: String) -> Observable<String?> {
-//        return apiClient
-//            .forgotPasswordWith(email: email)
-//    }
+
+    func sendNewPasswordTo(email: String) -> Single<String?> {
+        return apiClient
+            .forgotPasswordWith(email: email)
+    }
 }

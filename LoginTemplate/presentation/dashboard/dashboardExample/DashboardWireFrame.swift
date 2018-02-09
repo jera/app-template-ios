@@ -8,7 +8,14 @@
 
 class DashboardWireFrame: BaseWireFrame {
     
-    var presenter = DashboardPresenter()
-    var viewController = DashboardViewController(nibName: "DashboardViewController", bundle: nil)
+    let presenter: DashboardPresenter
+    let viewController: DashboardViewController
 
+    override init() {
+        let presenter = DashboardPresenter()
+        let viewController = DashboardViewController(presenter: presenter, nibName: "DashboardViewController")
+        
+        self.presenter = presenter
+        self.viewController = viewController
+    }
 }

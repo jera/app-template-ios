@@ -36,26 +36,24 @@ extension ForgotPasswordInteractor: ForgotPasswordInteractorProtocol {
     }
     
     func sendNewPasswordToEmail() {
-//        disposeBag = DisposeBag()
-//
-//        forgotPasswordResponseVariable.value = .loading
-//
-//        repository
-//            .sendNewPasswordTo(email: email.value)
-//            .subscribe { [weak self] (event) in
-//                guard let strongSelf = self else { return }
-//                
-//                switch event {
-//                case .next(let message):
-//                    strongSelf.forgotPasswordResponseVariable.value = .success(responseObject: message)
-//
-//                case .error(let error):
-//                    strongSelf.forgotPasswordResponseVariable.value = .failure(error: error)
-//                case .completed:
-//                    break
-//                }
-//            }
-//            .disposed(by: disposeBag)
+        disposeBag = DisposeBag()
+
+        forgotPasswordResponseVariable.value = .loading
+
+        repository
+            .sendNewPasswordTo(email: email.value)
+            .subscribe { [weak self] (event) in
+                guard let strongSelf = self else { return }
+                
+                switch event {
+                case .success(let message):
+                    strongSelf.forgotPasswordResponseVariable.value = .success(responseObject: message)
+
+                case .error(let error):
+                    strongSelf.forgotPasswordResponseVariable.value = .failure(error: error)
+                }
+            }
+            .disposed(by: disposeBag)
         
     }
     

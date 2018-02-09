@@ -19,7 +19,6 @@ class CreateAccountViewController: BaseScrollViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = R.string.localizable.createAccountTitle()
-        view.backgroundColor = .white
     
         addChildViewToScrollView(childView: createAccountView)
         addCloseButton(image: UIImage(named: "ic_nav_back")!) { [weak self] () in

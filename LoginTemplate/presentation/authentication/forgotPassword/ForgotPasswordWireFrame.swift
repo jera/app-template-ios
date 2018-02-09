@@ -19,15 +19,16 @@ protocol ForgotPasswordPresenterWireFrameProtocol: PresenterWireFrameProtocol {
 class ForgotPasswordWireFrame: BaseWireFrame {
     
     var navigationController: UINavigationController
-    
-    let presenter: ForgotPasswordPresenter
-    let interactor: ForgotPasswordInteractor
-    let viewController = ForgotPasswordViewController()
-//    let apiClient: APIClientProtocol = APIClient()
+    let presenter: ForgotPasswordPresenterProtocol
+    let interactor: ForgotPasswordInteractorProtocol
+    let viewController: ForgotPasswordViewController
     
     override init() {
-        interactor = ForgotPasswordInteractor(repository: ForgotPasswordRepository())
+        let interactor = ForgotPasswordInteractor(repository: ForgotPasswordRepository(apiClient: APIClient()))
         let presenter = ForgotPasswordPresenter(interactor: interactor)
+        
+        self.viewController = ForgotPasswordViewController(presenter: presenter)
+        self.interactor = interactor
         self.presenter = presenter
         
         viewController.presenter = presenter
