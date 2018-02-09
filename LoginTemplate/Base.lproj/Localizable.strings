@@ -54,7 +54,7 @@
 "createAccount.passwordNotEqual"= "Senhas não conferem";
 
 //ForgotPassword
-"forgotPassword.titleNavBar" = "Cadastro";
+"forgotPassword.titleNavBar" = "Esqueci minha senha";
 "forgotPassword.title" = "Informe o seu email para recuperar sua senha";
 "forgotPassword.send" = "ENVIAR";
 "forgotPassword.checkYourEmail" = "Verifique seu e-mail";

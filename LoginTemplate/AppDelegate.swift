@@ -55,7 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     @available(iOS 9.0, *)
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey: Any] = [:]) -> Bool {
         return application(app,
                            open: url,
                            sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String,
