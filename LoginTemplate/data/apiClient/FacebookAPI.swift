@@ -7,10 +7,11 @@
 //
 
 import RxSwift
+import RxCocoa
 import FBSDKLoginKit
 
 protocol FacebookAPIProtocol {
-    func signIn(fromViewController: UIViewController) -> Observable<String>
+    func signIn(fromViewController: UIViewController) -> Single<String>
     func signOut()
 }
 
@@ -19,26 +20,25 @@ class FacebookAPI: FacebookAPIProtocol {
     
     private let loginManager = FBSDKLoginManager()
     
-    func signIn(fromViewController: UIViewController) -> Observable<String> {
-        return Observable<String>.create({ [weak self] (observer) -> Disposable in
+    func signIn(fromViewController: UIViewController) -> Single<String> {
+        return Single.create(subscribe: {[weak self] (single) -> Disposable in
             guard let strongSelf = self else {
-                observer.onCompleted()
+                single(.error(NSError(domain: "FacebookAPI", code: -1, userInfo: [NSLocalizedDescriptionKey: R.string.localizable.loginFacebookGenericError()])))
                 return Disposables.create()
             }
             
             strongSelf.loginManager.logIn(withReadPermissions: FacebookAPI.facebookPermissions, from: fromViewController) { (result, error) -> Void in
                 if let error = error {
-                    observer.onError(error)
+                    single(.error(error))
                 }else if (result?.isCancelled)! {
-                    observer.onCompleted()
+                    single(.error(NSError(domain: "FacebookAPI", code: -1, userInfo: [NSLocalizedDescriptionKey: R.string.localizable.loginFacebookCanceled()])))
                 }else {
                     if let result = result, let token = result.token, let tokenString = token.tokenString {
-                        observer.onNext(tokenString)
+                        single(.success(tokenString))
                     }else {
-                        observer.onError(NSError(domain: "FacebookAPI", code: -1, userInfo: [NSLocalizedDescriptionKey: "Facebook Login Failed"]))
+                        single(.error(NSError(domain: "FacebookAPI", code: -1, userInfo: [NSLocalizedDescriptionKey: R.string.localizable.loginFacebookGenericError()])))
                     }
                 }
-                observer.onCompleted()
             }
             
             return Disposables.create()

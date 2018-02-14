@@ -11,8 +11,8 @@ import GGLSignIn
 import RxSwift
 
 protocol GoogleAPIProtocol {
-    func signIn(presentViewController: UIViewController) -> Observable<String>
-    func signOut() -> Observable<Void>
+    func signIn(presentViewController: UIViewController) -> Single<String>
+    func signOut() -> Single<Void>
 }
 
 class GoogleAPI: NSObject {
@@ -25,8 +25,8 @@ class GoogleAPI: NSObject {
         return googleAPI
     }()
     
-    fileprivate var signInObserver: AnyObserver<String>?
-    fileprivate var signOutObserver: AnyObserver<Void>?
+    fileprivate var signInSingle: ((SingleEvent<String>) -> ())?
+    fileprivate var signOutSingle: ((SingleEvent<Void>) -> ())?
     
     fileprivate weak var presentViewController: UIViewController!
     
@@ -53,62 +53,61 @@ extension GoogleAPI: GIDSignInUIDelegate {
 }
 
 extension GoogleAPI: GoogleAPIProtocol {
-    func signIn(presentViewController: UIViewController) -> Observable<String> {
+    func signIn(presentViewController: UIViewController) -> Single<String> {
         self.presentViewController = presentViewController
         
-        return Observable<String>.create({ [weak self] (observer) -> Disposable in
+        return Single.create(subscribe: {[weak self] (single) -> Disposable in
             guard let strongSelf = self else {
-                observer.onCompleted()
+                single(.error(NSError(domain: "GoogleAPI", code: -2, userInfo: [NSLocalizedDescriptionKey: R.string.localizable.loginGoogleGenericError()])))
                 return Disposables.create()
             }
-            
-            strongSelf.signInObserver = observer
+
+            strongSelf.signInSingle = single
             
             GIDSignIn.sharedInstance().signIn()
             
             return Disposables.create(with: { [weak strongSelf] in
-                strongSelf?.signInObserver = nil
+                strongSelf?.signInSingle = nil
             })
         })
     }
     
-    func signOut() -> Observable<Void> {
-        return Observable<Void>.create({ [weak self] (observer) -> Disposable in
+    func signOut() -> Single<Void> {
+        return Single.create(subscribe: {[weak self] (single) -> Disposable in
             guard let strongSelf = self else {
-                observer.onCompleted()
+                single(.error(NSError(domain: "GoogleAPI", code: -2, userInfo: [NSLocalizedDescriptionKey: R.string.localizable.loginGoogleGenericError()])))
                 return Disposables.create()
             }
             
-            strongSelf.signOutObserver = observer
+            strongSelf.signOutSingle = single
             
             GIDSignIn.sharedInstance().signOut()
             
             return Disposables.create(with: { [weak strongSelf] in
-                strongSelf?.signOutObserver = nil
+                strongSelf?.signOutSingle = nil
             })
         })
-        
     }
 }
 
 extension GoogleAPI: GIDSignInDelegate {
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+        guard let signInSingle = signInSingle else { return }
+        
         if let error = error {
-            signInObserver?.onError(error)
-            signInObserver?.onCompleted()
+            signInSingle(.error(error))
         }else {
-            signInObserver?.onNext(user.authentication.accessToken)
-            signInObserver?.onCompleted()
+            signInSingle(.success(user.authentication.accessToken))
         }
     }
     
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
+        guard let signOutSingle = signOutSingle else { return }
+        
         if let error = error {
-            signOutObserver?.onError(error)
-            signOutObserver?.onCompleted()
+            signOutSingle(.error(error))
         }else {
-            signOutObserver?.onNext(())
-            signOutObserver?.onCompleted()
+            signOutSingle(.success(()))
         }
     }
 }

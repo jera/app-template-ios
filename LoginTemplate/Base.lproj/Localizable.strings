@@ -49,6 +49,9 @@
 "login.logingWithGoogle" = "Entrando com Google...";
 "login.facebook" = "FACEBOOK";
 "login.google" = "GOOGLE";
+"login.facebookCanceled" = "Login com facebook cancelado!";
+"login.facebookGenericError" = "Não foi possível realizar login com facebook, por favor tente novamente mais tarde!";
+"login.googleGenericError" = "Não foi possível realizar login com google, por favor tente novamente mais tarde!";
 
 //CreateAccount
 "createAccount.title" = "Cadastro";

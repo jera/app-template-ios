@@ -125,60 +125,58 @@ extension LoginInteractor: LoginInteractorProtocol {
     }
     
     func facebookLogin(presenterViewController viewController: UIViewController) {
-//        facebookLoginDisposeBag = DisposeBag()
-//
-//        facebookLoginResponseVariable.value = .loading
-//
-//        repository
-//            .facebookLogin(presenterViewController: viewController)
-//            .subscribe { [weak self] (event) in
-//                guard let strongSelf = self else { return }
-//
-//                switch event {
-//                case .next(let userAPI):
-//
-//                    guard let user = User(userAPI: userAPI) else {
-//                        strongSelf.facebookLoginResponseVariable.value = .failure(error: APIClient.error(description: "\(R.string.localizable.messageUserInvalid()) \(userAPI)"))
-//                        return
-//                    }
-//
-//                    strongSelf.facebookLoginResponseVariable.value = .success(responseObject: user)
-//
-//                case .error(let error):
-//                    strongSelf.facebookLoginResponseVariable.value = .failure(error: error)
-//                case .completed:
-//                    break
-//                }
-//            }
-//            .disposed(by: facebookLoginDisposeBag)
+        facebookLoginDisposeBag = DisposeBag()
+
+        facebookLoginResponseVariable.value = .loading
+
+        repository
+            .facebookLogin(presenterViewController: viewController)
+            .subscribe { [weak self] (event) in
+                guard let strongSelf = self else { return }
+
+                switch event {
+                case .success(let userAPI):
+
+                    guard let user = User(userAPI: userAPI) else {
+                        strongSelf.facebookLoginResponseVariable.value = .failure(error: APIClient.error(description: "\(R.string.localizable.messageUserInvalid()) \(userAPI)"))
+                        return
+                    }
+
+                    strongSelf.facebookLoginResponseVariable.value = .success(responseObject: user)
+
+                case .error(let error):
+                    strongSelf.facebookLoginResponseVariable.value = .failure(error: error)
+                    
+                }
+            }
+            .disposed(by: facebookLoginDisposeBag)
     }
     
     func googleLogin(presenterViewController viewController: UIViewController) {
-//        googleLoginDisposeBag = DisposeBag()
-//
-//        googleLoginResponseVariable.value = .loading
-//
-//        repository
-//            .googleLogin(presenterViewController: viewController)
-//            .subscribe { [weak self] (event) in
-//                guard let strongSelf = self else { return }
-//
-//                switch event {
-//                case .next(let userAPI):
-//
-//                    guard let user = User(userAPI: userAPI) else {
-//                        strongSelf.googleLoginResponseVariable.value = .failure(error: APIClient.error(description: "\(R.string.localizable.messageUserInvalid()) \(userAPI)"))
-//                        return
-//                    }
-//
-//                    strongSelf.googleLoginResponseVariable.value = .success(responseObject: user)
-//
-//                case .error(let error):
-//                    strongSelf.googleLoginResponseVariable.value = .failure(error: error)
-//                case .completed:
-//                    break
-//                }
-//            }
-//            .disposed(by: googleLoginDisposeBag)
+        googleLoginDisposeBag = DisposeBag()
+
+        googleLoginResponseVariable.value = .loading
+
+        repository
+            .googleLogin(presenterViewController: viewController)
+            .subscribe { [weak self] (event) in
+                guard let strongSelf = self else { return }
+
+                switch event {
+                case .success(let userAPI):
+
+                    guard let user = User(userAPI: userAPI) else {
+                        strongSelf.googleLoginResponseVariable.value = .failure(error: APIClient.error(description: "\(R.string.localizable.messageUserInvalid()) \(userAPI)"))
+                        return
+                    }
+
+                    strongSelf.googleLoginResponseVariable.value = .success(responseObject: user)
+
+                case .error(let error):
+                    strongSelf.googleLoginResponseVariable.value = .failure(error: error)
+                    
+                }
+            }
+            .disposed(by: googleLoginDisposeBag)
     }
 }
