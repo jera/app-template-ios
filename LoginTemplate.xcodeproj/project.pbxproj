@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		251B32401E5CD76E00A6D93B /* MaterialAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251B323F1E5CD76E00A6D93B /* MaterialAppearance.swift */; };
-		251B32421E5CE1C200A6D93B /* Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251B32411E5CE1C200A6D93B /* Appearance.swift */; };
 		251B32461E5DCB0000A6D93B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 251B32481E5DCB0000A6D93B /* Localizable.strings */; };
 		251B324E1E5E194800A6D93B /* CreateAccountRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251B324D1E5E194800A6D93B /* CreateAccountRepository.swift */; };
 		251B32521E5E1AFC00A6D93B /* CreateAccountInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251B32511E5E1AFC00A6D93B /* CreateAccountInteractor.swift */; };
@@ -40,8 +39,6 @@
 		2597E7FB1E5B7D2E002B499F /* LoginRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2597E7FA1E5B7D2E002B499F /* LoginRepository.swift */; };
 		2597E7FD1E5B86F5002B499F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2597E7FC1E5B86F5002B499F /* GoogleService-Info.plist */; };
 		2597E8001E5B8993002B499F /* GoogleAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2597E7FF1E5B8993002B499F /* GoogleAPI.swift */; };
-		2597E8031E5BA378002B499F /* LoadingHUDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2597E8021E5BA378002B499F /* LoadingHUDView.swift */; };
-		2597E8051E5BA383002B499F /* LoadingHUDView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2597E8041E5BA383002B499F /* LoadingHUDView.xib */; };
 		2597E8071E5C775C002B499F /* UserSessionRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2597E8061E5C775C002B499F /* UserSessionRepository.swift */; };
 		2597E80B1E5C82C3002B499F /* UserSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2597E80A1E5C82C3002B499F /* UserSession.swift */; };
 		25B563D91E5256FC0051F559 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B563D81E5256FC0051F559 /* R.generated.swift */; };
@@ -58,6 +55,7 @@
 		F0127D381E5CC7E900EB7446 /* ForgotPasswordRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0127D371E5CC7E900EB7446 /* ForgotPasswordRepository.swift */; };
 		F01C3E81202CE0DA001A7D86 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01C3E80202CE0DA001A7D86 /* LoginView.swift */; };
 		F01C3E83202CE922001A7D86 /* BaseScrollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01C3E82202CE922001A7D86 /* BaseScrollViewController.swift */; };
+		F01CC27320347D4F008D11EE /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01CC27220347D4F008D11EE /* Colors.swift */; };
 		F021B1C61E5348DD0092DA41 /* ForgotPasswordWireFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = F021B1C51E5348DD0092DA41 /* ForgotPasswordWireFrame.swift */; };
 		F021B1C91E534EF30092DA41 /* BaseWireFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = F021B1C81E534EF30092DA41 /* BaseWireFrame.swift */; };
 		F021B1CB1E534F560092DA41 /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F021B1CA1E534F560092DA41 /* BaseNavigationController.swift */; };
@@ -93,7 +91,6 @@
 /* Begin PBXFileReference section */
 		2249F5DE7F1971AEC8E22EE0 /* Pods_LoginTemplate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LoginTemplate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		251B323F1E5CD76E00A6D93B /* MaterialAppearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaterialAppearance.swift; sourceTree = "<group>"; };
-		251B32411E5CE1C200A6D93B /* Appearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Appearance.swift; sourceTree = "<group>"; };
 		251B32451E5DCAB000A6D93B /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		251B32471E5DCB0000A6D93B /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		251B324D1E5E194800A6D93B /* CreateAccountRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountRepository.swift; sourceTree = "<group>"; };
@@ -128,8 +125,6 @@
 		2597E7FA1E5B7D2E002B499F /* LoginRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginRepository.swift; sourceTree = "<group>"; };
 		2597E7FC1E5B86F5002B499F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2597E7FF1E5B8993002B499F /* GoogleAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleAPI.swift; sourceTree = "<group>"; };
-		2597E8021E5BA378002B499F /* LoadingHUDView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingHUDView.swift; sourceTree = "<group>"; };
-		2597E8041E5BA383002B499F /* LoadingHUDView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingHUDView.xib; sourceTree = "<group>"; };
 		2597E8061E5C775C002B499F /* UserSessionRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSessionRepository.swift; sourceTree = "<group>"; };
 		2597E80A1E5C82C3002B499F /* UserSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSession.swift; sourceTree = "<group>"; };
 		25B563D81E5256FC0051F559 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = SOURCE_ROOT; };
@@ -149,6 +144,7 @@
 		F0127D371E5CC7E900EB7446 /* ForgotPasswordRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordRepository.swift; sourceTree = "<group>"; };
 		F01C3E80202CE0DA001A7D86 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		F01C3E82202CE922001A7D86 /* BaseScrollViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseScrollViewController.swift; sourceTree = "<group>"; };
+		F01CC27220347D4F008D11EE /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		F021B1C51E5348DD0092DA41 /* ForgotPasswordWireFrame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordWireFrame.swift; sourceTree = "<group>"; };
 		F021B1C81E534EF30092DA41 /* BaseWireFrame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseWireFrame.swift; sourceTree = "<group>"; };
 		F021B1CA1E534F560092DA41 /* BaseNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseNavigationController.swift; sourceTree = "<group>"; };
@@ -193,10 +189,10 @@
 		251B323E1E5CD70500A6D93B /* utils */ = {
 			isa = PBXGroup;
 			children = (
-				251B32411E5CE1C200A6D93B /* Appearance.swift */,
 				251B323F1E5CD76E00A6D93B /* MaterialAppearance.swift */,
 				25D4C8E71E56096100E3AF4A /* PresentationHelper.swift */,
 				F09A59A9202E1EC8008FB161 /* ViewResponse.swift */,
+				F01CC27220347D4F008D11EE /* Colors.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -266,15 +262,6 @@
 			path = api;
 			sourceTree = "<group>";
 		};
-		2597E8011E5BA338002B499F /* LoadingHUD */ = {
-			isa = PBXGroup;
-			children = (
-				2597E8021E5BA378002B499F /* LoadingHUDView.swift */,
-				2597E8041E5BA383002B499F /* LoadingHUDView.xib */,
-			);
-			path = LoadingHUD;
-			sourceTree = "<group>";
-		};
 		25D4C8DC1E549BEC00E3AF4A /* model */ = {
 			isa = PBXGroup;
 			children = (
@@ -287,6 +274,7 @@
 		25D4C8E31E55FCF800E3AF4A /* utils */ = {
 			isa = PBXGroup;
 			children = (
+				25633DFA1E646467007F8490 /* MaskTextField.swift */,
 				25D4C8E11E55D60100E3AF4A /* RequestResponse.swift */,
 				25D4C8E41E55FD2100E3AF4A /* DomainHelper.swift */,
 				F006BBD61E6078EE0006D1C8 /* CPF.swift */,
@@ -339,7 +327,6 @@
 				F09A59AB202E1EEA008FB161 /* placeholder */,
 				251B323E1E5CD70500A6D93B /* utils */,
 				F021B1C71E534E020092DA41 /* base */,
-				259071891E525962008E1B52 /* main */,
 				F01C3E7D202CB200001A7D86 /* authentication */,
 				2574672C1E561CDF0068DC65 /* dashboard */,
 			);
@@ -419,6 +406,7 @@
 		F01C3E7D202CB200001A7D86 /* authentication */ = {
 			isa = PBXGroup;
 			children = (
+				259071891E525962008E1B52 /* main */,
 				F021B1CE1E5378C00092DA41 /* login */,
 				F021B1C41E53483C0092DA41 /* forgotPassword */,
 				F021B1D31E537B1D0092DA41 /* createAccount */,
@@ -460,12 +448,10 @@
 		F021B1C71E534E020092DA41 /* base */ = {
 			isa = PBXGroup;
 			children = (
-				2597E8011E5BA338002B499F /* LoadingHUD */,
 				F021B1C81E534EF30092DA41 /* BaseWireFrame.swift */,
 				257467351E564D0A0068DC65 /* BasePresenter.swift */,
 				F021B1CA1E534F560092DA41 /* BaseNavigationController.swift */,
 				F021B1DB1E537BE70092DA41 /* BaseViewController.swift */,
-				25633DFA1E646467007F8490 /* MaskTextField.swift */,
 				F01C3E82202CE922001A7D86 /* BaseScrollViewController.swift */,
 			);
 			path = base;
@@ -633,7 +619,6 @@
 				251B325A1E5E1FF100A6D93B /* CreateAccountView.xib in Resources */,
 				2597E7FD1E5B86F5002B499F /* GoogleService-Info.plist in Resources */,
 				251B32461E5DCB0000A6D93B /* Localizable.strings in Resources */,
-				2597E8051E5BA383002B499F /* LoadingHUDView.xib in Resources */,
 				257467341E561E480068DC65 /* DashboardViewController.xib in Resources */,
 				F0B4A2AC1E5B3BA400ADD56A /* ForgotPasswordView.xib in Resources */,
 				25E2F6FC1E52423800AA208E /* Assets.xcassets in Resources */,
@@ -730,6 +715,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				25D4C8E21E55D60100E3AF4A /* RequestResponse.swift in Sources */,
+				F01CC27320347D4F008D11EE /* Colors.swift in Sources */,
 				257467361E564D0A0068DC65 /* BasePresenter.swift in Sources */,
 				F021B1C91E534EF30092DA41 /* BaseWireFrame.swift in Sources */,
 				F09A59B4202E2054008FB161 /* AlertViewModel.swift in Sources */,
@@ -760,8 +746,6 @@
 				F0127D381E5CC7E900EB7446 /* ForgotPasswordRepository.swift in Sources */,
 				F021B1E21E5380630092DA41 /* ForgotPasswordPresenter.swift in Sources */,
 				251B324E1E5E194800A6D93B /* CreateAccountRepository.swift in Sources */,
-				2597E8031E5BA378002B499F /* LoadingHUDView.swift in Sources */,
-				251B32421E5CE1C200A6D93B /* Appearance.swift in Sources */,
 				2597E7F81E5B35F1002B499F /* FacebookAPI.swift in Sources */,
 				F021B1D21E537ABE0092DA41 /* LoginPresenter.swift in Sources */,
 				2597E8001E5B8993002B499F /* GoogleAPI.swift in Sources */,

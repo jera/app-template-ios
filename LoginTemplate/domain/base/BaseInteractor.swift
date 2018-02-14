@@ -9,6 +9,7 @@
 import UIKit
 
 class BaseInteractor {
+    
     deinit {
         print("dealloc ---> \(String(describing: type(of: self)))")
     }

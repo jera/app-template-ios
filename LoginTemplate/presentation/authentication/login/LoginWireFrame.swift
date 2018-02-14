@@ -18,15 +18,10 @@ class LoginWireFrame: BaseWireFrame {
     let viewController: LoginViewController
     private let presenter: LoginPresenterProtocol
     private let interactor: LoginInteractorProtocol
-//    private let apiClient: APIClientProtocol
-//    let facebookAPI: FacebookAPIProtocol
-//    let googleAPI: GoogleAPIProtocol
-    
+
     override init() {
 
-        let facebookAPI = FacebookAPI()
-        let googleAPI = GoogleAPI.shared
-        let interactor = LoginInteractor(repository: LoginRepository(apiClient: APIClient(), facebookAPI: facebookAPI, googleAPI: googleAPI))
+        let interactor = LoginInteractor(repository: LoginRepository(apiClient: APIClient(), facebookAPI: FacebookAPI(), googleAPI: GoogleAPI.shared))
         let presenter = LoginPresenter(interactor: interactor)
         
         self.presenter = presenter

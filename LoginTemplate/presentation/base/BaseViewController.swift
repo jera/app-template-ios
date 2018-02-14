@@ -20,7 +20,6 @@ class BaseViewController: UIViewController {
     internal let basePresenter: BasePresenterProtocol
     internal var viewControllerDisposeBag: DisposeBag!
     
-    private var loadingHUDView: LoadingHUDView?
     private var backgroundImageView: UIImageView?
     private var placeholderView: UIView?
     
@@ -76,8 +75,6 @@ class BaseViewController: UIViewController {
             }
             .disposed(by: viewControllerDisposeBag)
     }
-    
-    
     
     func addBackgroundImage(_ image: UIImage) {
         backgroundImageView?.removeFromSuperview()
@@ -141,28 +138,6 @@ extension BaseViewController {
         let errorView = ErrorView()
         errorView.presentOn(parentView: self.view, with: viewModel)
         self.placeholderView = errorView
-    }
-    
-    func showOKAlertWith(title: String?, message: String) {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: R.string.localizable.alertOk(), style: .default, handler: nil))
-        present(alertController, animated: true, completion: nil)
-    }
-    
-    func showHudWith(title: String) {
-        hideHud()
-        
-        let loadingHUDView = LoadingHUDView.loadFromNib(title: title)
-        view.addSubview(loadingHUDView)
-        constrain(view, loadingHUDView) { (view, loadingHUDView) in
-            loadingHUDView.edges == view.edges
-        }
-        
-        self.loadingHUDView = loadingHUDView
-    }
-    
-    func hideHud() {
-        loadingHUDView?.removeFromSuperview()
     }
 }
 

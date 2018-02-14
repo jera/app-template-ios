@@ -61,7 +61,7 @@ class MaskTextField: TextField {
     var leftOffset: CGFloat = 0 {
         didSet {
             leftView = UIView()
-            leftViewOffset = -bounds.size.height + leftOffset //TODO ver isso aqui
+            leftViewOffset = -bounds.size.height + leftOffset
         }
     }
     

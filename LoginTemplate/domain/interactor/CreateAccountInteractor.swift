@@ -9,35 +9,29 @@
 import RxSwift
 
 protocol CreateAccountInteractorProtocol {
-    func createAccount()
+    var userImage: Variable<UIImage?> {get}
+    var name: Variable<String> {get}
+    var email: Variable<String> {get}
+    var phone: Variable<String> {get}
+    var cpf: Variable<String> {get}
+    var password: Variable<String> {get}
+    var passwordConfirm: Variable<String> {get}
+    
+    var nameErrors: Observable<[NameFieldError]> {get}
+    var emailErrors: Observable<[EmailFieldError]> {get}
+    var phoneErrors: Observable<[PhoneFieldError]> {get}
+    var cpfErrors: Observable<[CpfFieldError]> {get}
+    var passwordErrors: Observable<[PasswordFieldError]> {get}
+    var passwordConfirmErrors: Observable<[ConfirmPasswordFieldError]> {get}
     var createAccountResponse: Observable<RequestResponse<User>> { get }
     
-    var userImage: Variable<UIImage?> {get}
-    
-    var name: Variable<String> {get}
-    var nameErrors: Observable<[NameFieldError]> {get}
-    
-    var email: Variable<String> {get}
-    var emailErrors: Observable<[EmailFieldError]> {get}
-    
-    var phone: Variable<String> {get}
-    var phoneErrors: Observable<[PhoneFieldError]> {get}
-    
-    var cpf: Variable<String> {get}
-    var cpfErrors: Observable<[CpfFieldError]> {get}
-    
-    var password: Variable<String> {get}
-    var passwordErrors: Observable<[PasswordFieldError]> {get}
-    
-    var passwordConfirm: Variable<String> {get}
-    var passwordConfirmErrors: Observable<[ConfirmPasswordFieldError]> {get}
+    func createAccount()
 }
 
 class CreateAccountInteractor: BaseInteractor {
     let repository: CreateAccountRepositoryProtocol
     
     fileprivate var disposeBag: DisposeBag!
-    let createAccountResponseVariable = Variable<RequestResponse<User>>(.new)
     
     let userImage = Variable<UIImage?>(nil)
     let name = Variable("")
@@ -46,6 +40,7 @@ class CreateAccountInteractor: BaseInteractor {
     let cpf = Variable("")
     let password = Variable("")
     let passwordConfirm = Variable("")
+    let createAccountResponseVariable = Variable<RequestResponse<User>>(.new)
     
     init(repository: CreateAccountRepositoryProtocol) {
         self.repository = repository
@@ -55,33 +50,6 @@ class CreateAccountInteractor: BaseInteractor {
 extension CreateAccountInteractor: CreateAccountInteractorProtocol {
     var createAccountResponse: Observable<RequestResponse<User>> {
         return createAccountResponseVariable.asObservable()
-    }
-    
-    func createAccount() {
-        disposeBag = DisposeBag()
-        
-        createAccountResponseVariable.value = .loading
-        
-        repository
-            .createWith(name: name.value, email: email.value, phone: phone.value, cpf: cpf.value, password: password.value, image: userImage.value)
-            .subscribe { [weak self] (event) in
-                guard let strongSelf = self else { return }
-                
-                switch event {
-                case .success(let userAPI):
-                    
-                    guard let user = User(userAPI: userAPI) else {
-                        strongSelf.createAccountResponseVariable.value = .failure(error: APIClient.error(description: "\(R.string.localizable.messageUserInvalid()) \(userAPI)"))
-                        return
-                    }
-                    
-                    strongSelf.createAccountResponseVariable.value = .success(responseObject: user)
-                    
-                case .error(let error):
-                    strongSelf.createAccountResponseVariable.value = .failure(error: error)
-                }
-            }
-            .disposed(by: disposeBag)
     }
     
     var nameErrors: Observable<[NameFieldError]> {
@@ -180,5 +148,32 @@ extension CreateAccountInteractor: CreateAccountInteractorProtocol {
             
             return fieldErrors
         })
+    }
+    
+    func createAccount() {
+        disposeBag = DisposeBag()
+        
+        createAccountResponseVariable.value = .loading
+        
+        repository
+            .createWith(name: name.value, email: email.value, phone: phone.value, cpf: cpf.value, password: password.value, image: userImage.value)
+            .subscribe { [weak self] (event) in
+                guard let strongSelf = self else { return }
+                
+                switch event {
+                case .success(let userAPI):
+                    
+                    guard let user = User(userAPI: userAPI) else {
+                        strongSelf.createAccountResponseVariable.value = .failure(error: APIClient.error(description: "\(R.string.localizable.messageUserInvalid()) \(userAPI)"))
+                        return
+                    }
+                    
+                    strongSelf.createAccountResponseVariable.value = .success(responseObject: user)
+                    
+                case .error(let error):
+                    strongSelf.createAccountResponseVariable.value = .failure(error: error)
+                }
+            }
+            .disposed(by: disposeBag)
     }
 }

@@ -32,6 +32,10 @@
 "default.cancel" = "Cancel";
 "default.yes" = "Yes";
 "default.no" = "No";
+"default.imageToProfile" = "Imagem para o seu perfil";
+"default.camera" = "Camera";
+"default.roll" = "Rolo";
+"default.deleteCurrentPhoto" = "Apagar imagem atual";
 
 //Login
 "login.signInWith" = "Faça login com";

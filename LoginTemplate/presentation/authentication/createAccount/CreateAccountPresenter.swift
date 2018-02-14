@@ -16,8 +16,38 @@ class CreateAccountPresenter: BasePresenter {
     weak var router: CreateAccountWireFrameProtocol?
     let interactor: CreateAccountInteractorProtocol
 
+    private let disposeBag = DisposeBag()
+    
     init(interactor: CreateAccountInteractorProtocol) {
         self.interactor = interactor
+        super.init()
+        bind()
+    }
+    
+    private func bind() {
+        
+        interactor.createAccountResponse
+            .subscribe(onNext: {[weak self] (response) in
+                guard let strongSelf = self else { return }
+                
+                switch response {
+                case .loading:
+                    strongSelf.viewStateVariable.value = .loading(PlaceholderViewModel(text: R.string.localizable.alertLoading()))
+                    
+                case .failure(let error):
+                    strongSelf.viewStateVariable.value = .normal
+                    strongSelf.alertSubject.onNext(AlertViewModel(title: R.string.localizable.alertTitle(),
+                                                                  message: error.localizedDescription,
+                                                                  actions: [AlertActionViewModel(title: R.string.localizable.alertOk())]))
+                    
+                case .success:
+                    strongSelf.viewStateVariable.value = .normal
+                    
+                default:
+                    strongSelf.viewStateVariable.value = .normal
+                }
+            })
+            .disposed(by: disposeBag)
     }
 }
 
@@ -31,6 +61,26 @@ extension CreateAccountPresenter: CreateAccountPresenterProtocol {
         return interactor.name
     }
     
+    var email: Variable<String> {
+        return interactor.email
+    }
+    
+    var phone: Variable<String> {
+        return interactor.phone
+    }
+    
+    var cpf: Variable<String> {
+        return interactor.cpf
+    }
+    
+    var password: Variable<String> {
+        return interactor.password
+    }
+    
+    var passwordConfirm: Variable<String> {
+        return interactor.passwordConfirm
+    }
+    
     var nameErrorString: Observable<String?> {
         return interactor.nameErrors.map({ (fieldErrors) -> String? in
             if let firstError = fieldErrors.first {
@@ -42,10 +92,6 @@ extension CreateAccountPresenter: CreateAccountPresenterProtocol {
             
             return nil
         })
-    }
-    
-    var email: Variable<String> {
-        return interactor.email
     }
     
     var emailErrorString: Observable<String?> {
@@ -63,10 +109,6 @@ extension CreateAccountPresenter: CreateAccountPresenterProtocol {
         })
     }
     
-    var phone: Variable<String> {
-        return interactor.phone
-    }
-    
     var phoneErrorString: Observable<String?> {
         return interactor.phoneErrors.map({ (fieldErrors) -> String? in
             if let firstError = fieldErrors.first {
@@ -80,10 +122,6 @@ extension CreateAccountPresenter: CreateAccountPresenterProtocol {
             
             return nil
         })
-    }
-    
-    var cpf: Variable<String> {
-        return interactor.cpf
     }
     
     var cpfErrorString: Observable<String?> {
@@ -101,10 +139,6 @@ extension CreateAccountPresenter: CreateAccountPresenterProtocol {
         })
     }
     
-    var password: Variable<String> {
-        return interactor.password
-    }
-    
     var passwordErrorString: Observable<String?> {
         return interactor.passwordErrors.map({ (fieldErrors) -> String? in
             if let firstError = fieldErrors.first {
@@ -119,10 +153,6 @@ extension CreateAccountPresenter: CreateAccountPresenterProtocol {
             
             return nil
         })
-    }
-    
-    var passwordConfirm: Variable<String> {
-        return interactor.passwordConfirm
     }
     
     var passwordConfirmErrorString: Observable<String?> {
@@ -142,10 +172,6 @@ extension CreateAccountPresenter: CreateAccountPresenterProtocol {
         return Observable.combineLatest(interactor.nameErrors, interactor.emailErrors, interactor.phoneErrors, interactor.cpfErrors, interactor.passwordErrors, interactor.passwordConfirmErrors, interactor.password.asObservable(), interactor.passwordConfirm.asObservable(), resultSelector: { (nameErrors, emailErrors, phoneErrors, cpfErrors, passwordErrors, passwordConfirmErrors, password, confirmPassword) -> Bool in
             return !(!nameErrors.isEmpty || !emailErrors.isEmpty || !phoneErrors.isEmpty || !cpfErrors.isEmpty || !passwordErrors.isEmpty || !passwordConfirmErrors.isEmpty || password != confirmPassword )
         })
-    }
-    
-    var createAccountRequestResponse: Observable<RequestResponse<User>> {
-        return interactor.createAccountResponse
     }
     
     func createButtonTapped() {

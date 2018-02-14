@@ -8,20 +8,18 @@
 import RxSwift
 
 protocol ForgotPasswordInteractorProtocol {
-    func sendNewPasswordToEmail()
-    
-    var forgotPasswordResponse: Observable<RequestResponse<String?>> { get }
-    
     var email: Variable<String> {get}
     var emailErrors: Observable<[EmailFieldError]> {get}
+    var forgotPasswordResponse: Observable<RequestResponse<String?>> { get }
+    
+    func sendNewPasswordToEmail()
 }
 
 class ForgotPasswordInteractor: BaseInteractor {
     let repository: ForgotPasswordRepositoryProtocol
     
-    let forgotPasswordResponseVariable = Variable<RequestResponse<String?>>(.new)
-    
     let email = Variable("")
+    let forgotPasswordResponseVariable = Variable<RequestResponse<String?>>(.new)
     
     fileprivate var disposeBag: DisposeBag!
     
@@ -33,28 +31,6 @@ class ForgotPasswordInteractor: BaseInteractor {
 extension ForgotPasswordInteractor: ForgotPasswordInteractorProtocol {
     var forgotPasswordResponse: Observable<RequestResponse<String?>> {
         return forgotPasswordResponseVariable.asObservable()
-    }
-    
-    func sendNewPasswordToEmail() {
-        disposeBag = DisposeBag()
-
-        forgotPasswordResponseVariable.value = .loading
-
-        repository
-            .sendNewPasswordTo(email: email.value)
-            .subscribe { [weak self] (event) in
-                guard let strongSelf = self else { return }
-                
-                switch event {
-                case .success(let message):
-                    strongSelf.forgotPasswordResponseVariable.value = .success(responseObject: message)
-
-                case .error(let error):
-                    strongSelf.forgotPasswordResponseVariable.value = .failure(error: error)
-                }
-            }
-            .disposed(by: disposeBag)
-        
     }
     
     var emailErrors: Observable<[EmailFieldError]> {
@@ -73,5 +49,27 @@ extension ForgotPasswordInteractor: ForgotPasswordInteractorProtocol {
                 
                 return fieldErrors
         }
+    }
+    
+    func sendNewPasswordToEmail() {
+        disposeBag = DisposeBag()
+        
+        forgotPasswordResponseVariable.value = .loading
+        
+        repository
+            .sendNewPasswordTo(email: email.value)
+            .subscribe { [weak self] (event) in
+                guard let strongSelf = self else { return }
+                
+                switch event {
+                case .success(let message):
+                    strongSelf.forgotPasswordResponseVariable.value = .success(responseObject: message)
+                    
+                case .error(let error):
+                    strongSelf.forgotPasswordResponseVariable.value = .failure(error: error)
+                }
+            }
+            .disposed(by: disposeBag)
+        
     }
 }

@@ -29,7 +29,6 @@ class MainPresenter: BasePresenter, MainPresenterProtocol {
     }
     
     private func bindUserSessionInteractor() {
-        
         userSessionInteractorDisposeBag = DisposeBag()
         
         userSessionInteractor?.stateObservable
@@ -49,5 +48,4 @@ class MainPresenter: BasePresenter, MainPresenterProtocol {
             })
             .disposed(by: userSessionInteractorDisposeBag)
     }
-    
 }

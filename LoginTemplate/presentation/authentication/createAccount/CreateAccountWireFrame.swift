@@ -20,14 +20,13 @@ protocol CreateAccountPresenterWireFrameProtocol: PresenterWireFrameProtocol {
 }
 
 class CreateAccountWireFrame: BaseWireFrame {
-    let navigationController: UINavigationController
+    private let navigationController: UINavigationController
+    private let presenter: CreateAccountPresenterProtocol
+    private let interactor: CreateAccountInteractorProtocol
+    private let viewController: CreateAccountViewController
     
-    let presenter: CreateAccountPresenterProtocol
-    let interactor: CreateAccountInteractorProtocol
-    let viewController: CreateAccountViewController
-    
-    var chooseUserImageAlertController: UIAlertController?
-    var chooseUserImagePickerController: UIImagePickerController?
+    private var chooseUserImageAlertController: UIAlertController?
+    private var chooseUserImagePickerController: UIImagePickerController?
     
     override init() {
         interactor = CreateAccountInteractor(repository: CreateAccountRepository(apiClient: APIClient()))
@@ -82,25 +81,25 @@ extension CreateAccountWireFrame: CreateAccountWireFrameProtocol {
             return
         }
         
-        let alertController = UIAlertController(title: "Imagem para o seu perfil", message: nil, preferredStyle: .actionSheet)
+        let alertController = UIAlertController(title: R.string.localizable.defaultImageToProfile(), message: nil, preferredStyle: .actionSheet)
         
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            alertController.addAction(UIAlertAction(title: "Camera", style: .default, handler: { [weak self] (_) in
+            alertController.addAction(UIAlertAction(title: R.string.localizable.defaultCamera(), style: .default, handler: { [weak self] (_) in
                 self?.goToChooseUserImageFromCamera()
             }))
         }
         
-        alertController.addAction(UIAlertAction(title: "Rolo", style: .default, handler: { [weak self] (_) in
+        alertController.addAction(UIAlertAction(title: R.string.localizable.defaultRoll(), style: .default, handler: { [weak self] (_) in
             self?.goToChooseUserImageFromLibrary()
         }))
         
         if showDeleteCurrentImage {
-            alertController.addAction(UIAlertAction(title: "Apagar imagem atual", style: .destructive, handler: { [weak self] (_) in
+            alertController.addAction(UIAlertAction(title: R.string.localizable.defaultDeleteCurrentPhoto(), style: .destructive, handler: { [weak self] (_) in
                 self?.interactor.userImage.value = nil
             }))
         }
         
-        alertController.addAction(UIAlertAction(title: "Cancelar", style: .cancel, handler: nil))
+        alertController.addAction(UIAlertAction(title: R.string.localizable.defaultCancel(), style: .cancel, handler: nil))
         
         viewController.present(alertController, animated: true) { [weak self] in
             self?.chooseUserImageAlertController = nil

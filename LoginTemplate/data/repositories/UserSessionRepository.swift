@@ -16,7 +16,7 @@ protocol UserSessionRepositoryProtocol {
 }
 
 class UserSessionRepository: BaseRepository, UserSessionRepositoryProtocol {
-//    static var shared = UserSessionRepository(dataStore: UserSessionDataStore())
+    static var shared = UserSessionRepository(apiClient: APIClient(), dataStore: UserSessionDataStore())
     
     private var cachedUserSession: UserSessionDB?
     let dataStore: UserSessionDataStoreProtocol

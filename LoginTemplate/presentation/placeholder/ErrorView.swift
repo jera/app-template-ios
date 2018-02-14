@@ -6,7 +6,6 @@
 //  Copyright © 2018 Jera. All rights reserved.
 //
 
-
 import UIKit
 import Material
 import Cartography
@@ -154,4 +153,3 @@ extension ErrorView {
         })
     }
 }
-

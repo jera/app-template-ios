@@ -13,21 +13,20 @@ import RxSwift
 class MainViewController: BaseViewController {
     
     private var disposeBag: DisposeBag!
-    var presenter: MainPresenterProtocol? {
+    var presenter: MainPresenterProtocol! {
         didSet { bind() }
     }
     
     private func bind() {
         disposeBag = DisposeBag()
         
-        if let presenter = presenter {
-            presenter
-                .authExpiredMessage
-                .subscribe(onNext: { (authExpiredMessage) in
-                    print("TODO: Toast auth expired message")
-                })
-                .disposed(by: disposeBag)
-        }
+        presenter
+            .authExpiredMessage
+            .subscribe(onNext: { (authExpiredMessage) in
+                print("TODO: Toast auth expired message")
+            })
+            .disposed(by: disposeBag)
+        
     }
     
     private(set) var currentViewController: UIViewController? {

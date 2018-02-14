@@ -13,28 +13,20 @@ import Material
 
 protocol CreateAccountViewModelProtocol {
     var userImage: Observable<UIImage?> {get}
-    
     var name: Variable<String> {get}
-    var nameErrorString: Observable<String?> {get}
-    
     var email: Variable<String> {get}
-    var emailErrorString: Observable<String?> {get}
-    
     var phone: Variable<String> {get}
-    var phoneErrorString: Observable<String?> {get}
-    
     var cpf: Variable<String> {get}
-    var cpfErrorString: Observable<String?> {get}
-    
     var password: Variable<String> {get}
-    var passwordErrorString: Observable<String?> {get}
-    
     var passwordConfirm: Variable<String> {get}
+    
+    var nameErrorString: Observable<String?> {get}
+    var emailErrorString: Observable<String?> {get}
+    var phoneErrorString: Observable<String?> {get}
+    var cpfErrorString: Observable<String?> {get}
+    var passwordErrorString: Observable<String?> {get}
     var passwordConfirmErrorString: Observable<String?> {get}
-    
     var createAccountButtonEnabled: Observable<Bool> {get}
-    
-    var createAccountRequestResponse: Observable<RequestResponse<User>> { get }
     
     func createButtonTapped()
     func chooseUserImageButtonTapped()
@@ -97,7 +89,7 @@ class CreateAccountView: UIView {
         changePhotoButton.applyAppearance(appearance: .white)
         
         createAccountButton.applyAppearance(appearance: .main)
-        createAccountButton.backgroundColor = UIColor.defaultBackgroundButton()
+        createAccountButton.backgroundColor = UIColor.defaultBackgroundButton
         createAccountButton.layer.cornerRadius = 5
     }
     
@@ -233,26 +225,6 @@ class CreateAccountView: UIView {
         
         viewModel.createAccountButtonEnabled
             .bind(to: createAccountButton.rx.isEnabled)
-            .disposed(by: disposeBag)
-        
-        viewModel.createAccountRequestResponse
-            .subscribe(onNext: { [weak self] (requestResponse) in
-                guard let _ = self else { return }
-                
-//                switch requestResponse {
-//                case .new:
-//                    strongSelf.hideHud()
-//                case .loading:
-//                    strongSelf.showHudWith(title: R.string.localizable.alertWait())
-//                case .failure(let error):
-//                    strongSelf.hideHud()
-//                    strongSelf.showOKAlertWith(title: R.string.localizable.alertTitle(), message: error.localizedDescription)
-//                case .success:
-//                    strongSelf.hideHud()
-//                case .cancelled:
-//                    strongSelf.hideHud()
-//                }
-            })
             .disposed(by: disposeBag)
         
         changePhotoButton.rx

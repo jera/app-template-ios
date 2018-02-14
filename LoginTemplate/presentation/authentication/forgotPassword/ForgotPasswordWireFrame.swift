@@ -18,10 +18,10 @@ protocol ForgotPasswordPresenterWireFrameProtocol: PresenterWireFrameProtocol {
 
 class ForgotPasswordWireFrame: BaseWireFrame {
     
-    var navigationController: UINavigationController
-    let presenter: ForgotPasswordPresenterProtocol
-    let interactor: ForgotPasswordInteractorProtocol
-    let viewController: ForgotPasswordViewController
+    private var navigationController: UINavigationController
+    private let presenter: ForgotPasswordPresenterProtocol
+    private let interactor: ForgotPasswordInteractorProtocol
+    private let viewController: ForgotPasswordViewController
     
     override init() {
         let interactor = ForgotPasswordInteractor(repository: ForgotPasswordRepository(apiClient: APIClient()))

@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         GoogleAPI.configure()
         
-        Appearance.applyUIAppearence()
+        applyUIAppearence()
         
         let window = UIWindow(frame: UIScreen.main.bounds)
         mainWireFrame = MainWireFrame()
@@ -79,5 +79,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                                      annotation: annotation)
         }
         return true
+    }
+    
+    private func applyUIAppearence() {
+        UINavigationBar.appearance().tintColor = UIColor.white
+        UINavigationBar.appearance().barTintColor = UIColor.barTint
+        UINavigationBar.appearance().isTranslucent = false
+        UINavigationBar.appearance().titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
     }
 }

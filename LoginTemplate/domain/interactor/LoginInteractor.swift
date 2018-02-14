@@ -9,31 +9,27 @@
 import RxSwift
 
 protocol LoginInteractorProtocol {
-    func authenticate()
+    var email: Variable<String> {get}
+    var password: Variable<String> {get}
+    var emailErrors: Observable<[EmailFieldError]> {get}
+    var passwordErrors: Observable<[PasswordFieldError]> {get}
     var authenticateResponse: Observable<RequestResponse<User>> { get }
-    
-    func facebookLogin(presenterViewController viewController: UIViewController)
     var facebookLoginResponse: Observable<RequestResponse<User>> { get }
-    
-    func googleLogin(presenterViewController viewController: UIViewController)
     var googleLoginResponse: Observable<RequestResponse<User>> { get }
     
-    var email: Variable<String> {get}
-    var emailErrors: Observable<[EmailFieldError]> {get}
-    
-    var password: Variable<String> {get}
-    var passwordErrors: Observable<[PasswordFieldError]> {get}
+    func authenticate()
+    func facebookLogin(presenterViewController viewController: UIViewController)
+    func googleLogin(presenterViewController viewController: UIViewController)
 }
 
 class LoginInteractor: BaseInteractor {
     let repository: LoginRepositoryProtocol
     
+    let email = Variable("")
+    let password = Variable("")
     let authenticateResponseVariable = Variable<RequestResponse<User>>(.new)
     let facebookLoginResponseVariable = Variable<RequestResponse<User>>(.new)
     let googleLoginResponseVariable = Variable<RequestResponse<User>>(.new)
-    
-    let email = Variable("")
-    let password = Variable("")
     
     fileprivate var authenticateDisposeBag: DisposeBag!
     fileprivate var facebookLoginDisposeBag: DisposeBag!
@@ -62,6 +58,42 @@ extension LoginInteractor: LoginInteractorProtocol {
     
     var googleLoginResponse: Observable<RequestResponse<User>> {
         return googleLoginResponseVariable.asObservable()
+    }
+    
+    var emailErrors: Observable<[EmailFieldError]> {
+        return self.email
+            .asObservable()
+            .map { (email) -> [EmailFieldError] in
+                var fieldErrors = [EmailFieldError]()
+                
+                if email.isEmpty {
+                    fieldErrors.append(.empty)
+                }
+                
+                if !email.isValidEmail() {
+                    fieldErrors.append(.notValid)
+                }
+                
+                return fieldErrors
+        }
+    }
+    
+    var passwordErrors: Observable<[PasswordFieldError]> {
+        return self.password
+            .asObservable()
+            .map { (password) -> [PasswordFieldError] in
+                var fieldErrors = [PasswordFieldError]()
+                
+                if password.isEmpty {
+                    fieldErrors.append(.empty)
+                }
+                
+                if password.count < 6 {
+                    fieldErrors.append(.minCharaters(count: 6))
+                }
+                
+                return fieldErrors
+        }
     }
     
     func authenticate() {
@@ -148,41 +180,5 @@ extension LoginInteractor: LoginInteractorProtocol {
 //                }
 //            }
 //            .disposed(by: googleLoginDisposeBag)
-    }
-    
-    var emailErrors: Observable<[EmailFieldError]> {
-        return self.email
-            .asObservable()
-            .map { (email) -> [EmailFieldError] in
-                var fieldErrors = [EmailFieldError]()
-                
-                if email.isEmpty {
-                    fieldErrors.append(.empty)
-                }
-                
-                if !email.isValidEmail() {
-                    fieldErrors.append(.notValid)
-                }
-                
-                return fieldErrors
-        }
-    }
-    
-    var passwordErrors: Observable<[PasswordFieldError]> {
-        return self.password
-            .asObservable()
-            .map { (password) -> [PasswordFieldError] in
-                var fieldErrors = [PasswordFieldError]()
-                
-                if password.isEmpty {
-                    fieldErrors.append(.empty)
-                }
-                
-                if password.count < 6 {
-                    fieldErrors.append(.minCharaters(count: 6))
-                }
-                
-                return fieldErrors
-        }
     }
 }

@@ -14,15 +14,9 @@ import RxGesture
 protocol LoginViewModelProtocol {
     var email: Variable<String> {get}
     var password: Variable<String> {get}
-    
     var emailErrorString: Observable<String?> {get}
     var passwordErrorString: Observable<String?> {get}
-    
     var loginButtonEnabled: Observable<Bool> {get}
-    
-    var loginRequestResponse: Observable<RequestResponse<User>> { get }
-    var facebookRequestResponse: Observable<RequestResponse<User>> { get }
-    var googleRequestResponse: Observable<RequestResponse<User>> { get }
     
     func loginButtonTapped()
     func createAccountButtonTapped()
@@ -68,12 +62,9 @@ class LoginView: UIView {
         loginButton.applyAppearance(appearance: .main)
         facebookButton.applyAppearance(appearance: .facebook)
         googleButton.applyAppearance(appearance: .google)
-        
         emailTextField.applyAppearance(appearance: .main)
         passwordTextField.applyAppearance(appearance: .main)
-        
         createAccountButton.applyAppearance(appearance: .main)
-        
         forgotPasswordButton.applyAppearance(appearance: .main)
         
         emailTextField.keyboardType = .emailAddress
@@ -138,66 +129,6 @@ class LoginView: UIView {
         
         viewModel.loginButtonEnabled
             .bind(to: loginButton.rx.isEnabled)
-            .disposed(by: disposeBag)
-        
-        viewModel.loginRequestResponse
-            .subscribe(onNext: { [weak self] (requestResponse) in
-                guard let _ = self else { return }
-                
-//                switch requestResponse { //TODO Arrumar
-//                case .new:
-//                    strongSelf.hideHud()
-//                case .loading:
-//                    strongSelf.showHudWith(title: R.string.localizable.loginLoging())
-//                case .failure(let error):
-//                    strongSelf.hideHud()
-//                    strongSelf.showOKAlertWith(title: R.string.localizable.alertTitle(), message: error.localizedDescription)
-//                case .success:
-//                    strongSelf.hideHud()
-//                case .cancelled:
-//                    strongSelf.hideHud()
-//                }
-            })
-            .disposed(by: disposeBag)
-        
-        viewModel.facebookRequestResponse
-            .subscribe(onNext: { [weak self] (requestResponse) in
-                guard let _ = self else { return }
-                
-//                switch requestResponse {
-//                case .new:
-//                    strongSelf.hideHud()
-//                case .loading:
-//                    strongSelf.showHudWith(title: R.string.localizable.loginLogingWithFacebook())
-//                case .failure(let error):
-//                    strongSelf.hideHud()
-//                    strongSelf.showOKAlertWith(title: R.string.localizable.alertTitle(), message: error.localizedDescription)
-//                case .success:
-//                    strongSelf.hideHud()
-//                case .cancelled:
-//                    strongSelf.hideHud()
-//                }
-            })
-            .disposed(by: disposeBag)
-        
-        viewModel.googleRequestResponse
-            .subscribe(onNext: { [weak self] (requestResponse) in
-                guard let _ = self else { return }
-                
-//                switch requestResponse {
-//                case .new:
-//                    strongSelf.hideHud()
-//                case .loading:
-//                    strongSelf.showHudWith(title: R.string.localizable.loginLogingWithGoogle())
-//                case .failure(let error):
-//                    strongSelf.hideHud()
-//                    strongSelf.showOKAlertWith(title: R.string.localizable.alertTitle(), message: error.localizedDescription)
-//                case .success:
-//                    strongSelf.hideHud()
-//                case .cancelled:
-//                    strongSelf.hideHud()
-//                }
-            })
             .disposed(by: disposeBag)
         
         //Buttons Action

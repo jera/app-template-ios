@@ -13,6 +13,7 @@ protocol LoginPresenterProtocol: LoginViewModelProtocol {
 }
 
 class LoginPresenter: BasePresenter {
+    
     weak var viewProtocol: LoginViewProtocol?
     weak var router: LoginWireFrameProtocol?
     let interactor: LoginInteractorProtocol
@@ -22,27 +23,68 @@ class LoginPresenter: BasePresenter {
     init(interactor: LoginInteractorProtocol) {
         self.interactor = interactor
         super.init()
+        bind()
     }
     
     private func bind() {
         
         interactor.authenticateResponse
             .subscribe(onNext: {[weak self] (response) in
-                guard let _ = self else { return }
+                guard let strongSelf = self else { return }
                 
-//                switch response {
-//                case .loading:
-//                    strongSelf.viewStateVariable.value = .loading(PlaceholderViewModel(text: R.string.localizable.alertLoading()))
-//
-//                case .failure:
-//                    strongSelf.viewStateVariable.value = .normal
-//
-//                case .success:
-//                    strongSelf.viewStateVariable.value = .normal
-//                default:
-//                    strongSelf.viewStateVariable.value = .normal
-//
-//                }
+                switch response {
+                case .loading:
+                    strongSelf.viewStateVariable.value = .loading(PlaceholderViewModel(text: R.string.localizable.alertLoading()))
+
+                case .failure(let error):
+                    strongSelf.viewStateVariable.value = .normal
+                    strongSelf.alertSubject.onNext(AlertViewModel(title: R.string.localizable.alertTitle(), message: error.localizedDescription, actions: [AlertActionViewModel(title: R.string.localizable.alertOk())]))
+                    
+                case .success:
+                    strongSelf.viewStateVariable.value = .normal
+                default:
+                    strongSelf.viewStateVariable.value = .normal
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        interactor.facebookLoginResponse
+            .subscribe(onNext: {[weak self] (response) in
+                guard let strongSelf = self else { return }
+                
+                switch response {
+                case .loading:
+                    strongSelf.viewStateVariable.value = .loading(PlaceholderViewModel(text: R.string.localizable.alertLoading()))
+                    
+                case .failure(let error):
+                    strongSelf.viewStateVariable.value = .normal
+                    strongSelf.alertSubject.onNext(AlertViewModel(title: R.string.localizable.alertTitle(), message: error.localizedDescription, actions: [AlertActionViewModel(title: R.string.localizable.alertOk())]))
+                    
+                case .success:
+                    strongSelf.viewStateVariable.value = .normal
+                default:
+                    strongSelf.viewStateVariable.value = .normal
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        interactor.googleLoginResponse
+            .subscribe(onNext: {[weak self] (response) in
+                guard let strongSelf = self else { return }
+                
+                switch response {
+                case .loading:
+                    strongSelf.viewStateVariable.value = .loading(PlaceholderViewModel(text: R.string.localizable.alertLoading()))
+                    
+                case .failure(let error):
+                    strongSelf.viewStateVariable.value = .normal
+                    strongSelf.alertSubject.onNext(AlertViewModel(title: R.string.localizable.alertTitle(), message: error.localizedDescription, actions: [AlertActionViewModel(title: R.string.localizable.alertOk())]))
+                    
+                case .success:
+                    strongSelf.viewStateVariable.value = .normal
+                default:
+                    strongSelf.viewStateVariable.value = .normal
+                }
             })
             .disposed(by: disposeBag)
     }
@@ -52,6 +94,10 @@ extension LoginPresenter: LoginPresenterProtocol {
     
     var email: Variable<String> {
         return interactor.email
+    }
+    
+    var password: Variable<String> {
+        return interactor.password
     }
     
     var emailErrorString: Observable<String?> {
@@ -69,10 +115,6 @@ extension LoginPresenter: LoginPresenterProtocol {
         })
     }
     
-    var password: Variable<String> {
-        return interactor.password
-    }
-    
     var passwordErrorString: Observable<String?> {
         return interactor.passwordErrors.map({ (fieldErrors) -> String? in
             if let firstError = fieldErrors.first {
@@ -86,18 +128,6 @@ extension LoginPresenter: LoginPresenterProtocol {
             
             return nil
         })
-    }
-    
-    var loginRequestResponse: Observable<RequestResponse<User>> {
-        return interactor.authenticateResponse
-    }
-    
-    var facebookRequestResponse: Observable<RequestResponse<User>> {
-        return interactor.facebookLoginResponse
-    }
-    
-    var googleRequestResponse: Observable<RequestResponse<User>> {
-        return interactor.googleLoginResponse
     }
     
     var loginButtonEnabled: Observable<Bool> {

@@ -15,7 +15,6 @@ protocol ForgotPasswordViewModelProtocol {
     var email: Variable<String> {get}
     var emailErrorString: Observable<String?> {get}
     var forgotPasswordButtonEnabled: Observable<Bool> {get}
-    var forgotPasswordRequestResponse: Observable<RequestResponse<String?>> { get }
     
     func forgotPasswordButtonTapped()
 }
@@ -79,27 +78,6 @@ class ForgotPasswordView: UIView {
         
         viewModel.forgotPasswordButtonEnabled
             .bind(to: confirmButton.rx.isEnabled)
-            .disposed(by: disposeBag)
-        
-        viewModel.forgotPasswordRequestResponse
-            .subscribe(onNext: { [weak self] (requestResponse) in
-                guard let _ = self else { return }
-                
-//                switch requestResponse { //TODO Arrumar
-//                case .new:
-//                    strongSelf.hideHud()
-//                case .loading:
-//                    strongSelf.showHudWith(title: R.string.localizable.alertLoading())
-//                case .failure(let error):
-//                    strongSelf.hideHud()
-//                    strongSelf.showOKAlertWith(title: R.string.localizable.alertTitle(), message: error.localizedDescription)
-//                case .success(let message):
-//                    strongSelf.hideHud()
-//                    strongSelf.showOKAlertWith(title: R.string.localizable.forgotPasswordCheckYourEmail(), message: message ?? R.string.localizable.forgotPasswordMessage())
-//                case .cancelled:
-//                    strongSelf.hideHud()
-//                }
-            })
             .disposed(by: disposeBag)
 
         confirmButton.rx
