@@ -27,6 +27,15 @@
 "default.emailNotValid" = "Email não válido";
 "default.passwordValueMinimum" = "Senha deve ter no mínimo %@ caracteres";
 "default.phoneValueMinimum" = "Telefone deve ter no mínimo %@ caracteres";
+"default.try.again" = "Try Again";
+"default.ok" = "OK";
+"default.cancel" = "Cancel";
+"default.yes" = "Yes";
+"default.no" = "No";
+"default.imageToProfile" = "Imagem para o seu perfil";
+"default.camera" = "Camera";
+"default.roll" = "Rolo";
+"default.deleteCurrentPhoto" = "Apagar imagem atual";
 
 //Login
 "login.signInWith" = "Faça login com";
@@ -40,6 +49,9 @@
 "login.logingWithGoogle" = "Entrando com Google...";
 "login.facebook" = "FACEBOOK";
 "login.google" = "GOOGLE";
+"login.facebookCanceled" = "Login com facebook cancelado!";
+"login.facebookGenericError" = "Não foi possível realizar login com facebook, por favor tente novamente mais tarde!";
+"login.googleGenericError" = "Não foi possível realizar login com google, por favor tente novamente mais tarde!";
 
 //CreateAccount
 "createAccount.title" = "Cadastro";
@@ -54,7 +66,7 @@
 "createAccount.passwordNotEqual"= "Senhas não conferem";
 
 //ForgotPassword
-"forgotPassword.titleNavBar" = "Cadastro";
+"forgotPassword.titleNavBar" = "Esqueci minha senha";
 "forgotPassword.title" = "Informe o seu email para recuperar sua senha";
 "forgotPassword.send" = "ENVIAR";
 "forgotPassword.checkYourEmail" = "Verifique seu e-mail";
